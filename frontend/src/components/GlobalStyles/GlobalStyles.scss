@@ -1,0 +1,40 @@
+@import 'normalize.css';
+
+:root { 
+    --background-color : #76417e;
+    --primary-color : #4d648d;
+    --color-white : #fff;
+    --color-black : black;
+    --var-font-family: 'Montserrat', sans-serif;
+    --var-font-weight : 600;
+    --var-border-radius :5px;
+    --background-primary: #fff;
+    --font-color-primary: #292827;
+    --bg-secondary: #faf9f8;
+    --font-color-secondary: #605e5c;
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html {
+    font-size: 62.5%;
+    height: 100%;
+    //overflow: hidden;
+}
+
+body {
+    overflow: hidden;
+    font-size: 1.6rem;
+    text-rendering: optimizeSpeed;
+    font-family: var(--var-font-family);
+    background-color: var(--bg-secondary);
+    height: 100%;
+}
+#root{
+    height: 100%;
+}
+.App{
+    height: 100%;
+}
