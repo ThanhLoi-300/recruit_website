@@ -32,7 +32,7 @@ const authUserMiddleware = (req, res, next) => {
             })
         }
 
-        if (user?.isAdmin == "Admin" || user?.id === userId) {
+        if (user?.role == "Admin" || user?.id === userId) {
             next()
         }else{
             return res.status(404).json({
