@@ -1,0 +1,12 @@
+.confirmTerms{
+    & span {
+        font-size: 1.4rem;
+        margin-left: 10px;
+    }
+    & input[type="checkbox"]:checked{
+        background-color: var(--background-color);
+    }
+}
+.btnSignUp{
+    background-color: var(--background-color);
+}

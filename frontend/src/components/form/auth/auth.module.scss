@@ -1,0 +1,42 @@
+.container{
+    border-radius: 5px;
+    padding: 20px 0;
+    &__header{
+        & h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 10px 0;
+            color: var(--background-color);
+        }
+    }
+    &-animation{
+        -webkit-animation-delay: .04s;
+        animation-delay: .04s;
+        -webkit-animation-duration: .28s;
+        animation-duration: .28s;
+        -webkit-animation-fill-mode: backwards;
+        animation-fill-mode: backwards;
+        -webkit-animation-name: faDaIn;
+        animation-name: faDaIn;
+        -webkit-animation-timing-function: cubic-bezier(.8,0,.2,1);
+        animation-timing-function: cubic-bezier(.8,0,.2,1);
+    }
+    &__note{
+        text-align: center;
+        font-size: 1.4rem;
+    }
+}
+@keyframes faDaIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate(80px);
+        -ms-transform: translate(80px);
+        transform: translate(80px);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: translate(0);
+        -ms-transform: translate(0);
+        transform: translate(0);
+    }
+}

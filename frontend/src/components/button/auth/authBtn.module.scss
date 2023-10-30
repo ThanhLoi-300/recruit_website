@@ -1,0 +1,19 @@
+.btnSignUp,
+.btnGoogle,
+.btnLinkedin,
+.btnGithub{
+    background-color: var(--background-color) !important;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: 600;
+}
+.btnGoogle{
+    background-color: #e73b2f !important; 
+}
+.btnGithub{
+    background-color: #212f3f !important; 
+}
+.btnLinkedin{
+    background-color: #0a66c2 !important; 
+}
