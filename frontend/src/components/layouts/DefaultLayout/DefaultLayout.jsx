@@ -1,7 +1,9 @@
-function DefaultLayout() {
+import Header from "../components/Header/Header";
+function DefaultLayout({children}) {
     return (  
-        <div>
-
+        <div className="content-center bg-white">
+            <Header/>
+            {children}
         </div>
     );
 }
