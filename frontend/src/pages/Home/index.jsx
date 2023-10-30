@@ -4,7 +4,7 @@ function Home() {
     const cx=classNames.bind(styles);
     return (  
         <div className={cx('text-3xl font-bold underline')}>
-            Hello Word
+            
         </div>
     );
 }
