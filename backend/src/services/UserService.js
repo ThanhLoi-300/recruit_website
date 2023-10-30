@@ -4,7 +4,7 @@ const { genneralAccessToken, genneralRefreshToken } = require("./JwtService");
 
 const createUser = (newUser) => {
   return new Promise(async (resolve, reject) => {
-    const { name, email, password } = newUser;
+    const { name, email, password, phone, role, nameCompany, addressCompany } = newUser;
     try {
       const checkUser = await User.findOne({
         email: email,
@@ -18,12 +18,29 @@ const createUser = (newUser) => {
       }
 
       const hash = bcrypt.hashSync(password, 10);
-      const createUser = await User.create({
-        name,
-        email,
-        password: hash,
-        role: "User"
-      });
+      let createUser = null
+
+      if (role == "User") {
+        createUser = await User.create({
+          name,
+          email,
+          password: hash,
+          phone: phone,
+          role: role
+        });
+      } else {
+        createUser = await User.create({
+          name,
+          email,
+          password: hash,
+          phone: phone,
+          role: role,
+          infoCompany: {
+            nameCompany: nameCompany,
+            addressCompany: addressCompany,
+          }
+        });
+      }
 
       if (createUser) {
         resolve({
@@ -64,18 +81,19 @@ const loginUser = (userLogin) => {
 
       const access_token = await genneralAccessToken({
         id: checkUser._id,
-        isAdmin: checkUser.isAdmin,
+        role: checkUser.role,
       });
 
       const refresh_token = await genneralRefreshToken({
         id: checkUser.id,
-        isAdmin: checkUser.isAdmin,
+        role: checkUser.role,
       });
       resolve({
         status: "OK",
         message: "Login is success",
         access_token,
         refresh_token,
+        role: checkUser.role
       });
     } catch (e) {
       reject(e);

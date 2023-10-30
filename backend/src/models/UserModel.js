@@ -8,6 +8,13 @@ const userSchema = new mongoose.Schema(
         phone: { type: Number },
         address: { type: String },
         avatar: { type: String },
+        followList: { type: Array, default: [] },
+        infoCompany: {
+            websiteLink: { type: String, default:""},
+            nameCompany: { type: String, default:"" },
+            logoLink: { type: String, default:"" },
+            addressCompany: { type: String, default:""}
+        }
     },
     {
         timestamps: true
