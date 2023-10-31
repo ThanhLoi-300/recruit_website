@@ -101,6 +101,29 @@ const loginUser = (userLogin) => {
   });
 };
 
+const getDetailUser = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const checkUser = await User.findOne({ _id: id });
+
+      if (checkUser == null) {
+        resolve({
+          status: "ERR",
+          message: "This account is not exist",
+        });
+      }
+
+      resolve({
+        status: "OK",
+        message: "SUCESS",
+        data: checkUser,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 const updateUser = (idUser, updateUser) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -125,5 +148,6 @@ module.exports = {
   createUser,
   loginUser,
   updateUser,
+  getDetailUser
 };
 

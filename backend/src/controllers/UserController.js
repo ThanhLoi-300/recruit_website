@@ -3,11 +3,11 @@ const UserService = require("../services/UserService")
 
 const createUser = async (req, res) => {
     try {
-        const { name, email, password, confirmPassword, phone, role, nameCompany, addressCompany } = req.body
+        const { fullName, email, password, confirmPassword, phone, role, nameCompany, addressCompany } = req.body
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         const isCheckEmai = reg.test(email)
-        
-        if (!email || !password || !confirmPassword || !name || !phone) {
+
+        if (!email || !password || !confirmPassword || !fullName ) {
             return res.status(200).json({
                 status: "ERR",
                 message: "Input is required"
@@ -74,6 +74,27 @@ const loginUser = async (req, res) => {
     }
 }
 
+
+const getDetailUser = async (req, res) => {
+    try {
+        const userId = req.params.idUser
+
+        if (!userId) {
+            return res.status(200).json({
+                status: "ERR",
+                message: 'The userId is required'
+            })
+        }
+
+        const response = await UserService.getDetailUser(userId)
+        return res.status(200).json(response)
+    } catch (e) {
+        return res.status(404).json({
+            message: e
+        })
+    }
+}
+
 const logoutUser = async (req, res) => {
     try {
         req.clearCookie('refresh_token')
@@ -113,4 +134,5 @@ module.exports = {
     loginUser,
     logoutUser,
     updateUser,
+    getDetailUser
 }

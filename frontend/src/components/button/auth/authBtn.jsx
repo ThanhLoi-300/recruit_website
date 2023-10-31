@@ -2,12 +2,13 @@ import classNames from "classnames/bind";
 import styles from "./authBtn.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faGoogle, faLinkedin } from "@fortawesome/free-brands-svg-icons";
-function AuthBtn({content,type,className,icon}) {
+function AuthBtn({content,type,className,icon, onClick}) {
     const cx = classNames.bind(styles);
     return (  
         <button
             type={type}
-            className={cx('w-full flex items-center justify-center',className)}
+            className={cx('w-full flex items-center justify-center', className)}
+            onClick={onClick}
         >
             {
                 icon === 'Google' ? (

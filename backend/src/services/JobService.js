@@ -71,20 +71,23 @@ const jobDetail = (id) => {
 const saveFollowList = (idJob, idUser) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const user = await User.findOne({
+            let user = await User.findOne({
                 _id: idUser
             })
+
             let followList = user.followList
             if(followList.includes(idJob)){
                 followList = followList.filter(item => item !== idJob);
             }else{
                 followList.push(idJob)
             }
+
             user = await User.findOneAndUpdate({ _id: idUser }, { followList: followList }, { new: true })
+            
             resolve({
                 status: "OK",
                 message: "SUCCESS",
-                data: followList,
+                data: user,
             });
         } catch (e) {
             reject(e);

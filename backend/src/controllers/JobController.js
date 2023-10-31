@@ -3,23 +3,9 @@ const JobService = require("../services/JobService")
 
 const createJob = async (req, res) => {
     try {
-        const { title,
-            logoLink,
-            websiteLink,
-            nameCompany,
-            address,
-            area,
-            careerType,
-            vacancy,
-            jobDescription,
-            level,
-            typeJob,
-            quantityRecruit,
-            salary,
-            experienceYear,
-            deadlineApplication,
-            userId
-        } = req.body
+        const { title, logoLink, websiteLink, nameCompany, address, area, careerType, vacancy, jobDescription,
+            level, typeJob, quantityRecruit, salary, experienceYear, deadlineApplication, userId } = req.body
+        
         if (!title || !logoLink || !websiteLink || !nameCompany || !address || !area || !careerType || !vacancy || !jobDescription || !level ||
             !typeJob || !quantityRecruit || !salary || !experienceYear || !deadlineApplication || !userId) {
                 return res.status(200).json({
@@ -38,7 +24,6 @@ const createJob = async (req, res) => {
 }
 const jobDetail = async (req, res) => {
     try {
-        console.log("req.params.id",req.params.id)
         const response = await JobService.jobDetail(req.params.id)
         return res.status(200).json(response)
     } catch (e) {
