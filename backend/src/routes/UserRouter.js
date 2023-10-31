@@ -6,5 +6,6 @@ const { authMiddleware, authUserMiddleware } = require("../middleware/authMiddle
 router.post("/sign-up", userController.createUser)
 router.post("/sign-in", userController.loginUser)
 router.post("/logout", userController.logoutUser)
+router.post("/updateUser/:idUser", userController.updateUser)
 
 module.exports = router

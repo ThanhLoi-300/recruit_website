@@ -88,8 +88,29 @@ const logoutUser = async (req, res) => {
     }
 }
 
+const updateUser = async (req, res) => {
+    try {
+        const { name} = req.body
+        if(!name){
+            return res.status(200).json({
+                status: "ERR",
+                message: "Input is required"
+            })
+        }
+        const response = await UserService.updateUser(req.params.idUser,req.body)
+        return res.status(200).json(response)
+       
+    } catch (e) {
+        console.log(e)
+        return res.status(404).json({
+            message: e
+        })
+    }
+}
+
 module.exports = {
     createUser,
     loginUser,
     logoutUser,
+    updateUser,
 }
