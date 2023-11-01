@@ -5,7 +5,7 @@ import AuthBtn from "~/components/button/auth/authBtn";
 function AuthForm({children,title='',des='',toWith='',type=''}) {
     const cx = classNames.bind(styles);
     return (  
-        <div className={cx('','w-full h-full')}>
+        <form method="POST" className={cx('','w-full h-full relative')}>
             <div className={cx('container-animation','w-full h-full')}>
                 <div className={cx('container__header','text-center')}>
                     <h1>{title}</h1>
@@ -53,7 +53,7 @@ function AuthForm({children,title='',des='',toWith='',type=''}) {
                     </Link>
                 </div>
             </div>
-        </div>
+        </form>
     );
 }
 

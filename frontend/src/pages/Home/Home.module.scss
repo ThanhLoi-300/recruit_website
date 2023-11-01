@@ -1,0 +1,40 @@
+.wrapper{
+    background-color: #fdf3ff;
+    &__banner{
+        &-header{
+            & h1{
+                font-size: 3rem;
+                font-weight: 600;
+                color: var(--background-color);
+                line-height: 1;
+            }
+            & p {
+                font-size: 1.5rem;
+            }
+        }
+    }
+    &__filter{
+        color: #172530;
+        font-weight: 500;
+        font-size: 1.5rem;
+        &-city{
+            padding: 5px;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        &-experience,
+        &-wage{
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        &-btn{
+            padding: 15px 20px;
+            background-color: var(--background-color) !important;
+            color: white;
+            border-radius: 4px;
+        }
+    }
+}

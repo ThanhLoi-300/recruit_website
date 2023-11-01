@@ -45,8 +45,7 @@ const createUser = (newUser) => {
       if (createUser) {
         resolve({
           status: "OK",
-          message: "SUCCESS",
-          data: createUser,
+          message: "Successfully created"
         });
       }
     } catch (e) {

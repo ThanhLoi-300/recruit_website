@@ -20,6 +20,12 @@
                 color: #6c758e;
             }
         }
+        &-errorIp{
+            border-color: red !important;
+        }
+        &-error{
+            color: red !important;
+        }
         &-icon{
             margin-left: 10px;
             font-size: 1.5rem;

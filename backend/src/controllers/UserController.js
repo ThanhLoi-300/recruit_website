@@ -5,14 +5,9 @@ const createUser = async (req, res) => {
     try {
         const { name, email, password, confirmPassword, phone, role, nameCompany, addressCompany } = req.body
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
-        const isCheckEmai = reg.test(email)
+        const isCheckEmail = reg.test(email)
         
-        if (!email || !password || !confirmPassword || !name || !phone) {
-            return res.status(200).json({
-                status: "ERR",
-                message: "Input is required"
-            })
-        } else if(!isCheckEmai) {
+        if(!isCheckEmail) {
             return res.status(200).json({
                 status: "ERR",
                 message: "Input must be email"
@@ -47,12 +42,7 @@ const loginUser = async (req, res) => {
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         const isCheckEmai = reg.test(email)
         
-        if (!email || !password) {
-            return res.status(200).json({
-                status: "ERR",
-                message: "Input is required"
-            })
-        } else if(!isCheckEmai) {
+        if(!isCheckEmai) {
             return res.status(200).json({
                 status: "ERR",
                 message: "Input must be email"

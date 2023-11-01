@@ -2,12 +2,17 @@ import { faEnvelope, faEye, faShield, faUser } from "@fortawesome/free-solid-svg
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import styles from "./AuthInput.module.scss";
-function AuthInput({title='',name='',placeholder=''}) {
+function AuthInput({title='',name='',placeholder='',valueIp=undefined,onChangeIp=undefined,type=''}) {
     const cx = classNames.bind(styles);
+
+    const handleOnChangeAuthInput = (e) =>{
+        onChangeIp(e.target.value);
+    };
+
     return (  
         <div className={cx('wrapper',"p-5")}>
-            <label htmlFor={name} className={cx('wrapper__title',"block font-medium leading-6 text-gray-900")}>
-                {title}
+            <label htmlFor={name} className={cx('wrapper__title',"block font-medium leading-6 text-gray-900", valueIp && valueIp.state !== null ? (!valueIp.state ? 'wrapper__content-error' : '') : '')}>
+                {title ? title : valueIp.msg}
             </label>
             <div className={cx('wrapper__content',"relative mt-5 rounded-md shadow-sm")}>
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -30,11 +35,16 @@ function AuthInput({title='',name='',placeholder=''}) {
                 </span>
                 </div>
                 <input
-                    type="text"
+                    type={type}
                     name={name}
                     id={name}
-                    className="block w-full rounded-md border-0"
+                    className={cx("block w-full rounded-md border-0",
+                        valueIp && valueIp.state !== null ? (!valueIp.state ? 'wrapper__content-errorIp' : '') : ''
+                    )}
                     placeholder={placeholder}
+                    value={valueIp ? valueIp.name : ''}
+                    onChange={handleOnChangeAuthInput}
+                    autoComplete = {type === 'password' ? 'new-password' : ''}
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center">
                 <span className="text-gray-500 sm:text-sm">

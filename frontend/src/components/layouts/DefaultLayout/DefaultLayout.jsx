@@ -1,7 +1,7 @@
 import Header from "../components/Header/Header";
 function DefaultLayout({children}) {
     return (  
-        <div className="content-center bg-white">
+        <div className="content-centerbg-white">
             <Header/>
             {children}
         </div>
