@@ -6,18 +6,18 @@ const createUser = async (req, res) => {
         const { name, email, password, confirmPassword, phone, role, nameCompany, addressCompany } = req.body
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         const isCheckEmai = reg.test(email)
-        
+
         if (!email || !password || !confirmPassword || !name || !phone) {
             return res.status(200).json({
                 status: "ERR",
                 message: "Input is required"
             })
-        } else if(!isCheckEmai) {
+        } else if (!isCheckEmai) {
             return res.status(200).json({
                 status: "ERR",
                 message: "Input must be email"
             })
-        } else if(password != confirmPassword) {
+        } else if (password != confirmPassword) {
             return res.status(200).json({
                 status: "ERR",
                 message: "The password is not equal confirmPassword"
@@ -46,13 +46,13 @@ const loginUser = async (req, res) => {
         const { email, password } = req.body
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         const isCheckEmai = reg.test(email)
-        
+
         if (!email || !password) {
             return res.status(200).json({
                 status: "ERR",
                 message: "Input is required"
             })
-        } else if(!isCheckEmai) {
+        } else if (!isCheckEmai) {
             return res.status(200).json({
                 status: "ERR",
                 message: "Input must be email"
@@ -90,16 +90,36 @@ const logoutUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     try {
-        const { name} = req.body
-        if(!name){
+        const { name } = req.body
+        if (!name) {
             return res.status(200).json({
                 status: "ERR",
                 message: "Input is required"
             })
         }
-        const response = await UserService.updateUser(req.params.idUser,req.body)
+        const response = await UserService.updateUser(req.params.idUser, req.body)
         return res.status(200).json(response)
-       
+
+    } catch (e) {
+        console.log(e)
+        return res.status(404).json({
+            message: e
+        })
+    }
+}
+
+const sendMailEmployer = async (req, res) => {
+    try {
+        const {topic, content} = req.body
+        if(!topic || !content){
+            return res.status(200).json({
+                status: "ERR",
+                message: "Input is required"
+            })
+        }
+        const response = await UserService.sendMailEmployer(req.params.idUser, req.params.emailEmployer, req.body)
+        return res.status(200).json(response)
+
     } catch (e) {
         console.log(e)
         return res.status(404).json({
@@ -113,4 +133,5 @@ module.exports = {
     loginUser,
     logoutUser,
     updateUser,
+    sendMailEmployer,
 }

@@ -1,5 +1,6 @@
 const User = require("../models/UserModel");
 const bcrypt = require("bcrypt");
+const nodemailer = require('nodemailer')
 const { genneralAccessToken, genneralRefreshToken } = require("./JwtService");
 
 const createUser = (newUser) => {
@@ -121,9 +122,54 @@ const updateUser = (idUser, updateUser) => {
   });
 };
 
+// send email
+const sendMailEmployer = async (idUser, emailEmployer, info) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const user = await User.findOne({
+        _id: idUser
+      })
+      console.log("mail", user.email)
+      const { topic, content } = info
+      //  Create a transporter with your SMTP information
+      let transporter = nodemailer.createTransport({
+        service: 'email',
+        auth: {
+          user: user.email,
+          pass: 'slwi czcw rqfp arfa'
+        }
+      });
+
+      // Recipient information, subject and email content
+      let mailOptions = {
+        from: user.email,
+        to: emailEmployer,
+        subject: topic,
+        text: content
+      };
+
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.error('Err send email: ' + error.message);
+        } else {
+          console.log('Email send success: ' + info.response);
+        }
+      });
+      resolve({
+        status: "OK",
+        message: "SUCCESS",
+        data: mailOptions,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
 module.exports = {
   createUser,
   loginUser,
   updateUser,
+  sendMailEmployer,
 };
 
