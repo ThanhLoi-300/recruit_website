@@ -3,7 +3,7 @@ import AuthInput from '~/components/input/auth/AuthInput';
 import classNames from 'classnames/bind';
 import styles from './Register.module.scss';
 import AuthBtn from '~/components/button/auth/authBtn';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useMutationHook from '~/hooks/useMutationHook';
 import * as UserService from '~/service/UserService';
 import ToastComponent from '~/components/Toast/ToastComponent';

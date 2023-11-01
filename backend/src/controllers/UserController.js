@@ -3,7 +3,7 @@ const UserService = require("../services/UserService")
 
 const createUser = async (req, res) => {
     try {
-        const { fullName, email, password, confirmPassword, phone, role, nameCompany, addressCompany, areaCompany } = req.body
+        const { fullName, email, password, confirmPassword, role, nameCompany, addressCompany, areaCompany } = req.body
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         const isCheckEmai = reg.test(email)
 
@@ -44,6 +44,7 @@ const createUser = async (req, res) => {
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body
+        
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         const isCheckEmai = reg.test(email)
         
@@ -78,7 +79,7 @@ const loginUser = async (req, res) => {
 const getDetailUser = async (req, res) => {
     try {
         const userId = req.params.idUser
-
+        console.log(req.params.idUser)
         if (!userId) {
             return res.status(200).json({
                 status: "ERR",
