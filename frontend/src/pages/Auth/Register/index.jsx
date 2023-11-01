@@ -3,12 +3,13 @@ import AuthInput from '~/components/input/auth/AuthInput';
 import classNames from 'classnames/bind';
 import styles from './Register.module.scss';
 import AuthBtn from '~/components/button/auth/authBtn';
-import { useState } from 'react';
-import useMutationHook from '~/hooks/useMutationHook'
+import { useEffect, useState } from 'react';
+import useMutationHook from '~/hooks/useMutationHook';
 import * as UserService from '~/service/UserService';
 import ToastComponent from '~/components/Toast/ToastComponent';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import SelectCity from '~/components/SelectCity/SelectCity';
 
 function Register() {
     const cx = classNames.bind(styles);
@@ -18,10 +19,14 @@ function Register() {
         email: '',
         password: '',
         confirmPassword: '',
-        role:'User'
+        nameCompany: '',
+        addressCompany: '',
+        areaCompany: '',
+        role: 'User',
     });
 
     const [stateRegister, setStateRegister] = useState(inittial());
+    const [role, setRole] = useState('User');
 
     const handleOnchange = (e) => {
         setStateRegister({
@@ -30,21 +35,35 @@ function Register() {
         });
     };
 
-    const mutation = useMutationHook(
-        async (data) => {
-            const res = await UserService.signupUser(data)
+    const handleOnClickRole = (e) => {
+        setRole(e.target.value);
+    };
 
-            if (res?.status === 'ERR') toast(<ToastComponent message={res?.message} type="error" fontSize={'16px'} />)
-            else {
-                toast(<ToastComponent message={'Sign up is success'} type="success" fontSize={'16px'} />);
-                navigate('/sign-in');
-            }
-            return res;
+    const mutation = useMutationHook(async (data) => {
+        const res = await UserService.signupUser(data);
+
+        if (res?.status === 'ERR') toast(<ToastComponent message={res?.message} type="error" fontSize={'16px'} />);
+        else {
+            toast(<ToastComponent message={'Sign up is success'} type="success" fontSize={'16px'} />);
+            navigate('/sign-in');
         }
-    );
+        return res;
+    });
+
     const handleOnClick = () => {
-       mutation.mutate(stateRegister);
-    }
+        if (role === 'User') {
+            stateRegister.addressCompany = '';
+            stateRegister.areaCompany = '';
+            stateRegister.nameCompany = '';
+        }
+        stateRegister.role = role;
+        console.log(stateRegister);
+        mutation.mutate(stateRegister);
+    };
+
+    const handleOnchangeSelect = (select) => {
+        stateRegister.areaCompany = select;
+    };
 
     return (
         <AuthForm
@@ -80,6 +99,38 @@ function Register() {
                 onChange={handleOnchange}
                 value={stateRegister.confirmPassword}
             />
+            <div className={cx('confirmTerms', 'p-5 flex items-center')}>
+                <input type="radio" name="role" checked={role === 'User'} value="User" onChange={handleOnClickRole} />
+                <span>Người ứng tuyển</span>
+                <input
+                    type="radio"
+                    name="role"
+                    checked={role === 'Recruiter'}
+                    value="Recruiter"
+                    className="ml-12"
+                    onChange={handleOnClickRole}
+                />
+                <span>Nhà tuyển dụng</span>
+            </div>
+            {role === 'Recruiter' && (
+                <div>
+                    <AuthInput
+                        title="Tên công ty"
+                        name="nameCompany"
+                        placeholder="Nhập tên công ty"
+                        onChange={handleOnchange}
+                        value={stateRegister.nameCompany}
+                    />
+                    <SelectCity name="areaCompany" handleOnchangeSelect={handleOnchangeSelect} />
+                    <AuthInput
+                        title="Địa chỉ công ty"
+                        name="addressCompany"
+                        placeholder="Nhập địa chỉ công ty"
+                        onChange={handleOnchange}
+                        value={stateRegister.addressCompany}
+                    />
+                </div>
+            )}
             <div className={cx('confirmTerms', 'p-5 flex items-center')}>
                 <input type="checkbox" name="confirmTerms" />
                 <span>Tôi đã đọc và đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của SGUCV</span>

@@ -1,4 +1,4 @@
-import { faEnvelope, faEye, faEyeSlash, faShield, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBuilding, faEnvelope, faEye, faEyeSlash, faMapMarker, faShield, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind';
 import styles from './AuthInput.module.scss';
@@ -39,6 +39,12 @@ function AuthInput({ title = '', name = '', placeholder = '', ...rests }) {
                             <FontAwesomeIcon className={cx('wrapper__content-icon')} icon={faShield} />
                         ) : (
                             ''
+                        )}
+                        {name === 'nameCompany' && (
+                            <FontAwesomeIcon className={cx('wrapper__content-icon')} icon={faBuilding} />
+                        )}
+                        {name === 'addressCompany' && (
+                            <FontAwesomeIcon className={cx('wrapper__content-icon')} icon={faMapMarker} />
                         )}
                     </span>
                 </div>

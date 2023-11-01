@@ -3,7 +3,7 @@ const UserService = require("../services/UserService")
 
 const createUser = async (req, res) => {
     try {
-        const { fullName, email, password, confirmPassword, phone, role, nameCompany, addressCompany } = req.body
+        const { fullName, email, password, confirmPassword, phone, role, nameCompany, addressCompany, areaCompany } = req.body
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         const isCheckEmai = reg.test(email)
 
@@ -23,10 +23,10 @@ const createUser = async (req, res) => {
                 message: "The password is not equal confirmPassword"
             })
         } else if (role == "Recruiter") {
-            if (!nameCompany || !addressCompany) {
+            if (!nameCompany || !addressCompany || !areaCompany) {
                 return res.status(200).json({
                     status: "ERR",
-                    message: "Input is required"
+                    message: "Input for company is required"
                 })
             }
         }
