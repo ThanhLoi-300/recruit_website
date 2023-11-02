@@ -25,14 +25,6 @@ function Home() {
     const [valueChooseExperience,setValueChooseExperience] = useState('Tất cả kinh nghiệm');
     const [valueChooseWage,setValueChooseWage] = useState('Tất cả mức lương');
     const [valueChooseFilterALot,setValueChooseFilterALot] = useState('Địa điểm');
-    const DATA =[
-        {
-            name: 'CC',
-        },
-        {
-            name: 'CC1'
-        }
-    ]
 
     const handleClickProvince = () => {
         setShowProvince(!isShowProvince);
@@ -61,7 +53,7 @@ function Home() {
             newArr.unshift(firstArr);
             setListProvince(newArr);
         });
-    },[])
+    },[dispatch])
    
     return (  
         <div className={cx('wrapper','')}>
@@ -150,9 +142,9 @@ function Home() {
                 </ul>
                 <div className={cx('w-full pb-10')}>
                     <Carousel autoplay='true' disableEdgeSwiping='true'>
-                        <img className={cx('wrapper__bannerImg')} src={images.banner1} />
-                        <img className={cx('wrapper__bannerImg')} src={images.banner2} />
-                        <img className={cx('wrapper__bannerImg')} src={images.banner4} />
+                        <img className={cx('wrapper__bannerImg')} alt="Banner slide" src={images.banner1} />
+                        <img className={cx('wrapper__bannerImg')} alt="Banner slide" src={images.banner2} />
+                        <img className={cx('wrapper__bannerImg')} alt="Banner slide" src={images.banner4} />
                     </Carousel>
                 </div>
             </div>

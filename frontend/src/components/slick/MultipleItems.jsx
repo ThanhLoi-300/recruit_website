@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
-import classNames from "classnames/bind";
-import styles from "./MultipleItems.module.scss"
 import { DATA_DISTRICT_HCM } from "~/const/province";
 function SampleArrow(props) {
     const { className, style, onClick } = props;

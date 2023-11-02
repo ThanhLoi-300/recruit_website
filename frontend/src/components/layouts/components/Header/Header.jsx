@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from './Header.module.scss';
-import { faBars, faBriefcase, faMessage, faNewspaper, faPeopleGroup, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faMessage, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function Header() {
     const cx = classNames.bind(styles);

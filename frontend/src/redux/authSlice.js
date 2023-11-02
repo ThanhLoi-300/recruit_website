@@ -84,7 +84,7 @@ const authSlice = createSlice({
             state.isLoading = true;
         });
         builder.addCase(signInUser.fulfilled,(state,action) => {
-            const { access_token , message , status} = action.payload;
+            const {access_token} = action.payload;
             state.isLoading = false;
             state.token = access_token;
             // SAVE TOKEN USER IN LOCAL

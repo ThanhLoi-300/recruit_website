@@ -47,4 +47,4 @@ export {
     // REGISTER USER
     getProvince,
 };
-export const {} = provinceSlice.actions; 
+//export const {} = provinceSlice.actions; 
