@@ -1,142 +1,148 @@
-import AuthForm from '~/components/form/auth/auth';
-import AuthInput from '~/components/input/auth/AuthInput';
-import classNames from 'classnames/bind';
-import styles from './Register.module.scss';
-import AuthBtn from '~/components/button/auth/authBtn';
-import { useState } from 'react';
-import useMutationHook from '~/hooks/useMutationHook';
-import * as UserService from '~/service/UserService';
-import ToastComponent from '~/components/Toast/ToastComponent';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import SelectCity from '~/components/SelectCity/SelectCity';
-
+import AuthForm from "~/components/form/auth/auth";
+import AuthInput from "~/components/input/auth/AuthInput";
+import classNames from "classnames/bind";
+import styles from "./Register.module.scss";
+import AuthBtn from "~/components/button/auth/authBtn";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { signUpUser } from "~/redux/authSlice";
+import { Toast } from "~/components/toast";
 function Register() {
     const cx = classNames.bind(styles);
-    const navigate = useNavigate();
-    const inittial = () => ({
-        fullName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        nameCompany: '',
-        addressCompany: '',
-        areaCompany: '',
-        role: 'User',
+    const [valueInputEmail,setValueInputEmail] = useState({
+        name : '',
+        msg: 'Email',
+        state: null
     });
-
-    const [stateRegister, setStateRegister] = useState(inittial());
-    const [role, setRole] = useState('User');
-
-    const handleOnchange = (e) => {
-        setStateRegister({
-            ...stateRegister,
-            [e.target.name]: e.target.value,
-        });
-    };
-
-    const handleOnClickRole = (e) => {
-        setRole(e.target.value);
-    };
-
-    const mutation = useMutationHook(async (data) => {
-        const res = await UserService.signupUser(data);
-
-        if (res?.status === 'ERR') toast(<ToastComponent message={res?.message} type="error" fontSize={'16px'} />);
-        else {
-            toast(<ToastComponent message={'Sign up is success'} type="success" fontSize={'16px'} />);
-            navigate('/sign-in');
-        }
-        return res;
+    const [valueInputFullName,setValueInputFullName] = useState({
+        name : '',
+        msg: 'Họ và tên',
+        state: null
     });
+    const [valueInputPassword,setValueInputPassword] = useState({
+        name : '',
+        msg: 'Mật khẩu',
+        state: null
+    });
+    const [valueInputConfirmPassword,setValueInputConfirmPassword] = useState({
+        name : '',
+        msg: 'Xác nhận mật khẩu',
+        state: null
+    });
+    const dispatch = useDispatch();
+    const state = useSelector(state => state.auth);
+    const [isLoadingSignUp,setIsLoadingSignUp] = useState(false);
+    
+    const handleOnChangeFullName = (e) =>{
+        setValueInputFullName({...valueInputFullName , msg : 'Họ và tên' , name : e , state : null});
+    };
 
-    const handleOnClick = () => {
-        if (role === 'User') {
-            stateRegister.addressCompany = '';
-            stateRegister.areaCompany = '';
-            stateRegister.nameCompany = '';
+    const handleOnChangeEmail = (e) =>{
+        setValueInputEmail({...valueInputEmail , msg : 'Email' , name : e , state : null});
+    };
+
+    const handleOnChangePassword = (e) =>{
+        setValueInputPassword({...valueInputPassword , msg : 'Mật khẩu' , name : e , state : null});
+    };
+
+    const handleOnChangeConfirmPassword = (e) =>{
+        setValueInputConfirmPassword({...valueInputConfirmPassword , msg : 'Xác nhận mật khẩu' , name : e , state : null});
+    };
+
+    const handleSignUp = (e) =>{
+        e.preventDefault();
+        if(valueInputEmail.name === ''){
+            setValueInputEmail({...valueInputEmail , msg : 'Vui lòng nhập email!' , state : false , name: ''})
+        } 
+        if(valueInputFullName.name === ''){
+            setValueInputFullName({...valueInputFullName , msg : 'Vui lòng nhập họ và tên!' , state : false , name: ''})
         }
-        stateRegister.role = role;
-        console.log(stateRegister);
-        mutation.mutate(stateRegister);
+        if(valueInputPassword.name === ''){
+            setValueInputPassword({...valueInputEmail , msg : 'Vui lòng nhập mật khẩu!' , state : false , name: ''})
+        }
+        if(valueInputConfirmPassword.name === ''){
+            setValueInputConfirmPassword({...valueInputEmail , msg : 'Vui lòng xác nhận mật khẩu!' , state : false , name: ''})
+        }
+        if(valueInputFullName.name !== '' && valueInputEmail.name !== '' && valueInputPassword.name !== '' && valueInputConfirmPassword.name !== ''){
+            dispatch(signUpUser({
+                name: valueInputFullName.name, 
+                email: valueInputEmail.name, 
+                password: valueInputPassword.name, 
+                confirmPassword: valueInputConfirmPassword.name, 
+                phone:'', 
+                role:'', 
+                nameCompany:'', 
+                addressCompany:''
+            })).then((item) =>  {
+                const { message , status} = item.payload ? item.payload : '';
+                if(message === 'Input must be email' && status === 'ERR') {
+                    setValueInputEmail({...valueInputEmail , msg : 'Email không hợp lệ!' , state : false})
+                } 
+                if(message === 'The password is not equal confirmPassword' && status === 'ERR') {
+                    setValueInputConfirmPassword({...valueInputConfirmPassword , msg : 'Mật khẩu không trùng khớp!' , state : false})
+                }
+                if(message === 'This email is already' && status === 'ERR') {
+                    setValueInputEmail({...valueInputEmail , msg : 'Email đã được đăng ký!' , state : false})
+                }
+               
+                if(message === 'Successfully created' && status === 'OK'){ 
+                    setIsLoadingSignUp(true);
+                    const timer = setTimeout(() => {
+                        setIsLoadingSignUp(state.isLoading);
+                        Toast({type:'info',content: "Đăng ký thành công",position:'bottom-right',autoClose:2000,limit:1,des:'edit'});
+                    },3000);
+                    return () => clearTimeout(timer);
+                } 
+            });
+        }
     };
 
-    const handleOnchangeSelect = (select) => {
-        stateRegister.areaCompany = select;
-    };
-
-    return (
+    return ( 
         <AuthForm
             type="sign-up"
-            title="Chào mừng bạn đến với SGU-CV"
+            title="Chào mừng bạn đến với SGU-CV"    
             des="Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội sự nghiệp lý tưởng"
         >
-            <AuthInput
-                title="Họ và tên"
-                name="fullName"
-                placeholder="Nhập họ và tên"
-                onChange={handleOnchange}
-                value={stateRegister.fullName}
-            />
-            <AuthInput
-                title="Email"
-                name="email"
-                placeholder="Nhập email"
-                onChange={handleOnchange}
-                value={stateRegister.email}
-            />
-            <AuthInput
-                title="Mật khẩu"
-                name="password"
-                placeholder="Nhập mật khẩu"
-                onChange={handleOnchange}
-                value={stateRegister.password}
-            />
-            <AuthInput
-                title="Xác nhận mật khẩu"
-                name="confirmPassword"
-                placeholder="Nhập lại mật khẩu"
-                onChange={handleOnchange}
-                value={stateRegister.confirmPassword}
-            />
-            <div className={cx('confirmTerms', 'p-5 flex items-center')}>
-                <input type="radio" name="role" checked={role === 'User'} value="User" onChange={handleOnClickRole} />
-                <span>Người ứng tuyển</span>
-                <input
-                    type="radio"
-                    name="role"
-                    checked={role === 'Recruiter'}
-                    value="Recruiter"
-                    className="ml-12"
-                    onChange={handleOnClickRole}
+                <AuthInput
+                    type="text"
+                    name="fullName"
+                    placeholder="Nhập họ và tên"
+                    valueIp={valueInputFullName}
+                    onChangeIp={(e) => handleOnChangeFullName(e)}
                 />
-                <span>Nhà tuyển dụng</span>
-            </div>
-            {role === 'Recruiter' && (
-                <div>
-                    <AuthInput
-                        title="Tên công ty"
-                        name="nameCompany"
-                        placeholder="Nhập tên công ty"
-                        onChange={handleOnchange}
-                        value={stateRegister.nameCompany}
-                    />
-                    <SelectCity name="areaCompany" handleOnchangeSelect={handleOnchangeSelect} />
-                    <AuthInput
-                        title="Địa chỉ công ty"
-                        name="addressCompany"
-                        placeholder="Nhập địa chỉ công ty"
-                        onChange={handleOnchange}
-                        value={stateRegister.addressCompany}
-                    />
-                </div>
-            )}
-            <div className={cx('confirmTerms', 'p-5 flex items-center')}>
-                <input type="checkbox" name="confirmTerms" />
+                <AuthInput
+                    type="text"
+                    name="email"
+                    placeholder="Nhập email"
+                    valueIp={valueInputEmail}
+                    onChangeIp={(e) => handleOnChangeEmail(e)}
+                />
+                <AuthInput
+                    type="password"
+                    name="password"
+                    placeholder="Nhập mật khẩu"
+                    valueIp={valueInputPassword}
+                    onChangeIp={(e) => handleOnChangePassword(e)}
+                />
+                <AuthInput
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="Nhập lại mật khẩu"
+                    valueIp={valueInputConfirmPassword}
+                    onChangeIp={(e) => handleOnChangeConfirmPassword(e)}
+                />
+            <div className={cx('confirmTerms' ,'p-5 flex items-center')}>
+                <input type="checkbox" name="confirmTerms"/>
                 <span>Tôi đã đọc và đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của SGUCV</span>
             </div>
             <div className={cx('p-5 w-full')}>
-                <AuthBtn content="Đăng ký" type="button" className="btnSignUp" onClick={handleOnClick} />
+                <AuthBtn
+                    content="Đăng ký"
+                    type="submit"
+                    className='btnSignUp'
+                    onClickBtn={(e) => handleSignUp(e)}
+                    loading={isLoadingSignUp}
+                />
             </div>
         </AuthForm>
     );

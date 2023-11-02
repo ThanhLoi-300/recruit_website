@@ -1,0 +1,34 @@
+import Tippy from '@tippyjs/react/headless'
+import classNames from 'classnames/bind';
+import styles from './Filter.module.scss';
+import {Wrapper as PopperWrapper} from '~/components/popper';
+import FilterMenuItem from './FilterMenuItem';
+function Filter({items,children,title = '',state = false,className='',onClickFilter=undefined,valueSelected=''}) {
+    const cx = classNames.bind(styles);
+    const handleClickMenuItem = (e) => {
+        onClickFilter(e);
+    };
+    const showFlyOutsMenuitem = () => {
+        return items.map((item,index) => <FilterMenuItem valueSelected={valueSelected} onClick={handleClickMenuItem} key={index} data={item}></FilterMenuItem> )
+    }
+    return ( 
+        <Tippy
+            content= {title}
+            visible = {state === true}
+            interactive
+            placement='bottom'
+            appendTo={document.body}
+            render={attrs => (
+                <div className={cx(className)} tabIndex="-1" {...attrs}>
+                    <PopperWrapper>
+                        {showFlyOutsMenuitem()}
+                    </PopperWrapper>
+                </div>
+            )}
+        >
+            {children}
+        </Tippy>
+    );
+}
+
+export {Filter};

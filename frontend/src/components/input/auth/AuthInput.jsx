@@ -1,72 +1,59 @@
-import { faBuilding, faEnvelope, faEye, faEyeSlash, faMapMarker, faShield, faUser } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import classNames from 'classnames/bind';
-import styles from './AuthInput.module.scss';
-import { useEffect, useState } from 'react';
-function AuthInput({ title = '', name = '', placeholder = '', ...rests }) {
+import { faEnvelope, faEye, faShield, faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames/bind";
+import styles from "./AuthInput.module.scss";
+function AuthInput({title='',name='',placeholder='',valueIp=undefined,onChangeIp=undefined,type=''}) {
     const cx = classNames.bind(styles);
-    const [isShowPassword, setIsShowPassword] = useState(false);
-    const [type, setType] = useState("");
 
-    useEffect(() => {
-        let type = '';
-        if ((name === 'password' || name === 'confirmPassword') && !isShowPassword) type = 'password';
-        else if (name === 'email') type = 'email';
-        else type = 'text';
+    const handleOnChangeAuthInput = (e) =>{
+        onChangeIp(e.target.value);
+    };
 
-        setType(type);
-    }, [isShowPassword, type]);
-
-    return (
-        <div className={cx('wrapper', 'p-5')}>
-            <label htmlFor={name} className={cx('wrapper__title', 'block font-medium leading-6 text-gray-900')}>
-                {title}
+    return (  
+        <div className={cx('wrapper',"p-5")}>
+            <label htmlFor={name} className={cx('wrapper__title',"block font-medium leading-6 text-gray-900", valueIp && valueIp.state !== null ? (!valueIp.state ? 'wrapper__content-error' : '') : '')}>
+                {title ? title : valueIp.msg}
             </label>
-            <div className={cx('wrapper__content', 'relative mt-5 rounded-md shadow-sm')}>
+            <div className={cx('wrapper__content',"relative mt-5 rounded-md shadow-sm")}>
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <span className="text-gray-500 sm:text-sm">
-                        {name === 'fullName' ? (
-                            <FontAwesomeIcon className={cx('wrapper__content-icon')} icon={faUser} />
-                        ) : (
-                            ''
-                        )}
-                        {name === 'email' ? (
-                            <FontAwesomeIcon className={cx('wrapper__content-icon')} icon={faEnvelope} />
-                        ) : (
-                            ''
-                        )}
-                        {name === 'password' || name === 'confirmPassword' ? (
-                            <FontAwesomeIcon className={cx('wrapper__content-icon')} icon={faShield} />
-                        ) : (
-                            ''
-                        )}
-                        {name === 'nameCompany' && (
-                            <FontAwesomeIcon className={cx('wrapper__content-icon')} icon={faBuilding} />
-                        )}
-                        {name === 'addressCompany' && (
-                            <FontAwesomeIcon className={cx('wrapper__content-icon')} icon={faMapMarker} />
-                        )}
-                    </span>
+                <span className="text-gray-500 sm:text-sm">
+                    {
+                        name === 'fullName' ? (
+                            <FontAwesomeIcon className={cx('wrapper__content-icon')} icon={faUser}/>
+                        ) : ''
+                    }
+                    {
+                        name === 'email' ? (
+                            <FontAwesomeIcon className={cx('wrapper__content-icon')} icon={faEnvelope}/>
+                        ) : ''
+                    }
+                    {
+                        name === 'password' || name === 'confirmPassword' ? (
+                            <FontAwesomeIcon className={cx('wrapper__content-icon')} icon={faShield}/>
+                        ) : ''
+                    }
+                </span>
                 </div>
                 <input
                     type={type}
                     name={name}
                     id={name}
-                    className="block w-full rounded-md border-0"
+                    className={cx("block w-full rounded-md border-0",
+                        valueIp && valueIp.state !== null ? (!valueIp.state ? 'wrapper__content-errorIp' : '') : ''
+                    )}
                     placeholder={placeholder}
-                    {...rests}
+                    value={valueIp ? valueIp.name : ''}
+                    onChange={handleOnChangeAuthInput}
+                    autoComplete = {type === 'password' ? 'new-password' : ''}
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center">
-                    <span className="text-gray-500 sm:text-sm" onClick={() => setIsShowPassword(!isShowPassword)}>
-                        {name === 'password' || name === 'confirmPassword' ? (
-                            <FontAwesomeIcon
-                                className={cx('wrapper__content-iconIsShow')}
-                                icon={isShowPassword ? faEye : faEyeSlash}
-                            />
-                        ) : (
-                            ''
-                        )}
-                    </span>
+                <span className="text-gray-500 sm:text-sm">
+                    {
+                        name === 'password' || name === 'confirmPassword' ? (
+                            <FontAwesomeIcon className={cx('wrapper__content-iconIsShow')} icon={faEye}/>
+                        ) : ''
+                    }
+                </span>
                 </div>
             </div>
         </div>

@@ -1,0 +1,28 @@
+$color-text : #212529;
+.wrapper{
+    &__title{
+        font-size: 1.4rem;
+        font-weight: 600;
+    }
+    &__content{
+        & input{
+            padding: 10px 30px 10px 40px;
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: #212529;
+            border-right: 1px solid #514e4e;
+            border-bottom: none;
+            border-top: none;
+            border-left: none;
+            &:focus{
+                outline: none;
+            }
+            &::placeholder{
+                color: #6c758e;
+            }
+        }
+        &-icon{
+            color: #514e4e;
+        }
+    }
+}

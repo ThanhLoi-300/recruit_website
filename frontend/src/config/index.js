@@ -1,1 +1,2 @@
-const URL_API = "";
+const URL_API = "http://localhost:3001/";
+export {URL_API};

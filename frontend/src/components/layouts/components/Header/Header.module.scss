@@ -1,0 +1,40 @@
+.wrapper{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    &__logo{
+        font-family: "Bungee", sans-serif;
+        & h1{
+            font-size: 4rem;
+            color: var(--background-color);
+            font-weight: 600;
+        }
+        & span{
+            font-size: 2rem;
+            padding: 0 5px;
+            border: 2px solid;
+            color: var(--background-color);
+            &::before{
+                content: "";
+                position: absolute;
+                width: 100px;
+                height: 3px;
+                left: -100px;
+                top: 50%;
+                background-color: var(--background-color);
+            }
+        }
+        &-slogan{
+            font-size: 1rem;
+            margin-bottom: 7px;
+        }
+    }
+    &__user{
+        &-icon{
+            padding: 10px;
+            border-radius: 50%;
+            border: 1px solid #fce5ff;
+            font-size: 1.9rem;
+            color: var(--background-color);
+            background-color: #fce5ff;
+        }
+    }
+}
