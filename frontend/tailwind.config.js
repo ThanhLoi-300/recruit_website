@@ -14,6 +14,7 @@ module.exports = {
       'primaryColor':'#76417e',
       'comment':'#202227',
       'gray' : '#ccc',
+      'filter' : '#606266'
     },
     fontFamily: {
       sans: ['Inter', 'sans-serif'],

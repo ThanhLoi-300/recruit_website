@@ -1,14 +1,19 @@
 import className from 'classnames/bind';
 import styles from "./Filter.module.scss";
-function FilterMenuItem({data, onClick=undefined}) {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+function FilterMenuItem({data, onClick=undefined,valueSelected=''}) {
     const cx = className.bind(styles);
     const handleClickBox = () =>{
-        onClick(data)
+        onClick(data.province_name)
     }
     return (
-        <div className={cx('menu-box')} onClick={handleClickBox}>
-            <ul>
-                <li>{data.name}</li>
+        <div className={cx('wrapper__box')} onClick={handleClickBox}>
+            <ul className={cx('wrapper__box-list')}>
+                <li className={cx('wrapper__box-list-item','flex items-center justify-between',valueSelected === data.province_name ? 'text-primaryColor font-semibold': '')}>
+                    {data.province_name}
+                    {valueSelected === data.province_name ? <FontAwesomeIcon className={cx('text-primaryColor')} icon={faCheck}/> : ''}   
+                </li>
             </ul>
         </div>
     );

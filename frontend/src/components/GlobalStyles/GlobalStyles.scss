@@ -3,6 +3,8 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+@import "~slick-carousel/slick/slick.css"; 
+@import "~slick-carousel/slick/slick-theme.css";
 :root { 
     --background-color : #76417e;
     --var-font-family: 'Montserrat', sans-serif;
@@ -74,4 +76,43 @@ body {
 .Toastify__toast-body{
     color: var(--background-color);
     font-weight: 600;
+}
+// 
+.slick-slide div{
+    //margin: 0 10px;
+}
+.variable-width .slick-slide p{
+    margin: 5px;
+    line-height: 2;
+    text-align: center;
+}
+.button, .variable-width .slick-slide p{
+    background: #e9eaec;
+    border: 2px solid #e9eaec;
+    padding: 5px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-family: var(--var-font-family);
+    font-size: 1.4rem;
+    &:hover{
+        border: 2px solid var(--background-color);
+        cursor: pointer;
+    }
+}
+.slick-prev, .slick-next{
+    width: 30px;
+    height: 30px;
+    &:before{
+        font-size: 30px;
+        color: var(--background-color);
+    }
+}
+.slick-prev{
+    left: -30px;
+}
+.slick-next{
+    right: -30px;
+}
+.slick-dots{
+    display: none !important;
 }
