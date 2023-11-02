@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const applySchema = new mongoose.Schema(
     {
         fileCv: { type: String },
-        applyDate: { type: Date, default: mongoose.now()},
+        applyDate: { type: Date},
         statusSeen: { type: Boolean, default: false },
         userId: { 
             type: mongoose.Schema.Types.ObjectId,
@@ -19,3 +19,4 @@ const applySchema = new mongoose.Schema(
 );
 const Apply = mongoose.model("Apply", applySchema);
 module.exports = Apply;
+// , default: mongoose.now()

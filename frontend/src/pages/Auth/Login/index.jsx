@@ -3,7 +3,7 @@ import styles from "./Login.module.scss";
 import AuthForm from "~/components/form/auth/auth";
 import AuthInput from "~/components/input/auth/AuthInput";
 import AuthBtn from "~/components/button/auth/authBtn";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signInUser } from "~/redux/authSlice";
 import { useNavigate } from "react-router-dom";

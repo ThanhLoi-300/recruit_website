@@ -23,7 +23,8 @@ const authMiddleware = (req, res, next) => {
 
 const authUserMiddleware = (req, res, next) => {
     const token = req.headers.token
-    const userId = req.params.id
+    const userId = req.params.idUser
+    console.log('userId',userId)
     jwt.verify(token, process.env.ACCESS_TOKEN, function (err, user) {
         if (err) {
             return res.status(404).json({
@@ -31,12 +32,13 @@ const authUserMiddleware = (req, res, next) => {
                 status: "ERR"
             })
         }
-
+console.log('user',user)
         if (user?.role == "Admin" || user?.id === userId) {
             next()
-        }else{
+        } else {
+            console.log('This account is not user')
             return res.status(404).json({
-                message: "This account is not admin",
+                message: "This account is not user",
                 status: "ERR"
             })
         }

@@ -3,25 +3,30 @@ const UserService = require("../services/UserService")
 
 const createUser = async (req, res) => {
     try {
-        const { name, email, password, confirmPassword, phone, role, nameCompany, addressCompany } = req.body
+        const { fullName, email, password, confirmPassword, role, nameCompany, addressCompany, areaCompany } = req.body
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
-        const isCheckEmail = reg.test(email)
+        const isCheckEmai = reg.test(email)
         
-        if(!isCheckEmail) {
+        if (!email || !password || !confirmPassword || !name || !phone) {
+            return res.status(200).json({
+                status: "ERR",
+                message: "Input is required"
+            })
+        } else if(!isCheckEmai) {
             return res.status(200).json({
                 status: "ERR",
                 message: "Input must be email"
             })
-        } else if(password != confirmPassword) {
+        } else if (password != confirmPassword) {
             return res.status(200).json({
                 status: "ERR",
                 message: "The password is not equal confirmPassword"
             })
         } else if (role == "Recruiter") {
-            if (!nameCompany || !addressCompany) {
+            if (!nameCompany || !addressCompany || !areaCompany) {
                 return res.status(200).json({
                     status: "ERR",
-                    message: "Input is required"
+                    message: "Input for company is required"
                 })
             }
         }
@@ -39,10 +44,16 @@ const createUser = async (req, res) => {
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body
+        
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         const isCheckEmai = reg.test(email)
         
-        if(!isCheckEmai) {
+        if (!email || !password) {
+            return res.status(200).json({
+                status: "ERR",
+                message: "Input is required"
+            })
+        } else if(!isCheckEmai) {
             return res.status(200).json({
                 status: "ERR",
                 message: "Input must be email"
@@ -64,6 +75,27 @@ const loginUser = async (req, res) => {
     }
 }
 
+
+const getDetailUser = async (req, res) => {
+    try {
+        const userId = req.params.idUser
+        console.log(req.params.idUser)
+        if (!userId) {
+            return res.status(200).json({
+                status: "ERR",
+                message: 'The userId is required'
+            })
+        }
+
+        const response = await UserService.getDetailUser(userId)
+        return res.status(200).json(response)
+    } catch (e) {
+        return res.status(404).json({
+            message: e
+        })
+    }
+}
+
 const logoutUser = async (req, res) => {
     try {
         req.clearCookie('refresh_token')
@@ -78,8 +110,51 @@ const logoutUser = async (req, res) => {
     }
 }
 
+const updateUser = async (req, res) => {
+    try {
+        const { name } = req.body
+        if (!name) {
+            return res.status(200).json({
+                status: "ERR",
+                message: "Input is required"
+            })
+        }
+        const response = await UserService.updateUser(req.params.idUser, req.body)
+        return res.status(200).json(response)
+
+    } catch (e) {
+        console.log(e)
+        return res.status(404).json({
+            message: e
+        })
+    }
+}
+
+const sendMailEmployer = async (req, res) => {
+    try {
+        const {topic, content} = req.body
+        if(!topic || !content){
+            return res.status(200).json({
+                status: "ERR",
+                message: "Input is required"
+            })
+        }
+        const response = await UserService.sendMailEmployer(req.params.idUser, req.params.emailEmployer, req.body)
+        return res.status(200).json(response)
+
+    } catch (e) {
+        console.log(e)
+        return res.status(404).json({
+            message: e
+        })
+    }
+}
+
 module.exports = {
     createUser,
     loginUser,
     logoutUser,
+    updateUser,
+    getDetailUser,
+    sendMailEmployer,
 }

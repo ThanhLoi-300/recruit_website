@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema(
             websiteLink: { type: String, default:""},
             nameCompany: { type: String, default:"" },
             logoLink: { type: String, default:"" },
-            addressCompany: { type: String, default:""}
+            addressCompany: { type: String, default: "" },
+            areaCompany:{ type: String, default: "" }
         }
     },
     {
