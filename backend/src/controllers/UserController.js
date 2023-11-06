@@ -138,7 +138,7 @@ const sendMailEmployer = async (req, res) => {
                 message: "Input is required"
             })
         }
-        const response = await UserService.sendMailEmployer(req.params.idUser, req.params.emailEmployer, req.body)
+        const response = await UserService.sendMailEmployer(req.params.emailEmployer, req.body)
         return res.status(200).json(response)
 
     } catch (e) {

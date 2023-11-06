@@ -144,26 +144,23 @@ const updateUser = (idUser, updateUser) => {
 };
 
 // send email
-const sendMailEmployer = async (idUser, emailEmployer, info) => {
+const sendMailEmployer = async (emailEmployer, info) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const user = await User.findOne({
-        _id: idUser
-      })
-      console.log("mail", user.email)
+      
       const { topic, content } = info
       //  Create a transporter with your SMTP information
       let transporter = nodemailer.createTransport({
-        service: 'email',
+        service: 'gmail',
         auth: {
-          user: user.email,
+          user:  "quanmanh901@gmail.com",
           pass: 'slwi czcw rqfp arfa'
         }
       });
 
       // Recipient information, subject and email content
       let mailOptions = {
-        from: user.email,
+        from: "quanmanh901@gmail.com",
         to: emailEmployer,
         subject: topic,
         text: content
