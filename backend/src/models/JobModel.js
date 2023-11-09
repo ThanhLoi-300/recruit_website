@@ -8,15 +8,16 @@ const jobSchema = new mongoose.Schema(
         urgent: { type: Boolean, default: false },
         address: { type: String },
         area: { type: String },
-        careerType: {type: String},
-        vacancy: { type: String },
+        careerType: {type: String},//loại nghề IT, văn phòng
+        vacancy: { type: String },//vị trí tuyển
         jobDescription: { type: String },
-        level: { type: String },
-        typeJob: { type: String },
+        degree: { type: String },// cấp bậc nhân viên, quản lý.....
+        typeJob: { type: String },//partTime, fullTime
         quantityRecruit: {type: Number},
         salary: { type: Number},
-        experienceYear: { type: String},
-        deadlineApplication: { type: Date},
+        experienceYear: { type: number},
+        deadlineApplication: { type: Date },
+        active:{type:boolean, default: true},
         userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
