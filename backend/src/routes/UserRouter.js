@@ -9,5 +9,6 @@ router.post("/logout", userController.logoutUser)
 router.post("/updateUser/:idUser", userController.updateUser)
 router.get("/getDetailUser/:idUser",authUserMiddleware, userController.getDetailUser)
 router.post("/sendMailEmployer/:emailEmployer", userController.sendMailEmployer)
+router.post("/sendOTP", userController.sendOTP)
 
 module.exports = router

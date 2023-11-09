@@ -12,6 +12,7 @@ const corsOption = {
   credentials: true,
   origin: ['http://localhost:3000']
 }
+
 app.use(cors(corsOption));
 app.use(express.json());
 app.use(bodyParser.json())

@@ -10,8 +10,8 @@ const userSchema = new mongoose.Schema(
         avatar: { type: String },
         followList: { type: Array, default: [] },
         profile: {
-            degree: { type: number },// cấp bậc nhân viên, quản lý.....
-            experienceYear: { type: number },
+            degree: { type: Number },// cấp bậc nhân viên, quản lý.....
+            experienceYear: { type: Number },
             careerType: { type: String },//loại nghề IT, văn phòng
             areaAply: {type: String}, // khu vực muốn apply 
         },

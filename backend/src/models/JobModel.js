@@ -15,9 +15,9 @@ const jobSchema = new mongoose.Schema(
         typeJob: { type: String },//partTime, fullTime
         quantityRecruit: {type: Number},
         salary: { type: Number},
-        experienceYear: { type: number},
+        experienceYear: { type: Number},
         deadlineApplication: { type: Date },
-        active:{type:boolean, default: true},
+        active:{type:Boolean, default: true},
         userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
