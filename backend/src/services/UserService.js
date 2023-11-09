@@ -2,34 +2,32 @@ const User = require("../models/UserModel");
 const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer')
 const { genneralAccessToken, genneralRefreshToken } = require("./JwtService");
+const otpGenerator = require("otp-generator");
+
+const generateOTP = () => {
+  return otpGenerator.generate(6, {
+    upperCase: false,
+    specialChars: false,
+    alphabets: false,
+  });
+};
 
 const createUser = (newUser) => {
   return new Promise(async (resolve, reject) => {
-    const { fullName, email, password, role, nameCompany, addressCompany,areaCompany } = newUser;
     try {
-      const checkUser = await User.findOne({
-        email: email,
-      });
-
-      if (checkUser != null) {
-        resolve({
-          status: "ERR",
-          message: "This email is already",
-        });
-      }
+      const { fullName, email, password, role, nameCompany, addressCompany, areaCompany } = newUser;
 
       const hash = bcrypt.hashSync(password, 10);
-      let createUser = null
 
       if (role == "User") {
-        createUser = await User.create({
+        await User.create({
           name: fullName,
           email,
           password: hash,
           role: role
         });
       } else {
-        createUser = await User.create({
+        await User.create({
           name: fullName,
           email,
           password: hash,
@@ -42,12 +40,10 @@ const createUser = (newUser) => {
         });
       }
 
-      if (createUser) {
-        resolve({
-          status: "OK",
-          message: "Successfully created"
-        });
-      }
+      resolve({
+        status: "OK",
+        message: "Successfully created"
+      });
     } catch (e) {
       reject(e);
     }
@@ -184,11 +180,68 @@ const sendMailEmployer = async (emailEmployer, info) => {
   });
 }
 
+const sendOTP = async (newUser) => {
+  return new Promise(async (resolve, reject) => {
+    const { email } = newUser;
+    try {
+      const checkUser = await User.findOne({
+        email: email,
+      });
+
+      if (checkUser != null) {
+        resolve({
+          status: "ERR",
+          message: "This email is already",
+        });
+      }
+
+      const otp = generateOTP()
+        
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "quanmanh901@gmail.com",
+          pass: 'slwi czcw rqfp arfa'
+        },
+      });
+
+      const mailOptions = {
+        from: "quanmanh901@gmail.com",
+        to: email,
+        subject: "OTP",
+        text: `Mã OTP của bạn là: ${otp}`,
+      };
+      
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          resolve({
+            status: "ERR",
+            message: "Lỗi gửi email.",
+          });
+        } else {
+          resolve({
+            status: "OK",
+            otp,
+            message: "Một mã OTP đã được gửi đến địa chỉ email của bạn.",
+          });
+        }
+      });
+    } catch (e) {
+      console.log(e);
+      return res.status(404).json({
+        message: e,
+      });
+    }
+  }
+  )
+}
+
 module.exports = {
   createUser,
   loginUser,
   updateUser,
   getDetailUser,
   sendMailEmployer,
+  sendOTP,
 };
 

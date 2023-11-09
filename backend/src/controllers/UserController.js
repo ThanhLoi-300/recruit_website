@@ -1,43 +1,10 @@
 const { JwtService } = require("../services/JwtService");
 const UserService = require("../services/UserService");
-const otpGenerator = require("otp-generator");
-const nodemailer = require("nodemailer");
-
-const generateOTP = () => {
-  return otpGenerator.generate(6, {
-    upperCase: false,
-    specialChars: false,
-    alphabets: false,
-  });
-};
-
-let otpStorage = {};
 
 const createUser = async (req, res) => {
   try {
-    const { email, password, confirmPassword, otp } = req.body;
-    // const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-    // const isCheckEmai = reg.test(email);
-
-    // if (!isCheckEmai) {
-    //   return res.status(200).json({
-    //     status: "ERR",
-    //     message: "Input must be email",
-    //   });
-    // } else if (password != confirmPassword) {
-    //   return res.status(200).json({
-    //     status: "ERR",
-    //     message: "The password is not equal confirmPassword",
-    //   });
-      // }
-      // Kiểm tra xem OTP được nhập vào có đúng không
-    if (otpStorage[email] && otpStorage[email] === otp) {
-        // Xác nhận thành công, bạn có thể tạo tài khoản ở đây hoặc thực hiện các hành động khác
-        const response = await UserService.createUser(req.body);
-        return res.status(200).json(response);
-    } else {
-        res.status(401).send("Xác nhận thất bại. Mã OTP không hợp lệ.");
-    }
+    const response = await UserService.createUser(req.body);
+    return res.status(200).json(response);
   } catch (e) {
     console.log(e);
     return res.status(404).json({
@@ -156,34 +123,29 @@ const sendMailEmployer = async (req, res) => {
 
 const sendOTP = async (req, res) => {
   try {
-    const { email } = req.body;
-    const otp = generateOTP()
-      
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user:  "quanmanh901@gmail.com",
-        pass: 'slwi czcw rqfp arfa'
-      },
-    });
+    const { email, password, confirmPassword, role, nameCompany, addressCompany, areaCompany } = req.body;
+    const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+    const isCheckEmai = reg.test(email);
+    if (!isCheckEmai) {
+      return res.status(200).json({
+        status: "ERR",
+        message: "Input must be email",
+      });
+    } else if (password != confirmPassword) {
+      return res.status(200).json({
+        status: "ERR",
+        message: "The password is not equal confirmPassword",
+      });
+    } else if (role === "Recruiter") {
+      if (!nameCompany || !addressCompany || areaCompany === "Chọn khu vực công ty") 
+        return res.status(200).json({
+          status: "ERR",
+          message: "Input for company is required"
+        })
+    }
 
-    const mailOptions = {
-      from: "quanmanh901@gmail.com",
-      to: email,
-      subject: "OTP",
-      text: `Mã OTP của bạn là: ${otp}`,
-      };
-      
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.error(error);
-            return res.status(500).send("Lỗi gửi email.");
-        } else {
-            // Lưu trữ OTP trong bộ nhớ tạm thời (có thể lưu vào cơ sở dữ liệu thay vì này)
-            otpStorage[email] = otp;
-            return res.status(200).send("Một mã OTP đã được gửi đến địa chỉ email của bạn.");
-        }
-    });
+    const response = await UserService.sendOTP(req.body);
+    return res.status(200).json(response);
   } catch (e) {
     console.log(e);
     return res.status(404).json({

@@ -19,11 +19,29 @@ const  initialState = {
 // HANDLE REGISTER USER
 const signUpUser = createAsyncThunk('signUpUser',async(body)=> {
     try {
+        const res = await fetch(URL_API + 'api/user/sendOTP', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
+const createAccount = createAsyncThunk('createAccount', async (body) => {
+    try {
         const res = await fetch(URL_API + 'api/user/sign-up', {
             method: 'POST',
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(body),
         });
@@ -99,7 +117,7 @@ const authSlice = createSlice({
 export default authSlice.reducer;
 export {
     // REGISTER USER
-    signUpUser,
+    signUpUser,createAccount,
     // LOGIN
     signInUser,
 };
