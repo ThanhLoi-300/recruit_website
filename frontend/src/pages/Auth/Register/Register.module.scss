@@ -3,10 +3,21 @@
         font-size: 1.4rem;
         margin-left: 10px;
     }
-    & input[type="checkbox"]:checked{
-        background-color: var(--background-color);
+    & input[type="checkbox"]:focus{
+        outline-color: var(--background-color);
     }
 }
 .btnSignUp{
     background-color: var(--background-color);
+}
+.wrapper{
+    &__areaCompany{
+        font-size: 1.4rem;
+        font-weight: 500;
+        background: #eaeaea;
+        border-radius: 5px;
+        &:hover{
+            cursor: pointer;
+        }
+    }
 }

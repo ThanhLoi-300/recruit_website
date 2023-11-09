@@ -9,11 +9,13 @@ import { signUpUser } from '~/redux/authSlice';
 import { Toast } from '~/components/toast';
 import { Filter } from '~/components/popper/Filter';
 import { getProvince } from '~/redux/provinceSlice';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 function Register() {
     const cx = classNames.bind(styles);
     const [listProvince,setListProvince] = useState([]);
     const [isShowProvince, setShowProvince] = useState(false);
-    const [valueChooseProvince, setValueChooseProvince] = useState('Tất cả tỉnh/thành phố');
+    const [valueChooseProvince, setValueChooseProvince] = useState('Chọn khu vực công ty');
     const [valueInputEmail, setValueInputEmail] = useState({
         name: '',
         msg: 'Email',
@@ -34,31 +36,64 @@ function Register() {
         msg: 'Xác nhận mật khẩu',
         state: null,
     });
+    const [valueInputNameCompany, setValueInputNameCompany] = useState({
+        name: '',
+        msg: 'Tên công tyu',
+        state: null,
+    });
+    const [valueInputNameAddressCompany, setValueInputNameAddressCompany] = useState({
+        name: '',
+        msg: 'Địa chỉ công ty',
+        state: null,
+    });
     const dispatch = useDispatch();
     const state = useSelector((state) => state.auth);
+    const [role, setRole] = useState('User');
     const [isLoadingSignUp, setIsLoadingSignUp] = useState(false);
 
-    const [role, setRole] = useState('User');
+    
+    // HANDLE CHOOSE ROLE TO USER
     const handleOnClickRole = (e) => {
         setRole(e.target.value);
     };
 
+    // HANDLE ONCHANGE INPUT FULL NAME
     const handleOnChangeFullName = (e) => {
         setValueInputFullName({ ...valueInputFullName, msg: 'Họ và tên', name: e, state: null });
     };
 
+    // HANDLE ONCHANGE INPUT EMAIL
     const handleOnChangeEmail = (e) => {
         setValueInputEmail({ ...valueInputEmail, msg: 'Email', name: e, state: null });
     };
 
+    // HANDLE ONCHANGE INPUT PASSWORD
     const handleOnChangePassword = (e) => {
+        //e.preventDefault();
         setValueInputPassword({ ...valueInputPassword, msg: 'Mật khẩu', name: e, state: null });
     };
 
+    // HANDLE ONCHANGE INPUT CONFIRM PASSWORD
     const handleOnChangeConfirmPassword = (e) => {
         setValueInputConfirmPassword({ ...valueInputConfirmPassword, msg: 'Xác nhận mật khẩu', name: e, state: null });
     };
 
+    // HANDLE ONCHANGE INPUT COMPANY NAME
+    const handleOnChangeCompanyName = (e) => {
+        setValueInputNameCompany({ ...valueInputNameCompany, msg: 'Tên công ty', name: e, state: null });
+    };
+
+    // HANDLE ONCHANGE INPUT ADDRESS COMPANY
+    const handleOnChangeCompanyAddress = (e) => {
+        setValueInputNameAddressCompany({ ...valueInputNameAddressCompany, msg: 'Địa chỉ công ty', name: e, state: null });
+    };
+
+    // HANDLE ONCHANGE INPUT AREA COMPANY
+    const handleShowAreaCompany = (e) => {
+        setShowProvince(!isShowProvince);
+    };
+
+    // HANDLE SIGN UP
     const handleSignUp = (e) => {
         e.preventDefault();
         if (valueInputEmail.name === '') {
@@ -78,6 +113,14 @@ function Register() {
                 name: '',
             });
         }
+        if(role === 'Recruiter' && valueInputNameCompany.name === ''){
+            console.log('1')
+            setValueInputNameCompany({ ...valueInputNameCompany, msg: 'Vui lòng nhập tên công ty!', state: false, name: '' });
+        }
+
+        if(role === 'Recruiter' && valueInputNameAddressCompany.name === ''){
+            setValueInputNameAddressCompany({ ...valueInputNameAddressCompany, msg: 'Vui lòng nhập địa chỉ công ty!', state: false, name: '' });
+        }
         if (
             valueInputFullName.name !== '' &&
             valueInputEmail.name !== '' &&
@@ -92,8 +135,10 @@ function Register() {
                     confirmPassword: valueInputConfirmPassword.name,
                     phone: '',
                     role: '',
-                    nameCompany: '',
-                    addressCompany: '',
+                    nameCompany: role === 'Recruiter' && valueInputNameCompany.name !== '' ? valueInputNameCompany.name : '' ,
+                    addressCompany: role === 'Recruiter' && valueInputNameAddressCompany.name !== '' ? valueInputNameAddressCompany.name : '',
+                    areaCompany : role === 'Recruiter' && valueChooseProvince !== '' ? valueChooseProvince : '',
+                    role: role === 'Recruiter' ? role : ''
                 }),
             ).then((item) => {
                 const { message, status } = item.payload ? item.payload : '';
@@ -114,6 +159,7 @@ function Register() {
                 if (message === 'Successfully created' && status === 'OK') {
                     setIsLoadingSignUp(true);
                     const timer = setTimeout(() => {
+                        console.log(state.isLoading);
                         setIsLoadingSignUp(state.isLoading);
                         Toast({
                             type: 'info',
@@ -130,10 +176,7 @@ function Register() {
         }
     };
 
-    const handleClickProvince = () => {
-        setShowProvince(!isShowProvince);
-    };
-
+    // CALL API TO GET PROVINCE
     useEffect(() => {
         dispatch(getProvince()).then((item) => {
             const newArr = item.payload.results ? item.payload.results : [];
@@ -145,7 +188,7 @@ function Register() {
             newArr.unshift(firstArr);
             setListProvince(newArr);
         });
-    }, [dispatch]);
+    },[dispatch]);
 
     return (
         <AuthForm
@@ -168,46 +211,78 @@ function Register() {
                 onChangeIp={(e) => handleOnChangeEmail(e)}
             />
             <AuthInput
-                type="password"
+                type="text"
                 name="password"
                 placeholder="Nhập mật khẩu"
                 valueIp={valueInputPassword}
                 onChangeIp={(e) => handleOnChangePassword(e)}
             />
             <AuthInput
-                type="password"
+                type="text"
                 name="confirmPassword"
                 placeholder="Nhập lại mật khẩu"
                 valueIp={valueInputConfirmPassword}
                 onChangeIp={(e) => handleOnChangeConfirmPassword(e)}
             />
             <div className={cx('confirmTerms', 'p-5 flex items-center')}>
-                <input type="radio" name="role" checked={role === 'User'} value="User" onChange={handleOnClickRole} />
+                {/* Candidate  */}
+                <input 
+                    type="radio" 
+                    name="role"
+                    checked={role === 'User' ? true :  false} 
+                    value="User" 
+                    onChange={handleOnClickRole} 
+                />
                 <span>Người ứng tuyển</span>
+                {/* Recruiter */}
                 <input
                     type="radio"
                     name="role"
-                    checked={role === 'Recruiter'}
+                    checked={role === 'Recruiter' ? true :  false}
                     value="Recruiter"
                     className="ml-12"
                     onChange={handleOnClickRole}
                 />
-                <span>Nhà tuyển dụng</span>
+                 <span>Nhà tuyển dụng</span>
             </div>
             {role === 'Recruiter' && (
                 <div>
-                    <AuthInput title="Tên công ty" name="nameCompany" placeholder="Nhập tên công ty" />
+                    {/* NAME COMPANY */}
+                    <AuthInput 
+                        title="Tên công ty" 
+                        name="nameCompany" 
+                        placeholder="Nhập tên công ty" 
+                        valueIp={valueInputNameCompany}
+                        onChangeIp={(e) => handleOnChangeCompanyName(e)}
+                    />
+                    {/* FILTER CITY */}
                     <Filter
                         state={isShowProvince}
                         items={listProvince}
                         className="wrapper"
                         valueSelected={valueChooseProvince}
+                        placement='bottom-start'
                         onClickFilter={(item) => {
                             setValueChooseProvince(item);
                             setShowProvince(false);
                         }}
-                    ></Filter>
-                    <AuthInput title="Địa chỉ công ty" name="addressCompany" placeholder="Nhập địa chỉ công ty" />
+                    >
+                        <div 
+                            className={cx('wrapper__areaCompany','flex items-center m-5 py-5 pl-5')}
+                            onClick={handleShowAreaCompany}
+                        >
+                            {valueChooseProvince}
+                            <FontAwesomeIcon className={cx('ml-7 text-primaryColor font-semibold')} icon={isShowProvince ? faChevronUp : faChevronDown}/>
+                        </div>
+                    </Filter>
+                    {/* ADDRESS COMPANY */}
+                    <AuthInput 
+                        title="Địa chỉ công ty" 
+                        name="addressCompany" 
+                        placeholder="Nhập địa chỉ công ty"
+                        valueIp={valueInputNameAddressCompany}
+                        onChangeIp={(e) => handleOnChangeCompanyAddress(e)}
+                    />
                 </div>
             )}
             <div className={cx('confirmTerms', 'p-5 flex items-center')}>

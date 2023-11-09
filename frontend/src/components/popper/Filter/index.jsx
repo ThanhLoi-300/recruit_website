@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import styles from './Filter.module.scss';
 import {Wrapper as PopperWrapper} from '~/components/popper';
 import FilterMenuItem from './FilterMenuItem';
-function Filter({items,children,title = '',state = false,className='',onClickFilter=undefined,valueSelected=''}) {
+function Filter({items,children,title = '',state = false,className='',onClickFilter=undefined,valueSelected='',placement=''}) {
     const cx = classNames.bind(styles);
     const handleClickMenuItem = (e) => {
         onClickFilter(e);
@@ -16,7 +16,7 @@ function Filter({items,children,title = '',state = false,className='',onClickFil
             content= {title}
             visible = {state === true}
             interactive
-            placement='bottom'
+            placement={placement ? placement : 'bottom'}
             appendTo={document.body}
             render={attrs => (
                 <div className={cx(className)} tabIndex="-1" {...attrs}>
