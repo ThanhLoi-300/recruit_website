@@ -13,6 +13,8 @@ import { DATA_EXPERIENCE, DATA_FILTER_A_LOT, DATA_WAGE } from "~/const/province"
 import { Link } from "react-router-dom";
 import MultipleItems from "~/components/slick/MultipleItems";
 import JobsWrapper from "~/components/popper/Jobs/Jobs";
+import { LIST_BRANDING, LIST_CAREER, LIST_YOURSELF } from "~/const/data";
+import ForwardForm from "~/components/form/foward/foward";
 function Home() {
     const cx=classNames.bind(styles);
     const dispatch = useDispatch();
@@ -148,7 +150,7 @@ function Home() {
                     </Carousel>
                 </div>
             </div>
-            <div className={cx('wrapper__bestJob','px-32 pb-96')}>
+            <div className={cx('wrapper__bestJob','px-32 pb-10')}>
                 <div className={cx('wrapper__bestJob-header','pt-20 flex items-center justify-between')}>
                     <h1>Việc làm tốt nhất</h1>
                     <Link>
@@ -193,16 +195,81 @@ function Home() {
                         <JobsWrapper/>
                     </div>
                 </div>
-                <div className={cx('wrapper__bestJob-pagination')}>
-                    <FontAwesomeIcon icon={faChevronLeft}/>
-                    <div>
-                        <span>2</span>
-                        <span>/</span>
+                <div className={cx('wrapper__bestJob-pagination','flex items-center justify-center mt-12')}>
+                    <FontAwesomeIcon className={cx('wrapper__bestJob-pagination-prev','mr-4')} icon={faChevronLeft}/>
+                    <div className={cx('wrapper__bestJob-pagination-center','')}>
+                        <span className="text-primaryColor">2</span>
+                        <span className="mx-3">/</span>
                         <span>44 trang</span>
                     </div>
-                    <FontAwesomeIcon icon={faChevronRight}/>
+                    <FontAwesomeIcon className={cx('wrapper__bestJob-pagination-next','ml-4')} icon={faChevronRight}/>
                 </div>
             </div>
+            <div className={cx('wrapper__outstandingCareer','px-32 pb-10')}>
+                <div className={cx('wrapper__bestJob-header','pt-10')}>
+                    <h1>Top ngành nghề nổi bật</h1>
+                    <div className="text-xl">
+                        <span>Bạn muốn tìm việc mới? Xem danh sách việc làm </span>
+                        <Link className="text-primaryColor">
+                            tại đây
+                        </Link>
+                    </div>
+                </div>
+                <div className={cx('wrapper__outstandingCareer-careerList')}>
+                    <div className="grid grid-cols-4 gap-8 mt-10">
+                        {
+                            LIST_CAREER.map((item,index) => {
+                                return (
+                                    <div key={index} className={cx('wrapper__outstandingCareer-careerList-itemBox','flex item-center justify-center')}>
+                                        <div>
+                                            <div className="w-full flex text-center justify-center mt-10"><img className="w-36 h-36" src={item.image} alt="career item" /></div>
+                                            <h1 className="mt-10 font-semibold">{item.name}</h1>
+                                            <p className="text-center text-primaryColor font-medium mt-5">{item.quantityJob+" "} việc làm</p>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                </div>
+            </div>
+            <div className={cx('wrapper__Branding','px-32 pb-10')}>
+                <div className={cx('wrapper__bestJob-header','pt-10')}>
+                    <h1>Cùng SGU xây dựng thương hiệu cá nhân của bạn</h1>
+                </div>
+                <div className={cx('wrapper__Branding-List')}>
+                    <div className="grid grid-cols-2 gap-8 mt-10">
+                        {
+                            LIST_BRANDING.map((item,index) => {
+                                return <ForwardForm 
+                                    title={item.name}
+                                    description={item.des} 
+                                    nameBtn={item.nameBtn}
+                                    key={index}        
+                                />
+                            })
+                        }
+                    </div>
+                </div>
+                <div className={cx('wrapper__bestJob-header','pt-10')}>
+                    <h1>Thấu hiểu bản thân - Nâng tầm giá trị</h1>
+                </div>
+                <div className={cx('wrapper__Branding-List')}>
+                    <div className="grid grid-cols-2 gap-8 mt-10">
+                        {
+                            LIST_YOURSELF.map((item,index) => {
+                                return <ForwardForm 
+                                    title={item.name}
+                                    description={item.des} 
+                                    nameBtn={item.nameBtn}
+                                    key={index}        
+                                />
+                            })
+                        }
+                    </div>
+                </div>
+            </div>
+            
         </div>
     )
 }

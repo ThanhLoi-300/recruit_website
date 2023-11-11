@@ -1,6 +1,14 @@
 .wrapper{
     background: white;
     padding: 20px;
+    border: 1px solid white;
+    border-radius: 10px;
+    transition: .3s;
+    &:hover{
+        cursor: pointer;
+        border-color: var(--background-color) !important;
+        box-shadow: 0 10px 30px rgba(14,166,59,.2);
+    }
     &__header{
         &-img{
             width: 20%;
