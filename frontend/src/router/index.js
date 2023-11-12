@@ -1,6 +1,8 @@
 import Login from "~/pages/Auth/Login";
 import Register from "~/pages/Auth/Register";
 import Home from "~/pages/Home";
+import Profile from "~/pages/Profile";
+import SettingsProfile from "~/pages/Profile/components/SettingsProfile";
 
 const publicRoutes =[
     {   
@@ -19,6 +21,23 @@ const privateRoutes =[
         path: '/', 
         component: Home,
         name: 'Trang chủ',
+    },
+    {   
+        path: '/profile/*', 
+        name: 'Trang cá nhân',
+        layout: 'ProfileLayout',
+        routes: [
+            {
+                path: '',
+                component: Profile,
+                name: 'Bài viết'
+            },
+            {
+                path: 'settings-profile',
+                component: SettingsProfile,
+                name: 'Cài đặt trang cá nhân'
+            }
+        ]
     }
 ]
 export {publicRoutes,privateRoutes};

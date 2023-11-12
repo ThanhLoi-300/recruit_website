@@ -21,7 +21,7 @@ function Footer() {
                     <span className="text-xl">Email: <span className="font-semibold">support@sgucv.vn</span></span>
                 </div>
                 <div className={cx('wrapper__contact-right')}>
-                    <div class="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-3 gap-4">
                         <div>
                             <h1 className="font-semibold">Về SGUCV</h1>
                             <ul>
@@ -96,7 +96,7 @@ function Footer() {
                     </div>
                 </div>
                 <h3 className="mt-4 text-2xl font-semibold">Hệ sinh thái HR Tech của SGU CV</h3>
-                <div class="grid grid-cols-4 gap-4 mt-4">
+                <div className="grid grid-cols-4 gap-4 mt-4">
                     <div className={cx("flex items-center justify-between",'wrapper__Ecosystem-box')}>
                         <FontAwesomeIcon className="text-4xl mr-3" icon={faCreditCard}/>
                         <span>Nền tảng công nghệ tuyển dụng thông minh TopCV</span>
