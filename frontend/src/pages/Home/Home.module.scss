@@ -108,6 +108,7 @@ $white:white;
         }
     }
     &__outstandingCareer{
+        background-color: white;
         &-careerList{
             &-itemBox{
                 background-color: $bg-color-box;
@@ -130,5 +131,8 @@ $white:white;
                 }
             }
         }
+    }
+    &__Branding{
+        background-color: white;
     }
 }
