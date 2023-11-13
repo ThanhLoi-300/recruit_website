@@ -13,7 +13,7 @@ const createJob = (job) => {
                 address,
                 area,
                 careerType,
-                vacancy,
+                //vacancy,
                 jobDescription,
                 level,
                 typeJob,
@@ -32,7 +32,7 @@ const createJob = (job) => {
                 area,
                 urgent,
                 careerType,
-                vacancy,
+                //vacancy,
                 jobDescription,
                 level,
                 typeJob,
@@ -150,7 +150,7 @@ const updateJob = (idJob, updateJobs) => {
                 address,
                 area,
                 careerType,
-                vacancy,
+                //vacancy,
                 jobDescription,
                 level,
                 typeJob,
@@ -171,7 +171,7 @@ const updateJob = (idJob, updateJobs) => {
                 address: address,
                 area: area,
                 careerType: careerType,
-                vacancy: vacancy,
+                //vacancy: vacancy,
                 jobDescription: jobDescription,
                 level: level,
                 typeJob: typeJob,
@@ -209,6 +209,31 @@ const deleteJob = (idJob) => {
     });
 }
 
+const searchJob = (searchCondition) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let {page = 1, pageSize, keyword, area, urgen} = searchCondition
+
+            let jobs = await Job.find({ active: true })
+            
+            const totalProducts = jobs.length
+            const totalPages = Math.ceil(totalProducts / pageSize);
+
+            jobs = jobs.slice((page - 1) * pageSize, page * pageSize)
+            
+            resolve({
+                status: "OK",
+                message: "SUCCESS",
+                jobs,
+                totalPages,
+                page
+            });
+        } catch (e) {
+            reject(e);
+        }
+    });
+}
+
 module.exports = {
     createJob,
     jobDetail,
@@ -217,5 +242,6 @@ module.exports = {
     deleteFollowList,
     updateJob,
     deleteJob,
+    searchJob
 };
 

@@ -6,7 +6,7 @@ const createJob = async (req, res) => {
         const { title, logoLink, websiteLink, nameCompany, address, area, careerType, vacancy, jobDescription,
             level, typeJob, quantityRecruit, salary, experienceYear, deadlineApplication, userId } = req.body
         
-        if (!title || !logoLink || !websiteLink || !nameCompany || !address || !area || !careerType || !vacancy || !jobDescription || !level ||
+        if (!title || !logoLink || !websiteLink || !nameCompany || !address || !area || !careerType || !jobDescription || !level ||
             !typeJob || !quantityRecruit || !salary || !experienceYear || !deadlineApplication || !userId) {
                 return res.status(200).json({
                     status: "ERR",
@@ -81,6 +81,17 @@ const updateJob = async (req, res) => {
 const deleteJob = async (req, res) => {
     try {
         const response = await JobService.deleteJob(req.params.idJob)
+        return res.status(200).json(response)
+    } catch (e) {
+        return res.status(404).json({
+            message: e
+        })
+    }
+}
+
+const searchJob = async (req, res) => {
+    try {
+        const response = await JobService.searchJob(req.body)
         return res.status(200).json(response)
     } catch (e) {
         return res.status(404).json({
