@@ -66,6 +66,17 @@ const deleteFollowList = async (req, res) => {
     }
 }
 
+const searchJob = async (req, res) => {
+    try {
+        const response = await JobService.jobDetail(req.params.id)
+        return res.status(200).json(response)
+    } catch (e) {
+        return res.status(404).json({
+            message: e
+        })
+    }
+}
+
 
 module.exports = {
     createJob,
@@ -73,4 +84,5 @@ module.exports = {
     saveFollowList,
     LoadFollowList,
     deleteFollowList,
+    searchJob
 }
