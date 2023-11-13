@@ -1,0 +1,33 @@
+.wrapper{
+    &__left{
+        width: 70%;
+        &-form{
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            &-note{
+                color: red;
+                font-weight: 500;
+            }
+            &-input{
+                width: 100%;
+                border: 1px solid #ccc;
+                padding: 10px;
+                border-radius: 5px;
+                margin-top: 10px;
+                font-size: 1.5rem;
+                font-weight: 500;
+            }
+            &-btn{
+                padding: 10px 30px;
+                background: var(--background-color) !important;
+                color: white;
+                font-size: 1.5rem;
+                font-weight: 600;
+                border-radius: 5px;
+                margin-top: 20px;
+            }
+        }
+    }   
+}

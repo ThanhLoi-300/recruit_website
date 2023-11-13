@@ -1,6 +1,7 @@
 .wrapper{
-    background-color: white;
+    border-top: 1px solid white;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: white;
     &__logo{
         font-family: "Bungee", sans-serif;
         & h1{
@@ -28,14 +29,23 @@
             margin-bottom: 7px;
         }
     }
-    &__user{
-        &-icon{
-            padding: 10px;
-            border-radius: 50%;
-            border: 1px solid #fce5ff;
-            font-size: 1.9rem;
-            color: var(--background-color);
-            background-color: #fce5ff;
+    &__contact{
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 20px;
+        &-left{
+            width: 30%;
+        }
+        &-right{
+            width: 70%;
+        }
+    }
+    &__Ecosystem{
+        &-box{
+            padding: 15px;
+            border-radius: 5px;
+            background: var(--background-color);
+            color: white;
+            font-size: 1.3rem;
         }
     }
 }

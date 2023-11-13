@@ -7,6 +7,8 @@ router.get("/jobDetail/:id", jobController.jobDetail)
 router.post("/saveFollowList/:idJob/:idUser", jobController.saveFollowList)
 router.post("/loadFollowList/:idUser", jobController.LoadFollowList)
 router.post("/deleteFollowList/:idJob/:idUser", jobController.deleteFollowList)
+router.post("/updateJob/:idJob", jobController.updateJob)
+router.post("/deleteJob/:idJob", jobController.deleteJob)
 router.get("/searchJob", jobController.searchJob)
 
 module.exports = router

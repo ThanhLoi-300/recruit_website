@@ -1,0 +1,81 @@
+.sidebar{
+    &-user{
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        border-radius: 10px;
+        padding: 20px;
+        &-header{
+            padding-bottom: 10px;
+            border-bottom: 1px solid #d6d3d3;
+        }
+        &-cameraIcon{
+            position: absolute;
+            right: 0px;
+            bottom: -3px;
+            background: var(--background-color);
+            color: white;
+            padding: 4px;
+            font-size: 13px;
+            border-radius: 50%;
+        }
+        &-authentication{
+            background: var(--background-gray);
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+        &-levelUpAccount{
+            margin-top: 10px;
+            background: #f2f4f5;
+            padding: 5px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #f2f4f5;
+            font-size: 1.4rem;
+        }
+    }
+    &-content{
+        padding-bottom: 10px;
+        border-bottom: 1px solid #d6d3d3;
+        &-cvSearch{
+            &-iconCheck{
+                padding: 5px;
+                color: var(--background-color);
+                background: antiquewhite;
+                border-radius: 50%;
+            }
+        }
+    }
+    &-exclamation{
+        &-icon{
+            padding: 3px 8px;
+            border-radius: 50%;
+            border: 1px solid #828282;
+            font-size: 12px;
+            color: #828282;
+        }
+    }
+    &-foWardProfile{
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid var(--background-color);
+        border-radius: 5px;
+        font-size: 1.4rem;
+        color: var(--background-color);
+        font-weight: 600;
+        &:hover{
+            background-color: var(--background-color);
+            color: white;
+        }
+    }
+    &-view{
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        border-radius: 10px;
+        padding: 20px;
+        &-seen{
+            padding-bottom: 10px;
+            border-bottom: 1px solid #828282;
+        }
+    }
+}

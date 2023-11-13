@@ -1,4 +1,5 @@
 const User = require("../models/UserModel");
+const Job = require("../models/JobModel");
 const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer')
 const { genneralAccessToken, genneralRefreshToken } = require("./JwtService");
@@ -122,12 +123,22 @@ const getDetailUser = (id) => {
 const updateUser = (idUser, updateUser) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { name, phone } = updateUser;
+      const { name, phone, degree,
+        experienceYear,
+        careerType,
+        areaAply,
+      } = updateUser;
 
-      const user = await User.findOne({
+      let user = await User.findOne({
         _id: idUser
       })
-      user = await User.findOneAndUpdate({ _id: idUser }, { name: name, phone: phone }, { new: true })
+      user = await User.findOneAndUpdate({ _id: idUser }, {
+        name: name, phone: phone,
+        'profile.degree': degree,
+        'profile.experienceYear': experienceYear,
+        'profile.careerType': careerType,
+        'profile.areaAply': areaAply
+      }, { new: true })
       resolve({
         status: "OK",
         message: "SUCCESS",
@@ -140,24 +151,32 @@ const updateUser = (idUser, updateUser) => {
 };
 
 // send email
-const sendMailEmployer = async (emailEmployer, info) => {
+const sendMailEmployer = async (idJob, info) => {
   return new Promise(async (resolve, reject) => {
     try {
-      
+
       const { topic, content } = info
       //  Create a transporter with your SMTP information
       let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user:  "quanmanh901@gmail.com",
+          user: "quanmanh901@gmail.com",
           pass: 'slwi czcw rqfp arfa'
         }
       });
 
+      const idJobs = await Job.findOne({
+        _id: idJob
+      })
+
+      const mail = await User.findOne({
+        _id: idJobs.userId
+      })
+
       // Recipient information, subject and email content
       let mailOptions = {
         from: "quanmanh901@gmail.com",
-        to: emailEmployer,
+        to: mail.email,
         subject: topic,
         text: content
       };
@@ -196,7 +215,7 @@ const sendOTP = async (newUser) => {
       }
 
       const otp = generateOTP()
-        
+
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -211,7 +230,7 @@ const sendOTP = async (newUser) => {
         subject: "OTP",
         text: `Mã OTP của bạn là: ${otp}`,
       };
-      
+
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           resolve({

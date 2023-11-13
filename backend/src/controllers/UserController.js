@@ -109,7 +109,7 @@ const sendMailEmployer = async (req, res) => {
       });
     }
     const response = await UserService.sendMailEmployer(
-      req.params.emailEmployer,
+      req.params.idJob,
       req.body
     );
     return res.status(200).json(response);

@@ -5,6 +5,7 @@ import { DefaultLayout } from "~/components/layouts";
 import AuthLayout from "./components/layouts/AuthLayout/AuthLayout";
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ProfileLayout from "./components/layouts/ProfileLayout/ProfileLayout";
 function App() {
   return (
       <Router>
@@ -30,7 +31,31 @@ function App() {
             {
               privateRoutes.map((route,index) => {
                 const Layout = route.layout === null ? Fragment : DefaultLayout;
-                const Page = route.component;
+                const LayoutProfile = route.layout === null ? Fragment : ProfileLayout;
+                const Page = route.component ? route.component : null;
+                if(route.layout && route.layout === 'ProfileLayout'){
+                  return (
+                    <Route 
+                      key={index} 
+                      path={route.path} 
+                      element={
+                        <LayoutProfile>
+                          <Routes>
+                            {route.routes && route.routes.map((subRoute, subIndex) => (
+                              <Route
+                                  key={subIndex}
+                                  path={subRoute.path}
+                                  element={
+                                    <subRoute.component/>
+                                  }
+                              />
+                            ))}
+                          </Routes>
+                        </LayoutProfile>
+                      }
+                    />
+                  ) 
+                } else {
                   return (
                     <Route 
                       key={index} 
@@ -41,7 +66,8 @@ function App() {
                         </Layout>
                       }
                     />
-                  ) 
+                  )
+                }
               })
             }
           </Routes>

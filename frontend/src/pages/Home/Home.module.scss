@@ -1,3 +1,5 @@
+$bg-color-box :#f3f5f7;
+$white:white;
 .wrapper{
     &__banner{
         background-color: #fdf3ff;
@@ -19,7 +21,7 @@
         font-size: 1.5rem;
         &-city{
             padding: 5px;
-            background: white;
+            background: $white;
             border-radius: 5px;
             border: 1px solid #ccc;   
             &-btn{
@@ -32,7 +34,7 @@
         &-experience,
         &-wage{
             padding: 15px;
-            background: white;
+            background: $white;
             border-radius: 5px;
             border: 1px solid #ccc;
             width: 250px;
@@ -43,7 +45,7 @@
         &-btn{
             padding: 15px 20px;
             background-color: var(--background-color) !important;
-            color: white;
+            color: $white;
             border-radius: 4px;
         }
     }
@@ -69,7 +71,7 @@
         &-filter{
             &-aLot{
                 padding: 10px 15px;
-                background: white;
+                background: $white;
                 border-radius: 5px;
                 border: 1px solid #ccc;
                 width: 300px;
@@ -82,5 +84,55 @@
                 }
             }
         }
+        &-pagination{
+            &-prev,
+            &-next{
+                padding: 8px 11px;
+                border-radius: 50%;
+                border: 1px solid;
+                font-size: 15px;
+                color: #aeaeae;
+            }
+            &-prev{
+                border-color: #aeaeae;
+                color: #aeaeae;
+            }
+            &-next{
+                border-color: var(--background-color);
+                color: var(--background-color);
+            }
+            &-center{
+                color: #aeaeae;
+                font-weight: 500;
+            }
+        }
+    }
+    &__outstandingCareer{
+        background-color: white;
+        &-careerList{
+            &-itemBox{
+                background-color: $bg-color-box;
+                border-radius: 10px;
+                border: 2px solid $bg-color-box;
+                padding: 15px 0;
+                transition: .3s; 
+                & img {
+                    padding: 5px;
+                }
+                &:hover{
+                    cursor: pointer;
+                    border-color: var(--background-color);
+                    background-color: $white;
+                    box-shadow: 0 10px 30px rgba(14,166,59,.2);
+                }
+                &:hover img {
+                    background-color: $bg-color-box;
+                    border-radius: 10px;
+                }
+            }
+        }
+    }
+    &__Branding{
+        background-color: white;
     }
 }
