@@ -1,3 +1,4 @@
+const { promises } = require("nodemailer/lib/xoauth2");
 const Job = require("../models/JobModel");
 const User = require("../models/UserModel");
 
@@ -22,7 +23,7 @@ const createJob = (job) => {
                 deadlineApplication,
                 userId
             } = job
-            const createJob = await Job.create({ 
+            const createJob = await Job.create({
                 title,
                 logoLink,
                 websiteLink,
@@ -76,9 +77,9 @@ const saveFollowList = (idJob, idUser) => {
             })
 
             let followList = user.followList
-            if(followList.includes(idJob)){
+            if (followList.includes(idJob)) {
                 followList = followList.filter(item => item !== idJob);
-            }else{
+            } else {
                 followList.push(idJob)
             }
 
@@ -104,7 +105,7 @@ const loadFollowList = (idUser) => {
             let followList = user.followList
             const jobList = await Job.find({
                 _id: { $in: followList } // $in operator tìm các giá trị trong một mảng
-              });
+            });
             resolve({
                 status: "OK",
                 message: "SUCCESS",
@@ -123,7 +124,7 @@ const deleteFollowList = (idJob, idUser) => {
                 _id: idUser
             })
             let followList = user.followList
-            if(followList.includes(idJob)){
+            if (followList.includes(idJob)) {
                 followList = followList.filter(item => item !== idJob);
             }
             user = await User.findOneAndUpdate({ _id: idUser }, { followList: followList }, { new: true })
@@ -138,6 +139,75 @@ const deleteFollowList = (idJob, idUser) => {
     });
 };
 
+const updateJob = (idJob, updateJobs) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const { title,
+                logoLink,
+                websiteLink,
+                nameCompany,
+                urgent,
+                address,
+                area,
+                careerType,
+                vacancy,
+                jobDescription,
+                level,
+                typeJob,
+                quantityRecruit,
+                salary,
+                experienceYear,
+                deadlineApplication,
+            } = updateJobs
+            const jobs = await Job.findOne({
+                _id: idJob
+            })
+            jobs = await Job.findOneAndUpdate({ _id: idJob}, {
+                title: title,
+                logoLink: logoLink,
+                websiteLink: websiteLink,
+                nameCompany: nameCompany,
+                urgent: urgent,
+                address: address,
+                area: area,
+                careerType: careerType,
+                vacancy: vacancy,
+                jobDescription: jobDescription,
+                level: level,
+                typeJob: typeJob,
+                quantityRecruit: quantityRecruit,
+                salary: salary,
+                experienceYear: experienceYear,
+                deadlineApplication: deadlineApplication
+            }, { new: true })
+            resolve({
+                status: "OK",
+                message:"SUCCESS",
+                data: jobs
+            })
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+const deleteJob = (idJob) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const jobs = await Job.findOne({
+                _id: idJob
+            })
+            jobs = await Job.findOneAndDelete({ _id: idJob })
+            resolve({
+                status: "OK",
+                message: "SUCCESS",
+                data: jobs,
+            });
+        } catch (e) {
+            reject(e);
+        }
+    });
+}
 
 module.exports = {
     createJob,
@@ -145,5 +215,7 @@ module.exports = {
     saveFollowList,
     loadFollowList,
     deleteFollowList,
+    updateJob,
+    deleteJob,
 };
 
