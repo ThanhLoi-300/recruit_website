@@ -22,8 +22,8 @@ const authMiddleware = (req, res, next) => {
 }
 
 const authUserMiddleware = (req, res, next) => {
-    const token = req.headers.token
-    const userId = req.params.idUser
+    const token = req.headers.token.split(' ')[1]
+    const userId = req.body.id
     jwt.verify(token, process.env.ACCESS_TOKEN, function (err, user) {
         if (err) {
             return res.status(404).json({
@@ -31,7 +31,9 @@ const authUserMiddleware = (req, res, next) => {
                 status: "ERR"
             })
         }
-        
+        console.log(user.id);
+        console.log(userId);
+        console.log(user.id === userId);
         if (user?.role == "Admin" || user?.id === userId) {
             next()
         } else {

@@ -1,6 +1,7 @@
 import Login from "~/pages/Auth/Login";
 import Register from "~/pages/Auth/Register";
 import Home from "~/pages/Home";
+import LatestJobs from "~/pages/Jobs/LatestJobs/LatestJobs";
 import Profile from "~/pages/Profile";
 import SettingsProfile from "~/pages/Profile/components/SettingsProfile";
 
@@ -38,6 +39,11 @@ const privateRoutes =[
                 name: 'Cài đặt trang cá nhân'
             }
         ]
+    },
+    {
+        path: 'latest-jobs',
+        component: LatestJobs,
+        name: 'Việc làm mới nhất',
     }
 ]
 export {publicRoutes,privateRoutes};

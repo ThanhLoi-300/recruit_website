@@ -73,7 +73,7 @@ const loginUser = (userLogin) => {
           message: "Password is incorrect",
         });
       }
-
+      console.log(checkUser._id);
       const access_token = await genneralAccessToken({
         id: checkUser._id,
         role: checkUser.role,
