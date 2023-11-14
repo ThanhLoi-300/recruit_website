@@ -6,6 +6,7 @@ import AuthLayout from "./components/layouts/AuthLayout/AuthLayout";
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProfileLayout from "./components/layouts/ProfileLayout/ProfileLayout";
+import RecruitmentLayout from "./components/layouts/RecruitmentLayout";
 function App() {
   return (
       <Router>
@@ -32,6 +33,7 @@ function App() {
               privateRoutes.map((route,index) => {
                 const Layout = route.layout === null ? Fragment : DefaultLayout;
                 const LayoutProfile = route.layout === null ? Fragment : ProfileLayout;
+                const LayoutRecruitment = route.layout === null ? Fragment : RecruitmentLayout;
                 const Page = route.component ? route.component : null;
                 if(route.layout && route.layout === 'ProfileLayout'){
                   return (
@@ -52,6 +54,42 @@ function App() {
                             ))}
                           </Routes>
                         </LayoutProfile>
+                      }
+                    />
+                  ) 
+                } else if(route.layout && route.layout === 'RecruitmentLayout'){
+                  return (
+                    <Route 
+                      key={index} 
+                      path={route.path} 
+                      element={
+                        <LayoutRecruitment>
+                          <Routes>
+                            {route.routes && route.routes.map((subRoute, subIndex) => (
+                              <Route
+                                  key={subIndex}
+                                  path={subRoute.path}
+                                  element={
+                                    <subRoute.component>
+                                      {subRoute.routes && (
+                                        <Routes>
+                                          {subRoute.routes.map((item, index) => (
+                                            <Route
+                                                key={index}
+                                                path={item.path}
+                                                element={
+                                                  <item.component/>
+                                                }
+                                            />
+                                          ))}
+                                        </Routes>
+                                      )}
+                                    </subRoute.component>
+                                  }
+                              />
+                            ))}
+                          </Routes>
+                        </LayoutRecruitment>
                       }
                     />
                   ) 

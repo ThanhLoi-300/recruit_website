@@ -4,7 +4,7 @@ import { getDetailUser } from "~/redux/authSlice";
 import { jwtDecode } from 'jwt-decode';
 export default function useUser() {
     const dispatch = useDispatch();
-    const [detailInfoUser,setDetailInfoUser] = useState({});
+    const [obDetailInfoUser,setDetailInfoUser] = useState({});
     const state = useSelector(state => state.auth);
     
     const handleDecoded = () => {
@@ -20,7 +20,6 @@ export default function useUser() {
         if(id && token){
             const detail = await dispatch(getDetailUser({id : id,token : token}));
             if(detail.payload && detail.payload.data){
-                console.log(detail.payload.data);
                 setDetailInfoUser(detail.payload.data);
             }
         }   
@@ -37,5 +36,5 @@ export default function useUser() {
         }
     },[]);
 
-    return {handleGetDetailsUser,detailInfoUser}
+    return {handleGetDetailsUser,obDetailInfoUser}
 }

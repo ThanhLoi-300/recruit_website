@@ -1,0 +1,31 @@
+.wrapper{
+    width: 250px;
+    height: auto;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    &__box{
+        &-list{
+            &-item{
+                padding: 10px;
+                font-size: 1.4rem;
+                font-weight: 500;
+                &:hover{
+                    background-color: #ccc;
+                    cursor: pointer;
+                }
+            }
+            &-itemSelected{
+                background-color: var(--background-color);
+                color: white;
+            }
+        }
+    }
+    &__filterALot{
+        width: 300px;
+        height: auto;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    }
+}
