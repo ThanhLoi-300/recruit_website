@@ -1,0 +1,9 @@
+.wrapper{
+    &__children{
+        background-color: #e8edf2;
+        position: absolute;
+        left: 270px;
+        right: 0;
+        height: 100%;
+    }
+}
