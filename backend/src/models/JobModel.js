@@ -11,7 +11,7 @@ const jobSchema = new mongoose.Schema(
         careerType: {type: String},//loại nghề IT, văn phòng
         vacancy: { type: String },//vị trí tuyển
         jobDescription: { type: String },
-        degree: { type: String },// cấp bậc nhân viên, quản lý.....
+        level: { type: String },// cấp bậc nhân viên, quản lý.....
         typeJob: { type: String },//partTime, fullTime
         quantityRecruit: {type: Number},
         salary: { type: Number},
