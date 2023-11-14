@@ -1,7 +1,13 @@
 const {
     override,
-    useBabelRc
+    useBabelRc,
+    addWebpackResolve
 } = require("customize-cra");
 module.exports = override(
-    useBabelRc()
+    useBabelRc(),
+    addWebpackResolve({
+        fallback: {
+          "crypto": false
+        }
+    })
 );

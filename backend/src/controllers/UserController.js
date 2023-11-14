@@ -49,7 +49,7 @@ const loginUser = async (req, res) => {
 
 const getDetailUser = async (req, res) => {
   try {
-    const userId = req.params.idUser;
+    const userId = req.body.id;
     if (!userId) {
       return res.status(200).json({
         status: "ERR",

@@ -1,0 +1,43 @@
+$color-bg-border:rgb(192 93 207 / 30%);
+.wrapper{
+    &__header{
+        background: var(--linear-gradient);
+        &-SumResult{
+            padding: 10px 20px;
+            background: $color-bg-border;
+            border-radius: 10px;
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: white;
+            & span {
+                color: #d237e9;
+            }
+        }
+        &-filterAdvanced{
+            padding: 10px 20px;
+            font-size: 1.4rem;
+            font-weight: 500;
+            background: $color-bg-border;
+            color: white;
+            border-radius: 10px;
+        }
+    }
+    &__suggestJobs{
+        border-radius: 5px;
+        padding: 20px;
+    }
+    &__listJobs{
+        border-radius: 5px;
+        &-filter {
+            padding: 20px;
+            border-bottom: 1px solid #ccc;
+            & h3 {
+                font-size:  1.5rem;
+                color: var(--background-gray);
+            }
+            & input:checked{
+                outline-color: var(--background-color);
+            }
+        }
+    }
+}
