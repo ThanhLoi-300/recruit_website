@@ -154,6 +154,18 @@ const sendOTP = async (req, res) => {
   }
 };
 
+const updateRecruiter = async (req, res) => {
+  try {
+    const response = await UserService.updateRecruiter(req.params.id, req.body);
+    return res.status(200).json(response);
+  } catch (e) {
+    console.log(e);
+    return res.status(404).json({
+      message: e,
+    });
+  }
+};
+
 module.exports = {
   createUser,
   loginUser,
@@ -162,4 +174,5 @@ module.exports = {
   getDetailUser,
   sendMailEmployer,
   sendOTP,
+  updateRecruiter
 };
