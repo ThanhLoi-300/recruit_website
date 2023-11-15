@@ -9,7 +9,7 @@ router.post("/logout", userController.logoutUser)
 router.post("/updateUser/:id", userController.updateUser)
 router.post("/getDetailUser",authUserMiddleware, userController.getDetailUser)
 router.post("/sendMailEmployer/:idJob", userController.sendMailEmployer)
-router.post("/updateRecruiter/:idRecruiter", userController.updateRecruiter)
+router.post("/updateCompany/:idRecruiter", userController.updateCompany)
 router.post("/sendOTP", userController.sendOTP)
 
 module.exports = router
