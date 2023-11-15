@@ -16,6 +16,10 @@
                     cursor: pointer;
                 }
             }
+            &-itemSelected{
+                background-color: var(--background-color);
+                color: white;
+            }
         }
     }
     &__filterALot{

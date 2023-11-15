@@ -98,7 +98,7 @@ function Sidebar() {
                         <Link 
                             key={index}
                             to={item.status ? item.path : ''} 
-                            className={cx("flex items-center my-2 p-6",
+                            className={cx("flex items-center my-2 py-4 px-6",
                                 item.path === location.pathname && item.status 
                                 ? 'sidebar-content-linkSelected' : '')}
                             onClick={(e) => handleClickFoWardLink(item)}
@@ -113,7 +113,7 @@ function Sidebar() {
                         <Link 
                             key={index}
                             to={item.status ? item.path : ''} 
-                            className={cx("flex items-center my-2 p-6",'sidebar-content-linkAccount',
+                            className={cx("flex items-center my-2 py-4 px-6",'sidebar-content-linkAccount',
                                 isCheckCommonPrefix(item.path,location.pathname)
                                 ? 'sidebar-content-linkSelected' : '')}
                             onClick={(e) => handleClickFoWardLink(item)}

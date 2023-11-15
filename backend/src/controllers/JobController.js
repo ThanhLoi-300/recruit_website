@@ -7,7 +7,7 @@ const createJob = async (req, res) => {
             level, typeJob, quantityRecruit, salary, experienceYear, deadlineApplication, userId } = req.body
         
         if (!title || !logoLink || !websiteLink || !nameCompany || !address || !area || !careerType || !jobDescription || !level ||
-            !typeJob || !quantityRecruit || !salary || !experienceYear || !deadlineApplication || !userId) {
+            !typeJob || !quantityRecruit || !salary || !experienceYear || !deadlineApplication || !userId || !vacancy) {
                 return res.status(200).json({
                     status: "ERR",
                     message: "Input is required"

@@ -10,9 +10,9 @@ function FilterMenuItem({data, onClick=undefined,valueSelected=''}) {
     return (
         <div className={cx('wrapper__box')} onClick={handleClickBox}>
             <ul className={cx('wrapper__box-list')}>
-                <li className={cx('wrapper__box-list-item','flex items-center justify-between',valueSelected === data.province_name ? 'text-primaryColor font-semibold': '')}>
+                <li className={cx('wrapper__box-list-item','flex items-center justify-between',valueSelected === data.province_name ? 'wrapper__box-list-itemSelected': '')}>
                     {data.province_name}
-                    {valueSelected === data.province_name ? <FontAwesomeIcon className={cx('text-primaryColor')} icon={faCheck}/> : ''}   
+                    {valueSelected === data.province_name ? <FontAwesomeIcon className={cx('text-white')} icon={faCheck}/> : ''}   
                 </li>
             </ul>
         </div>

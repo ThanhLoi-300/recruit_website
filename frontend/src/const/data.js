@@ -105,4 +105,108 @@ const SUGGEST_JOBS = [
         image: 'https://firebasestorage.googleapis.com/v0/b/socialnerwork-ac060.appspot.com/o/test%2Fcong-ty-co-phan-estuary-623aa13f9a22a.webp?alt=media&token=baa10aee-8d82-4a79-814a-dd69b4b99f5b'
     }
 ];
-export {LIST_CAREER,LIST_BRANDING,LIST_YOURSELF,SUGGEST_JOBS};
+const DATA_CAREER = [
+    {
+        id: 1,
+        province_name: 'IT - Phần mềm'
+    },
+    {
+        id: 2,
+        province_name: 'Kế toán / Kiểm toán'
+    },
+    {
+        id: 3,
+        province_name: 'Luật'
+    },
+    {
+        id: 4,
+        province_name: 'Bảo hiểm'
+    },
+    {
+        id: 5,
+        province_name: 'Bất động sản'
+    },
+    {
+        id: 6,
+        province_name: 'Dược phẩm / Y tế / Công nghệ sinh học'
+    },
+    {
+        id: 7,
+        province_name: 'Internet / Online'
+    },
+    {
+        id: 8,
+        province_name: 'Marketing / Truyền thông / Quảng cáo'
+    },
+    {
+        id: 9,
+        province_name: 'Nhà hàng / Khách sạn'
+    },
+    {
+        id: 10,
+        province_name: 'In ấn / Xuất bản'
+    },
+    {
+        id: 11,
+        province_name: 'Bán lẻ - Hàng tiêu dùng - FMCG'
+    },
+    {
+        id: 12,
+        province_name: 'Sản xuất'
+    },
+    {
+        id: 13,
+        province_name: 'Chứng khoán'
+    },
+    {
+        id: 14,
+        province_name: 'Xây dựng'
+    },
+    {
+        id: 15,
+        province_name: 'Ngân hàng'
+    },
+    {
+        id: 16,
+        province_name: 'Nhân sự'
+    },
+    {
+        id: 17,
+        province_name: 'Thiết kế / kiến trúc'
+    },
+    {
+        id: 18,
+        province_name: 'Môi trường'
+    },
+    {
+        id: 19,
+        province_name: 'Xuất nhập khẩu'
+    },
+    {
+        id: 20,
+        province_name: 'Bảo trì / Sửa chữa'
+    },
+    {
+        id: 21,
+        province_name: 'Thời trang'
+    },
+    {
+        id: 22,
+        province_name: 'Cơ khí'
+    },
+    {
+        id: 23,
+        province_name: 'Tư vấn'
+    }
+];
+const DATA_TYPE_JOBS = [
+    {
+        id: 1,
+        name: 'Parttime'
+    },
+    {
+        id: 2,
+        name: 'Fulltime'
+    }
+];
+export {LIST_CAREER,LIST_BRANDING,LIST_YOURSELF,SUGGEST_JOBS,DATA_CAREER,DATA_TYPE_JOBS};
