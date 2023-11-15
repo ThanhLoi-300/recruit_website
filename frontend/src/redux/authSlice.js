@@ -1,14 +1,12 @@
 import { URL_API } from "~/config";
 const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 const  initialState = {
-    user:{
-        id: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        address: '',
-        dateOfBirth: '',
-        image: ''
+    user: {
+        name: '',
+        phone: '',
+        profile: {
+            degree: ''
+        }
     },
     token : '',
     isAuthenticated: false,
@@ -72,18 +70,55 @@ const signInUser = createAsyncThunk('signInUser',async(body)=> {
     }
 });
 
+// HANDLE SIGN IN USER
+const getDetailUser = createAsyncThunk('getDetailUser',async(body)=> {
+    try {
+        const {id , token} = body;
+        const res = await fetch(URL_API + 'api/user/getDetailUser', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'token' : `Bearer ${token}`
+            },
+            body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+const updateUserRecruitment = createAsyncThunk('updateUserRecruitment',async(body)=> {
+    try {
+        const {id , ...others} = body;
+        console.log(JSON.stringify(others));
+        const res = await fetch(URL_API + `api/user/updateUser/${id}`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(others),
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
 const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        updateUSer : (state,action) => {
-            const {firstName,lastName,email,address,dateOfBirth,image} = action.payload;
-            state.user.firstName = firstName;
-            state.user.lastName = lastName;
-            state.user.email = email;
-            state.user.address = address;
-            state.user.dateOfBirth = dateOfBirth;
-            state.user.image = image;
+        updateUser : (state,action) => {
+            const {name,phone,degree} = action.payload;
+            state.user.name = name ? name : '';
+            state.user.phone = phone ? phone : '';
+            state.user.profile.degree = degree ? degree : '';
         }
     },
     extraReducers : (builder) => {
@@ -111,6 +146,18 @@ const authSlice = createSlice({
         builder.addCase(signInUser.rejected,(state,action) => {
             state.isLoading = true;
         });
+        // ================= SIGN IN =================
+        builder.addCase(updateUserRecruitment.pending,(state,action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(updateUserRecruitment.fulfilled,(state,action) => {
+            const {message , status} = action.payload;
+            state.isLoading = false;
+            state.msg = message;
+        });
+        builder.addCase(updateUserRecruitment.rejected,(state,action) => {
+            state.isLoading = true;
+        });
     }
 });
  
@@ -120,5 +167,9 @@ export {
     signUpUser,createAccount,
     // LOGIN
     signInUser,
+    // GET DETAIL INFO USER
+    getDetailUser,
+    // UPDATE USER RECRUITMENT
+    updateUserRecruitment
 };
-export const {updateUSer} = authSlice.actions; 
+export const {updateUser} = authSlice.actions; 

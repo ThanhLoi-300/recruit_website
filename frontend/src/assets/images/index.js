@@ -1,5 +1,6 @@
 const images = {
     logo: require('~/assets/images/SGULogo.png'),
+    logoApp: require('~/assets/images/logo-app.png'),
     banner: require('~/assets/images/bannerHome.png'),
     net: require('~/assets/images/pngNet.png'),
     banner1: require('~/assets/images/banner1.jpg'),

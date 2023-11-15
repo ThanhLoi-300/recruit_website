@@ -49,7 +49,7 @@ const loginUser = async (req, res) => {
 
 const getDetailUser = async (req, res) => {
   try {
-    const userId = req.params.idUser;
+    const userId = req.body.id;
     if (!userId) {
       return res.status(200).json({
         status: "ERR",
@@ -82,6 +82,7 @@ const logoutUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
+    console.log(req.body);
     const { name } = req.body;
     if (!name) {
       return res.status(200).json({
@@ -89,7 +90,7 @@ const updateUser = async (req, res) => {
         message: "Input is required",
       });
     }
-    const response = await UserService.updateUser(req.params.idUser, req.body);
+    const response = await UserService.updateUser(req.params.id, req.body);
     return res.status(200).json(response);
   } catch (e) {
     console.log(e);

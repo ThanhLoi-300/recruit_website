@@ -1,0 +1,12 @@
+.header{
+    background-color: #212f3f;
+    & li {
+        background-color: #3b546f;
+        border-radius: 20px;
+    }
+    & ul {
+        & img {
+            border: 2px solid white;
+        }
+    }
+}

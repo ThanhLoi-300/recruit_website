@@ -14,41 +14,7 @@ $white:white;
                 font-size: 1.5rem;
             }
         }
-    }
-    &__filter{
-        color: #172530;
-        font-weight: 500;
-        font-size: 1.5rem;
-        &-city{
-            padding: 5px;
-            background: $white;
-            border-radius: 5px;
-            border: 1px solid #ccc;   
-            &-btn{
-                width: 250px;
-                &:hover{
-                    cursor: pointer;
-                }
-            }       
-        }
-        &-experience,
-        &-wage{
-            padding: 15px;
-            background: $white;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            width: 250px;
-            &:hover{
-                cursor: pointer;
-            }
-        }
-        &-btn{
-            padding: 15px 20px;
-            background-color: var(--background-color) !important;
-            color: $white;
-            border-radius: 4px;
-        }
-    }
+    }    
     &__bannerImg{
         width: 100%;
         height: 300px;

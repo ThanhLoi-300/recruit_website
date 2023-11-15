@@ -1,0 +1,22 @@
+.wrapper{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 0 10px;
+    margin-top: 20px;
+    &:hover{
+        cursor: pointer;
+        background: #cccc;
+    }
+    &:hover h1{
+        color: var(--background-color);
+    }
+    & h1{
+        font-size: 1.6rem;
+        width: 70%;
+    }
+    &__name{
+        color: var(--background-gray);
+        font-weight: 500;
+    }
+}
