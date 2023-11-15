@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema(
         avatar: { type: String },
         followList: { type: Array, default: [] },
         profile: {
-            degree: { type: Number },// cấp bậc nhân viên, quản lý.....
+            degree: { type: String },// cấp bậc nhân viên, quản lý.....
             experienceYear: { type: Number },
             careerType: { type: String },//loại nghề IT, văn phòng
             areaAply: {type: String}, // khu vực muốn apply 
@@ -20,7 +20,9 @@ const userSchema = new mongoose.Schema(
             nameCompany: { type: String, default:"" },
             logoLink: { type: String, default:"" },
             addressCompany: { type: String, default: "" },
-            areaCompany:{ type: String, default: "" }
+            areaCompany: { type: String, default: "" },
+            scale: { type: String, default: "" }, //Quy mô
+            careerType: { type: String, default: "" }, 
         }
     },
     {

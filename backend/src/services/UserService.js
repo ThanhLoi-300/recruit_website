@@ -255,6 +255,31 @@ const sendOTP = async (newUser) => {
   )
 }
 
+const updateCompany = (id, updateRecruiter) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { nameCompany, websiteLink, addressCompany, areaCompany, careerType, scale, logoLink } = updateRecruiter;
+console.log(id)
+      let user = await User.findOneAndUpdate({ _id: id }, {
+        'infoCompany.nameCompany': nameCompany,
+        'infoCompany.websiteLink': websiteLink,
+        'infoCompany.addressCompany': addressCompany,
+        'infoCompany.areaCompany': areaCompany,
+        'infoCompany.scale': scale,
+        'infoCompany.careerType': careerType,
+        'infoCompany.logoLink': logoLink,
+      }, { new: true })
+      resolve({
+        status: "OK",
+        message: "SUCCESS",
+        data: user,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   createUser,
   loginUser,
@@ -262,5 +287,6 @@ module.exports = {
   getDetailUser,
   sendMailEmployer,
   sendOTP,
+  updateCompany
 };
 
