@@ -1,15 +1,17 @@
 import classNames from "classnames/bind";
 import styles from "./CreateJob.module.scss"
 import { Filter } from "~/components/popper/Filter";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProvince } from "~/redux/provinceSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp, faDollarSign, faStar } from "@fortawesome/free-solid-svg-icons";
 import { DATA_CAREER, DATA_TYPE_JOBS } from "~/const/data";
 import { DATA_EXPERIENCE, DATA_WAGE } from "~/const/province";
 import { RecruitmentFilter } from "~/components/popper/RecruitmentFilter";
-import { updateJob } from "~/redux/jobSlice";
+import { createJob, updateJob } from "~/redux/jobSlice";
+import FloatBarsG from "~/components/spinners/components/floatBarsG";
+import useUser from "~/hooks/useUser";
+import { Toast } from "~/components/toast";
 function CreateJob() {
     const cx = classNames.bind(styles)
     const dispatch = useDispatch();
@@ -55,6 +57,8 @@ function CreateJob() {
     const [isShowWage,setShowWage] = useState(false);
     const [isShowExperience,setShowExperience] = useState(false);
     const [isShowTypeJob,setShowTypeJob] = useState(false);
+    const [isLoadingStepThree,setLoadingStepThree] = useState(false);
+    const {obDetailInfoUser} = useUser();
     // HANDLE ONCHANGE INPUT AREA COMPANY
     const handleShowAreaCompany = (e) => {
         setShowProvince(!isShowProvince);
@@ -96,8 +100,13 @@ function CreateJob() {
             setValueChooseProvince({...valueChooseProvince , msg : 'Vui lòng chọn lĩnh vực tuyển dụng' , state:false});
         }
         if(valueIpTitleJob.name !== '' && valueIpVacancyJob.name !== ''){
-            setShowStepTwo(false);
-            setShowStepThree(true);
+            setLoadingStepThree(true);
+            const timer = setTimeout(() => {
+                setShowStepTwo(false);
+                setLoadingStepThree(false);
+                setShowStepThree(true);
+            },2000);
+            return () => clearTimeout(timer);
         }
     };
 
@@ -122,16 +131,70 @@ function CreateJob() {
         setShowTypeJob(!isShowTypeJob);
     };
 
+    // HANDLE CHECK VIETNAMESE PHONE NUMBER
+    function getNameDegreeToId(number) {
+        if(number === '1'){
+            return 'Nhân viên'
+        } else if(number === '2'){
+            return 'Trưởng phòng'
+        } else if(number === '3'){
+            return 'Phó phòng'
+        } else if(number === '4'){
+            return 'Giám đốc'
+        } else if(number === '5'){
+            return 'Phó giám đốc'
+        }
+    }
+
     // HANDLE CLICK CREATE JOB
-    const handleClickCreateJob = () => {
+    const handleClickCreateJob = async () => {
+        const inputDate = new Date();
+        const formattedDateString = `${inputDate.toISOString().slice(0, 19)}:00.000+00:00`;
         if(valueTextJobDetail.name === ''){
             setValueTextJobDetail({...valueTextJobDetail, msg: 'Vui lòng nhập chi tiết tuyển dụng', state: false});
         }
+        if(obDetailInfoUser && obDetailInfoUser.infoCompany){
+            const msg = await dispatch(createJob({
+                title: valueIpTitleJob.name,// STEP2
+                vacancy: valueIpVacancyJob.name,// STEP2
+                logoLink: '',//COMPANY
+                websiteLink: obDetailInfoUser.infoCompany.websiteLink,//COMPANY
+                nameCompany: obDetailInfoUser.infoCompany.nameCompany,//COMPANY
+                urgent: false,
+                address: obDetailInfoUser.infoCompany.addressCompany,//COMPANY
+                area: obDetailInfoUser.infoCompany.areaCompany,//COMPANY
+                careerType: valueChooseProvince.name,//STEP2
+                jobDescription: valueTextJobDetail.name,
+                typeJob: valueChooseTypeJob.name,//STEP 3
+                quantityRecruit: valueIpQuantityRecruitJob.quantity,//STEP 3
+                salary: valueChooseWage.name, //STEP 3
+                experienceYear: valueChooseExperience, //STEP 3
+                deadlineApplication: formattedDateString,
+                active: true,
+                userId: obDetailInfoUser._id,// INIT
+                level: obDetailInfoUser.profile && obDetailInfoUser.profile.degree !== '' ?  getNameDegreeToId(obDetailInfoUser.profile.degree) : '', // COMPANY LEVEL
+            }));
+            if(msg.payload && (msg.payload.message === "SUCCESS" && msg.payload.status === "OK")){
+                Toast({
+                    type: 'success',
+                    content: `Tạo chiến dịch thành công`,
+                    position: 'bottom-right',
+                    autoClose: 2000,
+                    limit: 1,
+                    des: 'edit',
+                });
+            } else {
+                Toast({
+                    type: 'error',
+                    content: `Tạo chiến dịch không thành công`,
+                    position: 'bottom-right',
+                    autoClose: 2000,
+                    limit: 1,
+                    des: 'edit',
+                });
+            }
+        }
     };
-
-    useEffect(() => {
-        console.log(state.job);
-    },[state.job]);
 
     return (  
         <div className={cx('wrapper','py-6 px-20')}>
@@ -213,11 +276,12 @@ function CreateJob() {
                                     </Filter>
                                 </div>
                                 <div className="mt-7 text-center text-xl">
+                                    
                                     <button
                                         type="button"
                                         onClick={handClickFoWardStepThree}
-                                    >
-                                            Tiếp theo
+                                    >   
+                                        {isLoadingStepThree ? <FloatBarsG/> : 'Tiếp theo'}
                                     </button>
                                 </div>
                             </form>

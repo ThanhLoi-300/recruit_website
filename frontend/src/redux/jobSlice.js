@@ -15,7 +15,7 @@ const  initialState = {
         jobDescription: '',
         typeJob: '',//STEP 3
         quantityRecruit: 0,//STEP 3
-        salary: 0, //STEP 3
+        salary: '', //STEP 3
         experienceYear: '', //STEP 3
         deadlineApplication: '',
         active: true,
@@ -29,7 +29,7 @@ const  initialState = {
 // HANDLE REGISTER USER
 const createJob = createAsyncThunk('createJob',async(body)=> {
     try {
-        const res = await fetch(URL_API + 'api/user/sendOTP', {
+        const res = await fetch(URL_API + 'api/job/createJob', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

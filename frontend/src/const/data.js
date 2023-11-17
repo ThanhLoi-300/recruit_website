@@ -1,3 +1,5 @@
+import { faSpaceAwesome } from "@fortawesome/free-brands-svg-icons";
+import { faBagShopping, faBookOpen, faCircleUser, faGear, faTableColumns } from "@fortawesome/free-solid-svg-icons";
 import images from "~/assets/images";
 
 const LIST_CAREER = [
@@ -209,4 +211,104 @@ const DATA_TYPE_JOBS = [
         name: 'Fulltime'
     }
 ];
-export {LIST_CAREER,LIST_BRANDING,LIST_YOURSELF,SUGGEST_JOBS,DATA_CAREER,DATA_TYPE_JOBS};
+const DATA_SCALE = [
+    {
+        id: 1,
+        province_name: '1-9 nhân viên'
+    },
+    {
+        id: 2,
+        province_name: '10-24 nhân viên'
+    },
+    {
+        id: 3,
+        province_name: '25-99 nhân viên'
+    },
+    {
+        id: 4,
+        province_name: '100-499 nhân viên'
+    },
+    {
+        id: 5,
+        province_name: '500-1000 nhân viên'
+    },
+    {
+        id: 6,
+        province_name: '1000+ nhân viên'
+    },
+    {
+        id: 7,
+        province_name: '2000+ nhân viên'
+    },
+    {
+        id: 8,
+        province_name: '3000+ nhân viên'
+    },
+    {
+        id: 9,
+        province_name: '4000+ nhân viên'
+    },
+    {
+        id: 10,
+        province_name: '5000+ nhân viên'
+    },
+];
+const DATA_SIDEBAR = [
+    {
+        id: 1,
+        name: 'Bảng tin',
+        icon: faTableColumns,
+        status: true,
+        path: '/app/dashboard'
+    },
+    {
+        id: 2,
+        name: 'Chiến dịch tuyển dụng',
+        icon: faBagShopping,
+        status: true,
+        path: '/app/recruitment-campaigns',
+        routes : true
+    },
+    {
+        id: 3,
+        name: 'Tin tuyển dụng',
+        icon: faBookOpen,
+        status: true,
+        path: '/app/company-required'
+    },
+    {
+        id: 4,
+        name: 'Quản lí CV',
+        icon: faCircleUser,
+        status: false,
+        path: '/app/dashboard'
+    },
+    {
+        id: 5,
+        name: 'Báo cáo tuyển dụng',
+        icon: faSpaceAwesome,
+        status: false,
+        path: '/app/dashboard'
+    }
+];
+const DATA_SIDEBAR_SETTINGS = [
+    {
+        id: 1,
+        name: 'Cài đặt toàn khoản',
+        icon: faGear,
+        status: true,
+        path: '/app/account/settings',
+        routes : true
+    }
+];
+export {
+    LIST_CAREER,
+    LIST_BRANDING,
+    LIST_YOURSELF,
+    SUGGEST_JOBS,
+    DATA_CAREER,
+    DATA_TYPE_JOBS,
+    DATA_SCALE,
+    DATA_SIDEBAR,
+    DATA_SIDEBAR_SETTINGS
+};

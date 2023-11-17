@@ -259,7 +259,6 @@ const updateCompany = (id, updateRecruiter) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { nameCompany, websiteLink, addressCompany, areaCompany, careerType, scale, logoLink } = updateRecruiter;
-console.log(id)
       let user = await User.findOneAndUpdate({ _id: id }, {
         'infoCompany.nameCompany': nameCompany,
         'infoCompany.websiteLink': websiteLink,

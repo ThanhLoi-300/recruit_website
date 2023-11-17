@@ -7,57 +7,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useLocation } from "react-router-dom";
 import { Toast } from "~/components/toast";
 import useUser from "~/hooks/useUser";
+import { DATA_SIDEBAR, DATA_SIDEBAR_SETTINGS } from "~/const/data";
 function Sidebar() {
     const cx = classNames.bind(styles);
     const location = useLocation();
     const {obDetailInfoUser} = useUser();
-    const DATA_SIDEBAR = [
-        {
-            id: 1,
-            name: 'Bảng tin',
-            icon: faTableColumns,
-            status: true,
-            path: '/app/dashboard'
-        },
-        {
-            id: 2,
-            name: 'Chiến dịch tuyển dụng',
-            icon: faBagShopping,
-            status: true,
-            path: '/app/recruitment-campaigns'
-        },
-        {
-            id: 3,
-            name: 'Tin tuyển dụng',
-            icon: faBookOpen,
-            status: true,
-            path: '/app/company-required'
-        },
-        {
-            id: 4,
-            name: 'Quản lí CV',
-            icon: faCircleUser,
-            status: false,
-            path: '/app/dashboard'
-        },
-        {
-            id: 4,
-            name: 'Báo cáo tuyển dụng',
-            icon: faSpaceAwesome,
-            status: false,
-            path: '/app/dashboard'
-        }
-    ];
-    const DATA_SIDEBAR_SETTINGS = [
-        {
-            id: 1,
-            name: 'Cài đặt toàn khoản',
-            icon: faGear,
-            status: true,
-            path: '/app/account/settings',
-            routes : true
-        }
-    ];
 
     // HANDLE CLICK FORWARD LINK
     const handleClickFoWardLink = (item) => {
@@ -75,8 +29,10 @@ function Sidebar() {
     };
     function isCheckCommonPrefix(path1,path2) {
         const commonPrefix = '/app/account';
-
+        const commonPrefix2 = '/app/recruitment-campaigns';
         if (path1.indexOf(commonPrefix) === 0 && path2.indexOf(commonPrefix) === 0) {
+            return true;
+        } else if(path1.indexOf(commonPrefix2) === 0 && path2.indexOf(commonPrefix2) === 0){
             return true;
         } else {
             return false;
@@ -94,19 +50,35 @@ function Sidebar() {
             </div>
             <div className={cx('sidebar-content',"pb-6")}>
                 {DATA_SIDEBAR.map((item,index) => {
-                    return (
-                        <Link 
-                            key={index}
-                            to={item.status ? item.path : ''} 
-                            className={cx("flex items-center my-2 py-4 px-6",
-                                item.path === location.pathname && item.status 
-                                ? 'sidebar-content-linkSelected' : '')}
-                            onClick={(e) => handleClickFoWardLink(item)}
-                        >
-                            <FontAwesomeIcon icon={item.icon}/>
-                            <span className="ml-3 font-medium">{item.name}</span>
-                        </Link>
-                    )
+                    if(item.routes){
+                        return (
+                            <Link 
+                                key={index}
+                                to={item.status ? item.path : ''} 
+                                className={cx("flex items-center my-2 py-4 px-6",
+                                    isCheckCommonPrefix(item.path,location.pathname)
+                                    ? 'sidebar-content-linkSelected' : '')}
+                                onClick={(e) => handleClickFoWardLink(item)}
+                            >
+                                <FontAwesomeIcon icon={item.icon}/>
+                                <span className="ml-3 font-medium">{item.name}</span>
+                            </Link>
+                        )
+                    } else {
+                        return (
+                            <Link 
+                                key={index}
+                                to={item.status ? item.path : ''} 
+                                className={cx("flex items-center my-2 py-4 px-6",
+                                    item.path === location.pathname && item.status 
+                                    ? 'sidebar-content-linkSelected' : '')}
+                                onClick={(e) => handleClickFoWardLink(item)}
+                            >
+                                <FontAwesomeIcon icon={item.icon}/>
+                                <span className="ml-3 font-medium">{item.name}</span>
+                            </Link>
+                        )
+                    }
                 })}
                 {DATA_SIDEBAR_SETTINGS.map((item,index) => {
                     return (

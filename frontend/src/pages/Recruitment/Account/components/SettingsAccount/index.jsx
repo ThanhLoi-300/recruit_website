@@ -103,15 +103,15 @@ function SettingsAccount() {
     }
     // HANDLE CHECK VIETNAMESE PHONE NUMBER
     function getNameDegreeToId(number) {
-        if(number === 1){
+        if(number === '1'){
             return 'Nhân viên'
-        } else if(number === 2){
+        } else if(number === '2'){
             return 'Trưởng phòng'
-        } else if(number === 3){
+        } else if(number === '3'){
             return 'Phó phòng'
-        } else if(number === 4){
+        } else if(number === '4'){
             return 'Giám đốc'
-        } else if(number === 5){
+        } else if(number === '5'){
             return 'Phó giám đốc'
         }
     }
@@ -160,27 +160,10 @@ function SettingsAccount() {
         }
     }
 
-    useEffect(() => {
-        if(state.msg === 'SUCCESS'){
-            if(obDetailInfoUser){
-                if(obDetailInfoUser.name){
-                    setValueIpFullName({...valueIpFullName, name: obDetailInfoUser.name});
-                }
-                if(obDetailInfoUser.email) {
-                    setValueIpEmail(obDetailInfoUser.email);
-                }
-                if(obDetailInfoUser.phone) {
-                    setValueIpPhone({...valueIpPhone , name: "0"+obDetailInfoUser.phone});
-                }
-                if(obDetailInfoUser.profile && obDetailInfoUser.profile.degree){
-                    setValueChooseDegree({...valueChooseDegree , name: getNameDegreeToId(obDetailInfoUser.profile.degree)});
-                }
-            }
-        }
-    },[state.msg]);
     // GET DETAIL INFO USER
     useEffect(() => {
         if(obDetailInfoUser){
+            console.log(obDetailInfoUser);
             if(obDetailInfoUser.name){
                 setValueIpFullName({...valueIpFullName, name: obDetailInfoUser.name});
             }
@@ -194,7 +177,8 @@ function SettingsAccount() {
                 setValueChooseDegree({...valueChooseDegree , name: getNameDegreeToId(obDetailInfoUser.profile.degree)});
             }
         }
-    },[obDetailInfoUser])
+    },[obDetailInfoUser]);
+    
     return (  
         <form className={cx('form','p-8')}>
             <h3 className="text-2xl font-semibold">Cập nhập thông tin cá nhân</h3>

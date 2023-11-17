@@ -1,9 +1,9 @@
 import className from 'classnames/bind';
 import styles from './ToggleSwitch.module.scss'
 import { useState } from 'react';
-function ToggleSwitch() {
+function ToggleSwitch({checked=false}) {
     const cx = className.bind(styles);
-    const [isChecked,setIsChecked] = useState(false);
+    const [isChecked,setIsChecked] = useState(checked);
     const classNameChecked = className(styles['slider'], {
         [styles.round]: true,
     });

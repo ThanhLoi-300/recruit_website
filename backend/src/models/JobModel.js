@@ -14,9 +14,9 @@ const jobSchema = new mongoose.Schema(
         level: { type: String },// cấp bậc nhân viên, quản lý.....
         typeJob: { type: String },//partTime, fullTime
         quantityRecruit: {type: Number},
-        salary: { type: Number},
-        experienceYear: { type: Number},
-        deadlineApplication: { type: Date },
+        salary: { type: String},
+        experienceYear: { type: String},
+        deadlineApplication: { type: String},
         active:{type:Boolean, default: true},
         userId: {
             type: mongoose.Schema.Types.ObjectId,
