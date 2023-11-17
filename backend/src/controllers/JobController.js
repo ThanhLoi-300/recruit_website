@@ -6,8 +6,8 @@ const createJob = async (req, res) => {
         const { title, logoLink, websiteLink, nameCompany, address, area, careerType, vacancy, jobDescription,
             level, typeJob, quantityRecruit, salary, experienceYear, deadlineApplication, userId } = req.body
         
-        if (!title || !logoLink || !websiteLink || !nameCompany || !address || !area || !careerType || !jobDescription || !level ||
-            !typeJob || !quantityRecruit || !salary || !experienceYear || !deadlineApplication || !userId) {
+        if (!title || !websiteLink || !nameCompany || !address || !area || !careerType || !jobDescription || !level ||
+            !typeJob || !quantityRecruit || !salary || !experienceYear || !deadlineApplication || !userId || !vacancy) {
                 return res.status(200).json({
                     status: "ERR",
                     message: "Input is required"

@@ -5,6 +5,7 @@ module.exports = {
     theme: {
       colors: {
         'black': '#0f0f10',
+        'blue': '#0e60d8',
         'white': '#fff',
         'background' : '#191a1f',
         'sidebar' : '#141519',
@@ -12,7 +13,8 @@ module.exports = {
         'primaryColor':'#76417e',
         'comment':'#202227',
         'gray' : '#ccc',
-        'filter' : '#606266'
+        'filter' : '#606266',
+        'btn-table' : '#eccaf1'
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

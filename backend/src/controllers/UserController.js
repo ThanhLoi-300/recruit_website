@@ -82,7 +82,6 @@ const logoutUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    console.log(req.body);
     const { name } = req.body;
     if (!name) {
       return res.status(200).json({

@@ -1,0 +1,81 @@
+$color-error: #ef3f3f;
+.wrapper{
+    &__stepOne,
+    &__stepTwo{
+        border-radius: 10px;
+        padding: 10px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        &-number{
+            padding: 4px 10px;
+            border-radius: 50%;
+            background: var(--background-color);
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+    }
+    &__stepTwo{
+        border-radius: 10px;
+        padding: 10px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        &-form{
+            & input,
+            &-salary,
+            &-experience,
+            &-jobDetail{
+                border: 1px solid #ccc;
+                padding: 7px 10px;
+                font-size: 1.125rem;
+                border-radius: 5px;
+            }
+            &-areaCompany{
+                padding: 7px 10px;
+                font-size: 1.125rem;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+            }
+            & button,
+            &-back{
+                padding: 7px 15px;
+                background: var(--background-color);
+                border-radius: 5px;
+                color: white;
+                font-weight: 500;
+                font-size: 1.4rem;
+                width: 100px;
+                height: 32px;
+            }
+            &-back{
+                background-color: var(--background-gray) !important;
+            }
+            &-error{
+                border-color: $color-error !important;
+                color: $color-error;
+                &::placeholder{
+                    color: $color-error;
+                }
+            }
+        }
+        &-animation{
+            animation-delay: 0.04s;
+            animation-duration: 0.28s;
+            animation-fill-mode: backwards;
+            animation-name: faDaIn;
+            animation-timing-function: cubic-bezier(0.8, 0, 0.2, 1);
+        }
+    }
+}
+@keyframes faDaIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate(80px);
+        -ms-transform: translate(80px);
+        transform: translate(80px);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: translate(0);
+        -ms-transform: translate(0);
+        transform: translate(0);
+    }
+}

@@ -1,0 +1,48 @@
+.wrapper{
+    &__header{
+        position: fixed;
+        width: 100%;
+        z-index: 100;
+        border-left: 1px solid #ccc;
+    }
+    &__content{
+        &-menu{
+            &-newJob{
+                padding: 8px 15px;
+                background: var(--background-color);
+                color: white;
+                width: 15%;
+                &:hover{
+                    cursor: pointer;
+                    background: var(--background-gray);
+                }
+            } 
+            &-boxFilter{
+                width: 85%;
+                &-filterJob{
+                    padding: 8px 15px;
+                    background-color: white;
+                    border-top-left-radius: 5px;
+                    border-bottom-left-radius: 5px;
+                    color: black;
+                    width: 35%;
+                    border-right: 1px solid #ccc;
+                }
+                &-searchJob{
+                    padding: 8px 15px;
+                    background-color: white ;
+                    border-top-right-radius: 5px;
+                    border-bottom-right-radius: 5px;
+                    color: black;
+                    width: 65%;
+                    & input {
+                        
+                    }
+                    & input:focus{
+                        outline: none;
+                    }
+                }
+            }
+        }
+    }
+}

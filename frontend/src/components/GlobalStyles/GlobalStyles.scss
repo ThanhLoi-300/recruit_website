@@ -118,3 +118,32 @@ body {
 .slick-dots{
     display: none !important;
 }
+// TABLE
+.css-177gid-MuiTableCell-root,
+.css-1ffr6e3-MuiTableCell-root.MuiTableCell-head,
+.css-1fxr68j-MuiTableCell-root,
+.css-1ex1afd-MuiTableCell-root{
+    border: 1px solid #ccc;
+    font-size: 1.4rem !important;
+    font-family: var(--var-font-family) !important;
+}
+.css-11xur9t-MuiPaper-root-MuiTableContainer-root{
+    border-radius: 10px !important;
+    overflow-y: auto;
+    max-height: 450px;
+}
+.css-1it3gd4-MuiTableRow-root{
+    height: 143px;
+}
+.css-1it3gd4-MuiTableRow-root:hover {
+    background-color: #fdecff;
+}
+.css-1it3gd4-MuiTableRow-root:hover .css-1it3gd4-MuiTableRow-root-hover-selected{
+    display: block;
+}
+.css-1it3gd4-MuiTableRow-root-hover-selected{
+    display: none;
+}
+.css-1it3gd4-MuiTableRow-nameJobs{
+    width: 215px;
+}

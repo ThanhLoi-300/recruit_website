@@ -12,4 +12,4 @@ router.post("/sendMailEmployer/:idJob", userController.sendMailEmployer)
 router.post("/updateCompany/:idRecruiter", userController.updateCompany)
 router.post("/sendOTP", userController.sendOTP)
 
-module.exports = router
+module.exports = router;

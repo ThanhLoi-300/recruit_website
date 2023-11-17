@@ -9,8 +9,10 @@ import SettingsCompany from "~/pages/Recruitment/Account/components/Company";
 import Company from "~/pages/Recruitment/Account/components/Company";
 import SettingsAccount from "~/pages/Recruitment/Account/components/SettingsAccount";
 import CompanyRequired from "~/pages/Recruitment/CompanyRequired";
-import CreateJob from "~/pages/Recruitment/CreateJob";
+import CreateJob from "~/pages/Recruitment/ManageRecruitment/CreateJob";
 import Dashboard from "~/pages/Recruitment/Dashboard";
+import ManageRecruitment from "~/pages/Recruitment/ManageRecruitment";
+import ManageRecruitmentLayout from "~/pages/Recruitment/ManageRecruitment/ManageRecruitmentLayout";
 
 const publicRoutes =[
     {   
@@ -68,9 +70,21 @@ const privateRoutes =[
                 name: 'Tin tuyển dụng'
             },
             {
-                path: 'recruitment-campaigns',
-                component: CreateJob,
-                name: 'Chiến dịch tuyển dụng'
+                path: 'recruitment-campaigns/*',
+                name: 'Chiến dịch tuyển dụng',
+                component: ManageRecruitmentLayout,
+                routes: [
+                    {
+                        path: '',
+                        component: ManageRecruitment,
+                        name: 'Chiến dịch tuyển dụng'
+                    },
+                    {
+                        path: 'create-job',
+                        component: CreateJob,
+                        name: 'Tạo chiến dịch mới'
+                    }
+                ]
             },
             {
                 path: 'account/*',
