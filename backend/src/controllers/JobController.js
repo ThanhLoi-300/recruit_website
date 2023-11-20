@@ -100,6 +100,18 @@ const searchJob = async (req, res) => {
     }
 }
 
+
+const searchJobByIdRecruiter = async (req, res) => { 
+    try {
+        const response = await JobService.searchJobByIdRecruiter(req.body)
+        return res.status(200).json(response)
+    } catch (e) {
+        return res.status(404).json({
+            message: e
+        })
+    }
+}
+
 module.exports = {
     createJob,
     jobDetail,
@@ -109,4 +121,5 @@ module.exports = {
     searchJob,
     updateJob,
     deleteJob,
+    searchJobByIdRecruiter,
 }

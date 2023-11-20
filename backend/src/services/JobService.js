@@ -269,14 +269,47 @@ const searchJob = (searchCondition) => {
     });
 }
 
+const searchJobByIdRecruiter = async (searchCondition) => {
+  try {
+    let { page = 1, pageSize, idRecruit } = searchCondition;
+
+    if (!idRecruit) {
+      // Reject the promise if idRecruit is not provided
+      return Promise.reject("User ID is required for the search.");
+    }
+
+    let jobs = await Job.find({ active: true });
+
+    // Filter jobs based on idRecruit
+    jobs = jobs.filter((job) => job.userId == idRecruit["$oid"]);
+
+    const totalProducts = jobs.length;
+    const totalPages = Math.ceil(totalProducts / pageSize);
+    jobs = jobs.slice((page - 1) * pageSize, page * pageSize);
+
+    return {
+      status: "OK",
+      message: "SUCCESS",
+      jobs,
+      totalPages,
+      page,
+    };
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
+
+
 module.exports = {
-    createJob,
-    jobDetail,
-    saveFollowList,
-    loadFollowList,
-    deleteFollowList,
-    updateJob,
-    deleteJob,
-    searchJob
+  createJob,
+  jobDetail,
+  saveFollowList,
+  loadFollowList,
+  deleteFollowList,
+  updateJob,
+  deleteJob,
+  searchJob,
+  searchJobByIdRecruiter
 };
 
