@@ -54,7 +54,7 @@ function Sidebar() {
                         return (
                             <Link 
                                 key={index}
-                                to={item.status ? item.path : ''} 
+                                to={item.status ? item.path : location.pathname} 
                                 className={cx("flex items-center my-2 py-4 px-6",
                                     isCheckCommonPrefix(item.path,location.pathname)
                                     ? 'sidebar-content-linkSelected' : '')}
@@ -68,7 +68,7 @@ function Sidebar() {
                         return (
                             <Link 
                                 key={index}
-                                to={item.status ? item.path : ''} 
+                                to={item.status ? item.path : location.pathname} 
                                 className={cx("flex items-center my-2 py-4 px-6",
                                     item.path === location.pathname && item.status 
                                     ? 'sidebar-content-linkSelected' : '')}
@@ -84,7 +84,7 @@ function Sidebar() {
                     return (
                         <Link 
                             key={index}
-                            to={item.status ? item.path : ''} 
+                            to={item.status ? item.path : location.pathname} 
                             className={cx("flex items-center my-2 py-4 px-6",'sidebar-content-linkAccount',
                                 isCheckCommonPrefix(item.path,location.pathname)
                                 ? 'sidebar-content-linkSelected' : '')}

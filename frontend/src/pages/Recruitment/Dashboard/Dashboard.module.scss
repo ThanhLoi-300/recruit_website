@@ -1,0 +1,113 @@
+$color-gray : #ccc;
+$color-gold: #ffc107;
+$color-blue:#2d7cf1;
+$color-bg-primary:#dfc1e4;
+.wrapper{
+    background-color: #e8edf2;
+    &__statistical{
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        &-icon{
+            padding: 2px 6px;
+            border-radius: 50%;
+            border: 1px solid $color-gray;
+            font-size: 1rem;
+            background: $color-gray;
+            color: #918e8e;
+        }
+        &-blue{
+            background-color: #ebf3ff;
+            color: #5b92f5;
+        }
+        &-green{
+            background-color: #f5fff9;
+            color: #4ac6a8;
+        }
+        &-red{
+            background-color: #fff3f2;
+            color: #e76e6b;
+        }
+        &-primary{
+            background-color: $color-bg-primary;
+            color: var(--background-color);
+        }
+    }
+    &__infoRecruiter{
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        &-progressLevel{
+            width: 100%;
+            height: 8px;
+            background: $color-gray;
+            border-radius: 10px;
+        }
+        &-employer{
+            color: var(--background-color);
+            font-weight: 600;
+        }
+        &-yellow{
+            color: rgb(184, 184, 0);
+            font-weight: 600;
+        }
+        &-diamond{
+            color: blue;
+            font-weight: 600;
+        }
+        &-platinum{
+            color: var(--background-color);
+            font-weight: 600;
+        }
+        &-note{
+            padding: 20px 10px;
+            background: $color-gray;
+            border-radius: 10px;
+            position: relative;
+            &::after{
+                content: "";
+                position: absolute;
+                width: 5px;
+                height: 50px;
+                left: 15px;
+                top: -37px;
+                z-index: 100;
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-bottom: 27.6px solid $color-gray;
+            }
+        }
+        &-seeGifts{
+            background-color: $color-bg-primary;
+            color: var(--background-color);
+            border-radius: 5px;
+        }
+        &-parameter{
+            padding-top: 10px;
+            border-top: 1px solid $color-gray;
+            height: 90px;
+            &-box{
+                border-right: 1px solid $color-gray;
+                &-main,
+                &-mainUser{
+                    background-color: $color-gold;
+                    padding: 6px;
+                    border-radius: 10px;
+                    color: white;
+                    font-weight: 500;
+                }
+                &-mainUser{
+                    background-color: $color-blue !important;
+                }
+            }
+            &-second,
+            &-secondUser{
+                background-color: #fffae9;
+                padding: 6px;
+                border-radius: 10px;
+                color: $color-gold;
+                font-weight: 500;
+            }
+            &-secondUser{
+                background-color: #ebf1fd !important; 
+                color: $color-blue !important;
+            }
+        }
+    }
+}

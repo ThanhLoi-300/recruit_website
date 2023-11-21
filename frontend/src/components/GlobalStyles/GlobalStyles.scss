@@ -124,7 +124,7 @@ body {
 .css-1fxr68j-MuiTableCell-root,
 .css-1ex1afd-MuiTableCell-root{
     border: 1px solid #ccc;
-    font-size: 1.4rem !important;
+    font-size: 1.25rem !important;
     font-family: var(--var-font-family) !important;
 }
 .css-11xur9t-MuiPaper-root-MuiTableContainer-root{
@@ -146,4 +146,13 @@ body {
 }
 .css-1it3gd4-MuiTableRow-nameJobs{
     width: 215px;
+}
+// 
+.css-13aj3tc-MuiChartsSurface-root{
+    width: 100%;
+    height: 250px;
+}
+.css-1k2u9zb-MuiChartsAxis-root .MuiChartsAxis-label{
+    font-weight: 600 !important;
+    font-family: var(--var-font-family) !important;
 }

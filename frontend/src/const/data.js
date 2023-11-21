@@ -273,7 +273,7 @@ const DATA_SIDEBAR = [
         id: 3,
         name: 'Tin tuyển dụng',
         icon: faBookOpen,
-        status: true,
+        status: false,
         path: '/app/company-required'
     },
     {

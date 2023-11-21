@@ -45,6 +45,25 @@ const createJob = createAsyncThunk('createJob',async(body)=> {
     }
 });
 
+// HANDLE GET LIST JOB RECRUITER
+const getListJobByRecruiter = createAsyncThunk('getListJobByRecruiter',async(body)=> {
+    try {
+        const res = await fetch(URL_API + 'api/job/searchJobByIdRecruiter', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
 const jobSlice = createSlice({
     name: "job",
     initialState,
@@ -82,12 +101,24 @@ const jobSlice = createSlice({
         builder.addCase(createJob.rejected,(state,action) => {
             state.isLoading = true;
         });
+        // ================= CREATE JOB =================
+        builder.addCase(getListJobByRecruiter.pending,(state,action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(getListJobByRecruiter.fulfilled,(state,action) => {
+            state.isLoading = false;
+        });
+        builder.addCase(getListJobByRecruiter.rejected,(state,action) => {
+            state.isLoading = true;
+        });
     }
 });
  
 export default jobSlice.reducer;
 export {
     // CREATE JOB
-    createJob
+    createJob,
+    // GET LIST JOB RECRUITER
+    getListJobByRecruiter
 };
 export const {updateJob} = jobSlice.actions; 
