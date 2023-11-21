@@ -45,6 +45,7 @@ const saveFollowList = async (req, res) => {
 }
 
 const LoadFollowList = async (req, res) => {
+    console.log(req.params.idUser)
     try {
         const response = await JobService.loadFollowList(req.params.idUser)
         return res.status(200).json(response)
