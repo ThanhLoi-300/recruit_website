@@ -1,9 +1,12 @@
 import classNames from "classnames/bind";
+import "./Home.scss";
 import styles from "./Home.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faChevronLeft, faChevronRight, faFilter} from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faFilter} from "@fortawesome/free-solid-svg-icons";
 import Carousel from "nuka-carousel"
 import images from "~/assets/images";
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 import { useEffect, useState } from "react";
 import { DATA_FILTER_A_LOT } from "~/const/province";
 import { Link } from "react-router-dom";
@@ -13,17 +16,46 @@ import { LIST_BRANDING, LIST_CAREER, LIST_YOURSELF } from "~/const/data";
 import ForwardForm from "~/components/form/foward/foward";
 import JobSearch from "~/components/form/JobSearch/JobSearch";
 import { Filter } from "~/components/popper/Filter";
-import { useSelector } from "react-redux";
-import useUser from "~/hooks/useUser";
+import { useDispatch, useSelector } from "react-redux";
+import { searchJob } from "~/redux/jobSlice";
 function Home() {
     const cx=classNames.bind(styles);
     const [isShowFilterALot,setShowFilterALot] = useState(false);
     const [valueChooseFilterALot,setValueChooseFilterALot] = useState('Địa điểm');
-    const {handleGetDetailsUser,detailInfoUser} = useUser();
-
+    const [valuePagination,setValuePagination] = useState({
+        pageSize: 6,
+        page:1
+    });
+    const [valueTotalPage,setValueTotalPage] = useState(0);
+    const [valueListBestJob,setValueListBestJob] = useState([]);
+    const dispatch = useDispatch();
     const handleClickFilterALot = () => {
         setShowFilterALot(!isShowFilterALot);
     };
+
+    const handleSearchJobs = async (props) =>{
+        const {pageSize , page} = props;
+        return await dispatch(searchJob({
+            pageSize: pageSize,
+            page: page
+        }))
+    }
+
+    const handleChangePagination = (event, value) => {
+        setValuePagination({...valuePagination, page: value});
+    }
+
+    useEffect(() => {
+        handleSearchJobs({pageSize : valuePagination.pageSize , page : valuePagination.page}).then((item) => {
+            if(item && item.payload){
+                const {message,status,page,totalPages,jobs} = item.payload;
+                if(message === "SUCCESS" && status === "OK"){
+                    setValueListBestJob(jobs);
+                    setValueTotalPage(totalPages);
+                }
+            }
+        });
+    },[valuePagination]);
     return (  
         <div className={cx('wrapper','')}>
             <div className={cx('wrapper__banner','text-center px-32')}>
@@ -88,28 +120,17 @@ function Home() {
                         <MultipleItems/>
                     </div>
                     <div className={cx('grid grid-cols-3 gap-4 mt-7')}>
-                        <JobsWrapper/>
-                        <JobsWrapper/>
-                        <JobsWrapper/>
-                        <JobsWrapper/>
-                        <JobsWrapper/>
-                        <JobsWrapper/>
-                        <JobsWrapper/>
-                        <JobsWrapper/>
-                        <JobsWrapper/>
-                        <JobsWrapper/>
-                        <JobsWrapper/>
-                        <JobsWrapper/>
+                        {
+                            valueListBestJob && valueListBestJob.map((item,index) => {
+                                return <JobsWrapper key={index} data={item}/>
+                            })
+                        }
                     </div>
                 </div>
                 <div className={cx('wrapper__bestJob-pagination','flex items-center justify-center mt-12')}>
-                    <FontAwesomeIcon className={cx('wrapper__bestJob-pagination-prev','mr-4')} icon={faChevronLeft}/>
-                    <div className={cx('wrapper__bestJob-pagination-center','')}>
-                        <span className="text-primaryColor">2</span>
-                        <span className="mx-3">/</span>
-                        <span>44 trang</span>
-                    </div>
-                    <FontAwesomeIcon className={cx('wrapper__bestJob-pagination-next','ml-4')} icon={faChevronRight}/>
+                    <Stack spacing={2}>
+                        <Pagination count={valueTotalPage} color="primary" onChange={handleChangePagination}/>
+                    </Stack>
                 </div>
             </div>
             <div className={cx('wrapper__outstandingCareer','px-32 pb-10')}>
@@ -176,7 +197,6 @@ function Home() {
                     </div>
                 </div>
             </div>
-            
         </div>
     )
 }

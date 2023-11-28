@@ -1,0 +1,22 @@
+.wrapper{
+    height: 100%;
+    overflow-y: scroll;
+    background-color: #f1f2f6;
+    border-bottom: 1px solid #ccc;
+    &__header{
+        &-background{
+            height: 220px;
+        }
+        &-avatar{
+            border: 1px solid #ccc;
+            position: absolute;
+            top: -50px;
+        }
+        &-follow{
+            background: var(--background-color);
+            padding: 10px;
+            color: white;
+            border-radius: 10px;
+        }
+    }
+}

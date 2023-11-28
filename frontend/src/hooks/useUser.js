@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDetailUser } from "~/redux/authSlice";
+import { getDetailUser, logOutUser } from "~/redux/authSlice";
+import { useNavigate } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
 export default function useUser() {
     const dispatch = useDispatch();
     const [obDetailInfoUser,setDetailInfoUser] = useState({});
     const state = useSelector(state => state.auth);
-    
+    const navigate = useNavigate();
     const handleDecoded = () => {
         let storageData = state.token || localStorage.getItem('token');
         let decoded = {}
-        if (storageData !== 'undefined') {
+        if (storageData !== 'undefined' && storageData !== null) {
             decoded = jwtDecode(storageData);
         }
         return { decoded, storageData }
@@ -25,6 +26,11 @@ export default function useUser() {
         }   
     }
 
+    const handleLogOutUser = () => {
+        dispatch(logOutUser());
+        window.location.reload();
+    }
+
     useEffect(() => {
         try {
             const { storageData, decoded } = handleDecoded()
@@ -36,5 +42,5 @@ export default function useUser() {
         }
     },[]);
 
-    return {handleGetDetailsUser,obDetailInfoUser}
+    return {handleGetDetailsUser,obDetailInfoUser,handleLogOutUser}
 }
