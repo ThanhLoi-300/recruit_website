@@ -8,10 +8,20 @@
         cursor: pointer;
         border-color: var(--background-color) !important;
         box-shadow: 0 10px 30px rgba(14,166,59,.2);
+        background-color: #fdf6fd;
+        
+    }
+    &:hover &__see{
+        &-seeBox{
+            display: flex;
+            transform: translateY(0)!important;
+        }   
+        
     }
     &__header{
         &-img{
             width: 20%;
+            border: 1px solid #ccc;
         }
         &-content{
             width: 80%;
@@ -22,7 +32,7 @@
                 white-space: nowrap; 
                 text-overflow: ellipsis;
                 font-size: 1.4rem;
-                margin-left: 10px;
+                margin-left: 20px;
             }
         }
     }
@@ -35,6 +45,31 @@
             border: 1px solid #e9eaec;
             background: #e9eaec;
             border-radius: 5px;
+        }
+        &-wage{
+            background: var(--background-color);
+            color: white;
+        }
+    }
+    &__see{
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        
+        &-seeBox{
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            border: 1px solid var(--background-color);
+            border-radius: 5px;
+            background: #f8e4fb;
+            color: var(--background-color);
+            font-weight: 500;
+            margin-right: 20px;
+            transition: translateY(101%);
+            transition: transform .4s;
+            display: none;
         }
     }
 }

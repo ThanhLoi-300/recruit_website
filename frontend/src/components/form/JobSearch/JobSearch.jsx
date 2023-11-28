@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { DATA_EXPERIENCE, DATA_WAGE } from "~/const/province";
 import { getProvince } from "~/redux/provinceSlice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 function JobSearch() {
     const cx = classNames.bind(styles);
     const [valueChooseProvince,setValueChooseProvince] = useState('Tất cả tỉnh/thành phố');
@@ -18,6 +19,7 @@ function JobSearch() {
     const [isShowProvince,setShowProvince] = useState(false);
     const [isShowExperience,setShowExperience] = useState(false);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const handleClickProvince = () => {
         setShowProvince(!isShowProvince);
     };
@@ -28,6 +30,11 @@ function JobSearch() {
 
     const handleClickWage = () => {
         setShowWage(!isShowWage);
+    };
+
+    const handleCLickSearchJobs = (e) => {
+        e.preventDefault();
+        navigate('/latest-jobs');
     };
 
     useEffect(() => {
@@ -101,6 +108,7 @@ function JobSearch() {
             <button
                 className={cx('wrapper__filter-btn')}
                 type="submit"
+                onClick={handleCLickSearchJobs}
             >
                 Tìm kiếm
             </button>

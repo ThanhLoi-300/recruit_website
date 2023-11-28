@@ -9,7 +9,7 @@ router.post("/loadFollowList/:idUser", jobController.LoadFollowList)
 router.post("/deleteFollowList/:idJob/:idUser", jobController.deleteFollowList)
 router.post("/updateJob/:idJob", jobController.updateJob)
 router.post("/deleteJob/:idJob", jobController.deleteJob)
-router.get("/searchJob", jobController.searchJob)
+router.post("/searchJob", jobController.searchJob)
 router.post("/searchJobByIdRecruiter",jobController. searchJobByIdRecruiter)
 
 module.exports = router

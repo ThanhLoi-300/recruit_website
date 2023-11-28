@@ -1,0 +1,23 @@
+.css-1160xiw-MuiPaper-root-MuiDrawer-paper{
+    width: 400px;
+    background-color: #f2f2f2 !important;
+}
+.wrapper{
+    &__drawerMenu{
+        & li{
+            padding: 10px 20px;
+            background: white !important;
+            border-radius: 5px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--background-color);
+            margin: 10px 0;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+            &:hover{
+                cursor: pointer;
+                //background: var(--background-color) !important;
+                //color: white;
+            }
+        }
+    }
+}

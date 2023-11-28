@@ -45,7 +45,7 @@ function Login() {
                 email: valueEmailIp.name,
                 password: valuePasswordIp.name
             })).then((item) => {
-                const {message,status} = item.payload ?  item.payload : {};
+                const {message,status , role} = item.payload ?  item.payload : {};
                 if(message === 'Input must be email' && status === 'ERR'){
                     setIsLoadingLogin(false);
                     setValueEmailIp({...valueEmailIp , msg : 'Email không hợp lệ!' , state: false});
@@ -59,11 +59,14 @@ function Login() {
                     setValuePasswordIp({...valueEmailIp , msg : 'Mật khẩu không đúng!' , state: false});
                 }
                 if(message === 'Login is success' && status === 'OK'){
-                    console.log(1);
                     const timer = setTimeout(() =>{
                         setIsLoadingLogin(state.isLoading);
-                        navigate('/');
-                    },3000);
+                        if(role === "Recruiter"){
+                            navigate('/app/dashboard');
+                        } else if(role === "User"){
+                            navigate('/');
+                        }
+                    },2000);
                     return () => clearTimeout(timer);
                 }
             })

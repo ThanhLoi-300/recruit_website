@@ -26,7 +26,7 @@ const  initialState = {
     msg:'',
 }
 
-// HANDLE REGISTER USER
+// CREATE JOB
 const createJob = createAsyncThunk('createJob',async(body)=> {
     try {
         const res = await fetch(URL_API + 'api/job/createJob', {
@@ -49,6 +49,25 @@ const createJob = createAsyncThunk('createJob',async(body)=> {
 const getListJobByRecruiter = createAsyncThunk('getListJobByRecruiter',async(body)=> {
     try {
         const res = await fetch(URL_API + 'api/job/searchJobByIdRecruiter', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
+// HANDLE GET LIST JOB RECRUITER
+const searchJob = createAsyncThunk('searchJob',async(body)=> {
+    try {
+        const res = await fetch(URL_API + 'api/job/searchJob', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -119,6 +138,8 @@ export {
     // CREATE JOB
     createJob,
     // GET LIST JOB RECRUITER
-    getListJobByRecruiter
+    getListJobByRecruiter,
+    // SEARCH JOBS
+    searchJob
 };
 export const {updateJob} = jobSlice.actions; 

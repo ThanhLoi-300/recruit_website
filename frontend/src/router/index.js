@@ -13,6 +13,7 @@ import CreateJob from "~/pages/Recruitment/ManageRecruitment/CreateJob";
 import Dashboard from "~/pages/Recruitment/Dashboard";
 import ManageRecruitment from "~/pages/Recruitment/ManageRecruitment";
 import ManageRecruitmentLayout from "~/pages/Recruitment/ManageRecruitment/ManageRecruitmentLayout";
+import Brand from "~/pages/Brand";
 
 const publicRoutes =[
     {   
@@ -24,6 +25,12 @@ const publicRoutes =[
         path: '/sign-up', 
         component: Register,
         name: 'Đăng ký tài khoản',
+    },
+    {   
+        path: '/brand', 
+        component: Brand,
+        name: 'Công ty',
+        layout: 'BrandLayout'
     }
 ];
 const privateRoutes =[

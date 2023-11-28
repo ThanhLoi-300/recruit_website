@@ -7,6 +7,7 @@ import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProfileLayout from "./components/layouts/ProfileLayout/ProfileLayout";
 import RecruitmentLayout from "./components/layouts/RecruitmentLayout";
+import BrandLayout from "./components/layouts/BrandLayout";
 function App() {
   return (
       <Router>
@@ -15,7 +16,21 @@ function App() {
             {
               publicRoutes.map((route,index) => {
                 const Layout = route.layout === null ? Fragment : AuthLayout;
+                const BrandLayouts = route.layout === null ? Fragment : BrandLayout;
                 const Page = route.component;
+                if(route.layout && route.layout === "BrandLayout"){
+                  return (
+                    <Route 
+                      key={index} 
+                      path={route.path} 
+                      element={
+                        <BrandLayouts>
+                          <Page/>
+                        </BrandLayouts>
+                      }
+                    />
+                  ) 
+                } else {
                   return (
                     <Route 
                       key={index} 
@@ -26,7 +41,8 @@ function App() {
                         </Layout>
                       }
                     />
-                  ) 
+                  )
+                } 
               })
             }
             {

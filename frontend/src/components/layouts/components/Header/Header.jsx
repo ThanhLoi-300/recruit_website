@@ -3,9 +3,27 @@ import styles from './Header.module.scss';
 import { faBars, faMessage, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import DrawerMenu from "~/components/drawer/components/DrawerMenu";
+import useUser from "~/hooks/useUser";
 function Header() {
     const cx = classNames.bind(styles);
+    const [isShowDrawerMenu,setIsShowDrawerMenu] = useState(false);
+    const [isCheckLogin , setIsCheckLogin] = useState();
+    const {obDetailInfoUser} = useUser();
+    
+    const handleClickShowDrawerMenu = () => {
+        setIsShowDrawerMenu(true);
+    }
 
+    useEffect(() => {
+        if(obDetailInfoUser && obDetailInfoUser._id && obDetailInfoUser.role === "User"){
+            setIsCheckLogin(true);
+        } else {
+            setIsCheckLogin(false);
+        }
+       
+    },[obDetailInfoUser]);
     return (  
         <header className={cx('wrapper','flex items-center justify-between px-24')}>
             <Link to={'/'} className={cx('wrapper__logo')}>
@@ -23,9 +41,14 @@ function Header() {
                     <FontAwesomeIcon className={cx('wrapper__user-icon')} icon={faMessage}/>
                 </div>
                 <div className={cx('wrapper__user')}>
-                    <FontAwesomeIcon className={cx('wrapper__user-icon')} icon={faBars}/>
+                    <FontAwesomeIcon
+                        className={cx('wrapper__user-icon')} 
+                        icon={faBars}
+                        onClick={handleClickShowDrawerMenu}
+                    />
                 </div>
             </div>
+            { isShowDrawerMenu ? <DrawerMenu isLogin={isCheckLogin} data={obDetailInfoUser} isOpen={isShowDrawerMenu} onClose={(e) => setIsShowDrawerMenu(e)}/> : ''}
         </header>
     );
 }
