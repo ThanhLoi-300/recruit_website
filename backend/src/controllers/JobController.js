@@ -103,6 +103,19 @@ const deleteJob = async (req, res) => {
     }
 }
 
+const getJobByUser = async(req, res) => {
+    try {
+        console.log("hihi")
+        const response = await JobService.getJobByUser(req.params.jobId)
+        console.log("manh dtrzi")
+        return res.status(200).json(response)
+    } catch (e) {
+        return res.status(404).json({
+            message: e
+        })
+    }
+}
+
 module.exports = {
     createJob,
     jobDetail,
@@ -111,5 +124,5 @@ module.exports = {
     deleteFollowList,
     updateJob,
     deleteJob,
-    
+    getJobByUser,
 }
