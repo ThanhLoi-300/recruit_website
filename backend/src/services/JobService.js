@@ -299,6 +299,22 @@ const searchJobByIdRecruiter = async (searchCondition) => {
   }
 };
 
+const getJobByUser = async (jobId) => {
+    try {
+        const job = await Job.findById(jobId).populate('userId').exec();
+        // job now contains information about the job and the associated user
+        console.log(job);
+        return {
+            status: "OK",
+            message: "SUCCESS",
+            data: job,
+        };
+    } catch (err) {
+        console.error(err);
+        throw err; // rethrow the error to be caught by the calling function
+    }
+};
+
 
 
 module.exports = {
@@ -310,6 +326,7 @@ module.exports = {
   updateJob,
   deleteJob,
   searchJob,
-  searchJobByIdRecruiter
+  searchJobByIdRecruiter,
+  getJobByUser,
 };
 

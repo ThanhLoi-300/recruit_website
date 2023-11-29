@@ -11,5 +11,6 @@ router.post("/updateJob/:idJob", jobController.updateJob)
 router.post("/deleteJob/:idJob", jobController.deleteJob)
 router.post("/searchJob", jobController.searchJob)
 router.post("/searchJobByIdRecruiter",jobController. searchJobByIdRecruiter)
+router.post("/getJobByUser/:jobId", jobController.getJobByUser)
 
 module.exports = router
