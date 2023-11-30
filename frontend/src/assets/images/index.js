@@ -18,5 +18,6 @@ const images = {
     calculator: require('~/assets/images/calculator_9614419.png'),
     user: require('~/assets/images/352771976_1767135150409702_6276671835276624372_n.jpg'),
     logo_edu: require('~/assets/images/logo_edu.png'),
+    upLoadCloud: require('~/assets/images/upload-cloud.webp'),
 };
 export default images;
