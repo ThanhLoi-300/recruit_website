@@ -1,0 +1,51 @@
+.wrapper{
+    &__search{
+        background: var(--linear-gradient); 
+    }
+    &__left{
+        width: 70%;
+        &-header{
+            &-icon{
+                background: var(--linear-gradient);
+                color: white;
+                padding: 12px;
+                border-radius: 50%;
+            }
+            &-deadline{
+                background: #dad3d3;
+                width: 32%;
+                padding: 5px;
+                border-radius: 5px;
+            }
+        }
+        &-detailJob{
+            &-jobDescription{
+                & ul {
+                    list-style-type: disc;
+                }
+            }
+        }
+    }   
+    &__right{
+        width: 30%;
+        &-header{
+            &-icon{
+                width: 15px;
+                height: 15px;
+                background: var(--linear-gradient);
+                color: white;
+                padding: 12px;
+                border-radius: 50%;
+            }
+            &-groups{
+                color: #7f878f;
+                font-weight: 500;
+            }
+            &-career{
+                background: #dad3d3;
+                padding: 5px;
+                border-radius: 5px;
+            }
+        }
+    }
+}

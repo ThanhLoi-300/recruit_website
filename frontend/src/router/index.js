@@ -6,7 +6,6 @@ import Profile from "~/pages/Profile";
 import SettingsProfile from "~/pages/Profile/components/SettingsProfile";
 import Account from "~/pages/Recruitment/Account";
 import SettingsCompany from "~/pages/Recruitment/Account/components/Company";
-import Company from "~/pages/Recruitment/Account/components/Company";
 import SettingsAccount from "~/pages/Recruitment/Account/components/SettingsAccount";
 import CompanyRequired from "~/pages/Recruitment/CompanyRequired";
 import CreateJob from "~/pages/Recruitment/ManageRecruitment/CreateJob";
@@ -14,6 +13,7 @@ import Dashboard from "~/pages/Recruitment/Dashboard";
 import ManageRecruitment from "~/pages/Recruitment/ManageRecruitment";
 import ManageRecruitmentLayout from "~/pages/Recruitment/ManageRecruitment/ManageRecruitmentLayout";
 import Brand from "~/pages/Brand";
+import Jobs from "~/pages/Jobs";
 
 const publicRoutes =[
     {   
@@ -60,6 +60,11 @@ const privateRoutes =[
         path: '/latest-jobs',
         component: LatestJobs,
         name: 'Việc làm mới nhất',
+    },
+    {
+        path: '/job',
+        component: Jobs,
+        name: 'Việc làm',
     },
     {
         path: '/app/*',
