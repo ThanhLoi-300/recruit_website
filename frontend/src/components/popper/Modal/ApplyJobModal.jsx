@@ -2,7 +2,7 @@ import * as React from 'react';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClose, faFileArrowUp, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faClose, faFileArrowUp } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
 import styles from "./ApplyJobModal.module.scss";
 import images from '~/assets/images';
@@ -17,13 +17,15 @@ const style = {
   borderRadius: '5px',
   p: '10px',
 };
-export default function ApplyJobModal({isOpen=false,onClose=undefined}) {
+export default function ApplyJobModal({isOpen=false,onClose=undefined,data}) {
     const [open, setOpen] = React.useState(false);
     const handleClose = () => {
         onClose(false);
         setOpen(false);
     };
     const cx = classNames.bind(styles);
+
+
     React.useEffect(() => {
         if(isOpen){
             setOpen(true);
@@ -31,6 +33,11 @@ export default function ApplyJobModal({isOpen=false,onClose=undefined}) {
             setOpen(false);
         }
     },[isOpen]);
+
+    React.useEffect(() => {
+        console.log(data);
+    },[]);
+
     return (
         <Modal
             open={open}
@@ -44,7 +51,11 @@ export default function ApplyJobModal({isOpen=false,onClose=undefined}) {
             <Box sx={style}>
                 <div className={cx('wrapper')}>
                     <div className={cx('wrapper__header','flex items-center justify-start relative')}>
-                        <h1 className='text-2xl font-semibold text-black'>Ứng tuyển <span className='font-semibold text-primaryColor'>Nhân Viên Livestream Thu Nhập 15 - 25 Triệu (Đi Làm Ngay)</span></h1>
+                        <h1 className='text-2xl font-semibold text-black'>Ứng tuyển 
+                            <span className='font-semibold text-primaryColor'>
+                                {data && data.title ? ' ' + data.title : ''}
+                            </span>
+                        </h1>
                         <FontAwesomeIcon className={cx('wrapper__header-icon','absolute')} icon={faClose} onClick={handleClose}/>
                     </div>
                     <div>
