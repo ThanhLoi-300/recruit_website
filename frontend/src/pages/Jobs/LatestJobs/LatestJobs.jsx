@@ -45,9 +45,9 @@ function LatestJobs() {
         });
     },[valuePagination]);
 
-    useEffect(() => {
-        console.log(valueListBestJob);
-    },[valueListBestJob])
+    // useEffect(() => {
+    //     console.log(valueListBestJob);
+    // },[valueListBestJob])
 
     return (  
         <div className={cx('wrapper')}>
