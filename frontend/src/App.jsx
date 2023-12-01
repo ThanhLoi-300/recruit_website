@@ -24,7 +24,7 @@ function App() {
                       key={index} 
                       path={route.path} 
                       element={
-                        <BrandLayouts>
+                        <BrandLayouts>  
                           <Page/>
                         </BrandLayouts>
                       }

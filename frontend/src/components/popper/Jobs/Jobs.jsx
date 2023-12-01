@@ -6,8 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import calculateTime from '~/const/calculateTime';
 import { faChevronRight, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 function JobsWrapper({data,type=""}) {
     const cx = classNames.bind(styles);
+
     return (  
         <div className={cx('wrapper','w-full relative')}>
             <PopperWrapper>
@@ -33,22 +35,30 @@ function JobsWrapper({data,type=""}) {
                     </div>
                     <div className={cx('wrapper__info-favourite')}>
                         {
-                            type === "LatestJobs" && (<span className={cx('wrapper__info-wage','mr-7')}>Ứng tuyển</span>)
+                            type === "LatestJobs" && (
+                            <Link 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                to={data && data._id ? `/job?id=${data._id}` : ''} 
+                                className={cx('wrapper__info-wage','mr-7 z-50 border border-primaryColor hover:bg-white hover:text-primaryColor')}
+                            >
+                                Ứng tuyển
+                            </Link>)
                         }
                         <FontAwesomeIcon icon={faHeart}/>
                     </div>
+                    {
+                        type === "LatestJobs" && (
+                            <div className={cx('wrapper__see',' flex items-center')}>
+                                <div className={cx('wrapper__see-seeBox','')}>
+                                    <h3>Xem nhanh</h3>
+                                    <FontAwesomeIcon icon={faChevronRight}/>
+                                </div>
+                            </div>
+                        )
+                    }
                 </div>
             </PopperWrapper>
-            {
-                type === "LatestJobs" && (
-                    <div className={cx('wrapper__see',' flex items-center')}>
-                        <div className={cx('wrapper__see-seeBox','r')}>
-                            <h3>Xem nhanh</h3>
-                            <FontAwesomeIcon icon={faChevronRight}/>
-                        </div>
-                    </div>
-                )
-            }
         </div>
     );
 }

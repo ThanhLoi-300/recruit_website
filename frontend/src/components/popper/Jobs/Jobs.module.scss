@@ -56,20 +56,22 @@
         right: 0;
         top: 0;
         bottom: 0;
+        height: 40px;
+        margin: auto;
         
         &-seeBox{
-            display: flex;
             align-items: center;
             padding: 5px 10px;
             border: 1px solid var(--background-color);
             border-radius: 5px;
-            background: #f8e4fb;
+            background: #fef7fe;
             color: var(--background-color);
-            font-weight: 500;
+            font-weight: 600;
             margin-right: 20px;
             transition: translateY(101%);
-            transition: transform .4s;
+            transition: transform 0.4s;
             display: none;
+            font-size: 1.25rem;
         }
     }
 }

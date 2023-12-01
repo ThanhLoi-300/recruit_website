@@ -4,16 +4,43 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleDollarToSlot, faHourglass, faLocationDot, faMedal, faPlaneDeparture, faShareFromSquare, faUser, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { faClock, faHeart } from "@fortawesome/free-regular-svg-icons";
 import images from "~/assets/images";
-import { Link } from "react-router-dom";
+import { Link , useLocation  } from "react-router-dom";
+import { useDispatch} from "react-redux";
 import JobSearch from "~/components/form/JobSearch/JobSearch";
 import ApplyJobModal from "~/components/popper/Modal/ApplyJobModal";
 import { useEffect, useState } from "react";
-function Jobs() {
+import { getDetailJobById } from "~/redux/jobSlice";
+function Jobs({}) {
     const cx = classNames.bind(styles);
     const [isOpenApplyJob,setOpenApplyJob] = useState(false);
+    const [valueDetailJobs,setValueDetailJobs] = useState([]);
+    const { search } = useLocation();
+    const queryParams = new URLSearchParams(search);
+    const jobId = queryParams.get('id');
+    const dispatch = useDispatch();
     const handleClickApplyJob = () => {
         setOpenApplyJob(true);
     };
+
+    function convertDateTime(params) {
+        const dateObject = new Date(params);
+
+        const day = String(dateObject.getDate()).padStart(2, '0');
+        const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+        const year = dateObject.getFullYear()
+
+        return `${day}/${month}/${year}`;
+    }
+
+    useEffect(() => {
+        if(jobId !== null){
+            dispatch(getDetailJobById({id : jobId})).then((item) => {
+                if(item && item.payload.message === "SUCCESS" && item.payload.status === 'OK' && item.payload) setValueDetailJobs(item.payload.data);
+                //console.log(item.payload);
+                document.title =item.payload.data.title;
+            }) 
+        }
+    },[jobId]);
 
     return (  
         <div className={cx('wrapper','')}>
@@ -21,27 +48,34 @@ function Jobs() {
             <div className='flex px-40 my-4'>
                 <div className={cx('wrapper__left','')}>
                     <div className={cx('wrapper__left-header',' bg-white rounded-2xl mt-7 p-8 w-full')}>
-                        <h1 className="text-3xl font-semibold">Nhân Viên Vận Hành Sàn Thương Mại Điện Tử - Lương 9 - 11 Triệu + Phụ Cấp</h1>
+                        <h1 className="text-3xl font-semibold">{valueDetailJobs && valueDetailJobs.title ? valueDetailJobs.title : ''}</h1>
                         <ul className="flex items-center justify-between mt-4">
                             <li className="flex items-center justify-between">
                                 <FontAwesomeIcon className={cx('wrapper__left-header-icon')} icon={faCircleDollarToSlot}/>
                                 <div className="ml-4 text-xl">
                                     <h4>Mức lương</h4>
-                                    <p className="font-medium">9 - 11 triệu</p>
+                                    <p className="font-medium">{valueDetailJobs && valueDetailJobs.salary ? valueDetailJobs.salary : ''} triệu</p>
                                 </div>
                             </li>
                             <li className="flex items-center justify-between">
                                 <FontAwesomeIcon className={cx('wrapper__left-header-icon')} icon={faCircleDollarToSlot}/>
                                 <div className="ml-4 text-xl">
                                     <h4>Địa điểm</h4>
-                                    <p className="font-medium">Hà Nội</p>
+                                    <p className="font-medium">
+                                        {
+                                            valueDetailJobs && 
+                                            valueDetailJobs.userId && 
+                                            valueDetailJobs.userId.infoCompany  && 
+                                            valueDetailJobs.userId.infoCompany.areaCompany ? valueDetailJobs.userId.infoCompany.areaCompany : ''
+                                        }
+                                    </p>
                                 </div>
                             </li>
                             <li className="flex items-center justify-between">
                                 <FontAwesomeIcon className={cx('wrapper__left-header-icon')} icon={faCircleDollarToSlot}/>
                                 <div className="ml-4 text-xl">
                                     <h4>Kinh nghiệm</h4>
-                                    <p className="font-medium">Dưới 1 năm</p>
+                                    <p className="font-medium">{valueDetailJobs && valueDetailJobs.experienceYear ? valueDetailJobs.experienceYear : ''}</p>
                                 </div>
                             </li>
                         </ul>
@@ -50,14 +84,14 @@ function Jobs() {
                                 <FontAwesomeIcon icon={faClock}/>
                                 <h3 className="ml-3">Hạn nộp hồ sơ:</h3>
                             </div>
-                            <p className="ml-3">30/12/2023</p>
+                            <p className="ml-3">{valueDetailJobs && valueDetailJobs.deadlineApplication ? convertDateTime(valueDetailJobs.deadlineApplication) : ''}</p>
                         </div>
                         <div className="flex items-center text-xl">
                             <div onClick={handleClickApplyJob} className="w-4/5 flex items-center justify-center bg-primaryColor text-white px-2 py-4 rounded-lg font-semibold hover:cursor-pointer">
                                 <FontAwesomeIcon icon={faPlaneDeparture}/>
                                 <button  className="ml-4" type="text">Ứng tuyển ngay</button>
                             </div>
-                            {isOpenApplyJob ? (<ApplyJobModal isOpen={isOpenApplyJob} onClose={(e) => setOpenApplyJob(e)}/>) : ''}
+                            {isOpenApplyJob ? (<ApplyJobModal data={valueDetailJobs} isOpen={isOpenApplyJob} onClose={(e) => setOpenApplyJob(e)}/>) : ''}
                             <div className="w-1/5 flex items-center justify-center px-2 py-4 text-primaryColor border-primaryColor border rounded-lg font-semibold ml-4">
                                 <FontAwesomeIcon icon={faHeart}/>
                                 <button className="ml-4" type="text">Lưu tin</button>
@@ -105,22 +139,29 @@ function Jobs() {
                 <div className={cx('wrapper__right','ml-4')}>
                     <div className={cx('wrapper__right-header','bg-white rounded-2xl mt-7  p-8')}>
                         <div className="flex">
-                            <img className="w-28 h-w-28 border border-gray rounded-lg" src={images.banner} alt="banner company"/>
-                            <h1 className="ml-4">Công ty TNHH ZYO RUBIK</h1>
+                            <img className="w-28 h-w-28 border border-gray rounded-lg" src={valueDetailJobs && valueDetailJobs.logoLink ? valueDetailJobs.logoLink : images.banner} alt="banner company"/>
+                            <h1 className="ml-4 font-semibold">{valueDetailJobs && valueDetailJobs.nameCompany ? valueDetailJobs.nameCompany : ''}</h1>
                         </div>
                         <div className="flex text-xl mt-7">
                             <div className={cx('wrapper__right-header-groups',"flex items-center w-4/12")}>
                                 <FontAwesomeIcon icon={faUserGroup}/>
                                 <div className="ml-4">Quy mô:</div>
                             </div>
-                            <p className="w-8/12 font-medium">25-99 nhân viên</p>
+                            <p className="w-8/12 font-medium">
+                                {
+                                    valueDetailJobs && 
+                                    valueDetailJobs.userId && 
+                                    valueDetailJobs.userId.infoCompany  && 
+                                    valueDetailJobs.userId.infoCompany.scale ? valueDetailJobs.userId.infoCompany.scale : 'Không có'
+                                }
+                            </p>
                         </div>
                         <div className="flex text-xl mt-5">
                             <div className={cx('wrapper__right-header-groups',"flex items-center w-4/12")}>
                                 <FontAwesomeIcon icon={faLocationDot}/>
                                 <div className="ml-4">Địa điểm:</div>
                             </div>
-                            <p className="w-8/12 font-medium">Số 7 Nguyễn Văn Tuyết, Đống Đa, Hà Nội</p>
+                            <p className="w-8/12 font-medium">{valueDetailJobs && valueDetailJobs.address ? valueDetailJobs.address : ''}</p>
                         </div>
                         <Link to={'/brand'} className="flex items-center justify-center text-xl mt-7 text-primaryColor font-semibold underline">
                             Xem trang công ty
@@ -133,35 +174,41 @@ function Jobs() {
                             <FontAwesomeIcon className={cx('wrapper__right-header-icon')} icon={faMedal}/>
                             <div className="font-medium ml-4">
                                 <span>Cấp bậc</span><br></br>
-                                <span className="font-semibold mt-3">Nhân viên</span>
+                                <span className="font-semibold mt-3">{valueDetailJobs && valueDetailJobs.level ? valueDetailJobs.level : 'Không có'}</span>
                             </div>
                         </div>
                         <div className="flex items-center text-xl mt-7">
                             <FontAwesomeIcon className={cx('wrapper__right-header-icon')} icon={faHourglass}/>
                             <div className="font-medium ml-4">
                                 <span>Kinh nghiệm</span><br></br>
-                                <span className="font-semibold mt-3">Không yêu cầu kinh nghiệm</span>
+                                <span className="font-semibold mt-3">
+                                    {valueDetailJobs && valueDetailJobs.experienceYear ? valueDetailJobs.experienceYear + " năm kinh nghiêm" : 'Không yêu cầu kinh nghiệm'}
+                                </span>
                             </div>
                         </div>
                         <div className="flex items-center text-xl mt-7">
                             <FontAwesomeIcon className={cx('wrapper__right-header-icon')} icon={faHourglass}/>
                             <div className="font-medium ml-4">
                                 <span>Số lượng tuyển</span><br></br>
-                                <span className="font-semibold mt-3">3 người</span>
+                                <span className="font-semibold mt-3">
+                                    {valueDetailJobs && valueDetailJobs.quantityRecruit ? valueDetailJobs.quantityRecruit: ''} người
+                                </span>
                             </div>
                         </div>
                         <div className="flex items-center text-xl mt-7">
                             <FontAwesomeIcon className={cx('wrapper__right-header-icon')} icon={faUserGroup}/>
                             <div className="font-medium ml-4">
                                 <span>Hình thức làm việc</span><br></br>
-                                <span className="font-semibold mt-3">Toàn thời gian</span>
+                                <span className="font-semibold mt-3">
+                                    {valueDetailJobs && valueDetailJobs.typeJob ? valueDetailJobs.typeJob: ''}
+                                </span>
                             </div>
                         </div>
                         <div className="flex items-center text-xl mt-7">
                             <FontAwesomeIcon className={cx('wrapper__right-header-icon')} icon={faUser}/>
                             <div className="font-medium ml-4">
                                 <span>Giới tính</span><br></br>
-                                <span className="font-semibold mt-3">Nữ</span>
+                                <span className="font-semibold mt-3">Toàn bộ</span>
                             </div>
                         </div>
                     </div>

@@ -303,7 +303,6 @@ const getJobByUser = async (jobId) => {
     try {
         const job = await Job.findById(jobId).populate('userId').exec();
         // job now contains information about the job and the associated user
-        console.log(job);
         return {
             status: "OK",
             message: "SUCCESS",
