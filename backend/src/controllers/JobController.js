@@ -127,6 +127,17 @@ const getJobByUser = async(req, res) => {
     }
 }
 
+const getJobRandom = async(req, res) => {
+    try {
+        const response = await JobService.getJobRandom()
+        return res.status(200).json(response)
+    } catch (e) {
+        return res.status(404).json({
+            message: e
+        })
+    }
+}
+
 
 module.exports = {
     createJob,
@@ -139,4 +150,5 @@ module.exports = {
     deleteJob,
     searchJobByIdRecruiter,
     getJobByUser,
+    getJobRandom
 }
