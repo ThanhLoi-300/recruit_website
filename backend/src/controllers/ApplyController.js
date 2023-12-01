@@ -3,7 +3,6 @@ const applyService = require("../services/ApplyService")
 
 const createApply = async (req, res) => {
     try {
-        console.log("nhiii xinh trai")
         const { fileCv,
             userId,
             jobId

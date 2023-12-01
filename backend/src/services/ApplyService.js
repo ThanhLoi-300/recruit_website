@@ -4,7 +4,6 @@ const User = require("../models/UserModel");
 const createApply = (apply) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log("nhi cute")
             const { fileCv,
                 applyDate,
                 statusSeen,
