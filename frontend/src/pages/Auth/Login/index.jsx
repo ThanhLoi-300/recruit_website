@@ -33,12 +33,8 @@ function Login() {
 
     const handleClickSignIn = (e) => {
         e.preventDefault();
-        if(valueEmailIp.name === ''){
-            setValueEmailIp({...valueEmailIp , msg : 'Vui lòng nhập email!' , state: false});
-        }
-        if(valuePasswordIp.name === ''){
-            setValuePasswordIp({...valuePasswordIp , msg : 'Vui lòng nhập mật khẩu!' , state: false});
-        }
+        if(valueEmailIp.name === '') setValueEmailIp({...valueEmailIp , msg : 'Vui lòng nhập email!' , state: false});
+        if(valuePasswordIp.name === '') setValuePasswordIp({...valuePasswordIp , msg : 'Vui lòng nhập mật khẩu!' , state: false});
         if(valueEmailIp.name !== '' && valuePasswordIp.name !== ''){
             setIsLoadingLogin(true);
             dispatch(signInUser({

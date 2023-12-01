@@ -16,7 +16,8 @@ module.exports = {
         'filter' : '#606266',
         'btn-table' : '#eccaf1',
         'color-drawer':'#6f7882',
-        'tab-bg-second' : '#ececec'
+        'tab-bg-second' : '#ececec',
+        'error': '#c72c31'
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
