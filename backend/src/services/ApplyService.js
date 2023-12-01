@@ -28,7 +28,38 @@ const createApply = (apply) => {
     });
 };
 
+const searchAppliesByJobId = async (searchCondition) => {
+  try {
+    let { page = 1, pageSize, jobId } = searchCondition;
+
+    if (!jobId) {
+      // Reject the promise if jobId is not provided
+      return Promise.reject("Job ID is required for the search.");
+    }
+
+      let applies = await Apply.find();
+       applies = applies.filter((apply) => apply.jobId == jobId["$oid"]);
+
+    const totalApplies = applies.length;
+    const totalPages = Math.ceil(totalApplies / pageSize);
+    applies = applies.slice((page - 1) * pageSize, page * pageSize);
+
+    return {
+      status: "OK",
+      message: "SUCCESS",
+      applies,
+      totalPages,
+      page,
+    };
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
+
+
 module.exports = {
-    createApply,
+  createApply,
+  searchAppliesByJobId,
 };
 

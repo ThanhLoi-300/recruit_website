@@ -22,6 +22,20 @@ const createApply = async (req, res) => {
     }
 }
 
+
+const searchAppliesByJobId = async (req, res) => {
+  try {
+    const response = await applyService.searchAppliesByJobId(req.body);
+    return res.status(200).json(response);
+  } catch (e) {
+    return res.status(404).json({
+      message: e,
+    });
+  }
+};
+
+
 module.exports = {
-    createApply,
-}
+  createApply,
+  searchAppliesByJobId,
+};
