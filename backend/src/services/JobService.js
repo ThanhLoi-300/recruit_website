@@ -262,7 +262,10 @@ const searchJob = (searchCondition) => {
               .toLowerCase()
               .normalize("NFD")
               .replace(/[\u0300-\u036f]/g, "");
-            return jobLowerAndNormalize.includes(keywordLowerAndNormalize);
+            const careerType = job.careerType.toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "");
+            return jobLowerAndNormalize.includes(keywordLowerAndNormalize) || careerType.includes(keywordLowerAndNormalize);
           });
         }
 
@@ -285,11 +288,6 @@ const searchJob = (searchCondition) => {
         }
 
         if (salary) {
-        //   jobs = jobs.filter(
-        //     (job) =>
-        //       job.salary >= salary - 5000000 && job.salary <= salary + 5000000
-            //   );
-
             jobs = jobs.filter((job) => {
                 const regex = /(\d+)\s*-\s*(\d+)\s*triệu/;
                 const match = job.salary.match(regex);
