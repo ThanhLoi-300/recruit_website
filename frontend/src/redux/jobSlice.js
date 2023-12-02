@@ -103,6 +103,24 @@ const getDetailJobById = createAsyncThunk('getDetailJobById',async(body)=> {
     }
 });
 
+// HANDLE GET JOB RANDOM
+const getJobRandom = createAsyncThunk('getJobRandom',async()=> {
+    try {
+        const res = await fetch(URL_API + 'api/job/getJobRandom', {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
 const jobSlice = createSlice({
     name: "job",
     initialState,
@@ -162,6 +180,8 @@ export {
     // SEARCH JOBS
     searchJob,
     // GET DETAIL JOBS BY ID
-    getDetailJobById
+    getDetailJobById,
+    // GET JOB RANDOM
+    getJobRandom
 };
 export const {updateJob} = jobSlice.actions; 

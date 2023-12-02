@@ -56,6 +56,7 @@ function Home() {
             }
         });
     },[valuePagination]);
+
     return (  
         <div className={cx('wrapper','')}>
             <div className={cx('wrapper__banner','text-center px-32')}>
@@ -66,7 +67,7 @@ function Home() {
                         tin tuyển dụng việc làm mỗi ngày từ hàng nghìn doanh nghiệp uy tín tại Việt Nam
                     </p>
                 </div>
-                <JobSearch/>
+                <JobSearch type={'home'}/>
                 <ul className={cx('wrapper__recruitmentData','flex items-center justify-center py-10')}>
                     <li>
                         Vị trí chờ bạn khám phá

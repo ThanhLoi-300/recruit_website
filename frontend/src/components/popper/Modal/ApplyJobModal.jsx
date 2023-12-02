@@ -62,12 +62,28 @@ export default function ApplyJobModal({isOpen=false,onClose=undefined,data}) {
     };
 
     const handleOnChangeFileUploadCvUser = (e) => {
-        setValueFileUpLoad({fileName : e.target.files[0]});
-    }
+        const selectedFile = e.target.files[0];
+        const allowedFileTypes = ['pdf', 'doc', 'docx'];    
+        if (selectedFile) {
+            const fileExtension = selectedFile.name.split('.').pop().toLowerCase();
+            if (allowedFileTypes.includes(fileExtension)) {
+                setValueFileUpLoad({fileName : selectedFile});
+            } else {
+                Toast({
+                    type: 'error',
+                    content: 'Không đúng định dạng',
+                    position: 'bottom-right',
+                    autoClose: 2000,
+                    limit: 1,
+                    des: 'edit',
+                });
+            }
+        }
+    };
 
     const handleRemoveFileUpload = () => {
         setValueFileUpLoad({...valueFileUpLoad , fileName: {name : ''}});
-    }
+    };
 
     // HANDLE UPLOAD FILE TO FIREBASE
     const upLoadFileToFireBase = (valueIdUser, imageUpload,typeFile) => {
@@ -120,7 +136,7 @@ export default function ApplyJobModal({isOpen=false,onClose=undefined,data}) {
                 })
             })
         }
-    }
+    };
 
     React.useEffect(() => {
         if(isOpen){

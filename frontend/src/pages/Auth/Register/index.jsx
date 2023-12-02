@@ -11,7 +11,7 @@ import { Filter } from '~/components/popper/Filter';
 import { getProvince } from '~/redux/provinceSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import DrawerForm from '~/components/drawer/DrawerForm';
+import ModalBoxOTP from '~/components/drawer/ModalBoxOTP';
 function Register() {
     const cx = classNames.bind(styles);
     const [listProvince, setListProvince] = useState([]);
@@ -59,10 +59,6 @@ function Register() {
 
     const handleDrawerOpen = () => {
         setIsDrawerOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setIsDrawerOpen(false);
     };
 
     // HANDLE CHOOSE ROLE TO USER
@@ -357,12 +353,12 @@ function Register() {
                     loading={isLoadingSignUp}
                 />
             </div>
-            <DrawerForm
+            <ModalBoxOTP
                 isOpen={isDrawerOpen}
-                onClose={handleDrawerClose}
+                onClose={(e) =>  setIsDrawerOpen(e)}
                 infoSignUp={stateRegister}
                 otp={otp}
-                signUpSuccess={signUpSuccess}
+                signUpSuccess={() => signUpSuccess()}
             />
         </AuthForm>
     );

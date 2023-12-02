@@ -19,5 +19,6 @@ const images = {
     user: require('~/assets/images/352771976_1767135150409702_6276671835276624372_n.jpg'),
     logo_edu: require('~/assets/images/logo_edu.png'),
     upLoadCloud: require('~/assets/images/upload-cloud.webp'),
+    noData: require('~/assets/images/2953962.jpg'),
 };
 export default images;

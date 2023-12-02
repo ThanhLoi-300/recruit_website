@@ -14,6 +14,7 @@ import ManageRecruitment from "~/pages/Recruitment/ManageRecruitment";
 import ManageRecruitmentLayout from "~/pages/Recruitment/ManageRecruitment/ManageRecruitmentLayout";
 import Brand from "~/pages/Brand";
 import Jobs from "~/pages/Jobs";
+import ManageCV from "~/pages/Recruitment/ManageCV";
 
 const publicRoutes =[
     {   
@@ -80,6 +81,11 @@ const privateRoutes =[
                 path: 'company-required',
                 component: CompanyRequired,
                 name: 'Tin tuyển dụng'
+            },
+            {
+                path: 'manage-cv',
+                component: ManageCV,
+                name: "Quản lí CV"
             },
             {
                 path: 'recruitment-campaigns/*',

@@ -32,6 +32,12 @@ $white : white;
             background-color: var(--background-color) !important;
             color: $white;
             border-radius: 4px;
+            border: 1px solid var(--background-color);
+            &:hover{
+                color: var(--background-color) ;
+                background-color: white !important; 
+                cursor: pointer;
+            }
         }
     }
 }
