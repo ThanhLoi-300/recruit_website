@@ -13,5 +13,7 @@ router.post("/searchJob", jobController.searchJob)
 router.post("/searchJobByIdRecruiter",jobController. searchJobByIdRecruiter)
 router.post("/getJobByUser/:jobId", jobController.getJobByUser)
 router.get("/getJobRandom/", jobController.getJobRandom)
+router.get("/changeStatusJob/:jobId", jobController.changeStatusJob)
+
 
 module.exports = router

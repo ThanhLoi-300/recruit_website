@@ -334,7 +334,7 @@ const searchJobByIdRecruiter = async (searchCondition) => {
       return Promise.reject("User ID is required for the search.");
     }
 
-    let jobs = await Job.find({ active: true });
+    let jobs = await Job.find();
 
     // Filter jobs based on idRecruit
     jobs = jobs.filter((job) => job.userId == idRecruit["$oid"]);
@@ -397,6 +397,25 @@ const getJobRandom = async () => {
   }
 };
 
+const changeStatusJob = async (jobId) => {
+  try {
+    const job = await Job.findOne({ _id: jobId })
+
+    if (job.active == true) job.active = false
+    else job.active = true
+
+    await Job.updateOne({ _id: jobId }, { $set: { active: job.active } });
+
+    return {
+      status: "OK",
+      message: "SUCCESS",
+    };
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 module.exports = {
   createJob,
   jobDetail,
@@ -409,4 +428,5 @@ module.exports = {
   searchJobByIdRecruiter,
   getJobByUser,
   getJobRandom,
+  changeStatusJob
 };
