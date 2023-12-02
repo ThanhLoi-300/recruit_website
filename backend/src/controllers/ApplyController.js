@@ -25,7 +25,19 @@ const createApply = async (req, res) => {
 
 const searchAppliesByJobId = async (req, res) => {
   try {
-    const response = await applyService.searchAppliesByJobId(req.body);
+    const response = await applyService.searchAppliesByJobId(req.params.jobId);
+    return res.status(200).json(response);
+  } catch (e) {
+    return res.status(404).json({
+      message: e,
+    });
+  }
+};
+
+
+const getAppliesByUser = async (req, res) => {
+  try {
+    const response = await applyService.getAppliesByUser(req.params.userId);
     return res.status(200).json(response);
   } catch (e) {
     return res.status(404).json({
@@ -38,4 +50,5 @@ const searchAppliesByJobId = async (req, res) => {
 module.exports = {
   createApply,
   searchAppliesByJobId,
+  getAppliesByUser,
 };

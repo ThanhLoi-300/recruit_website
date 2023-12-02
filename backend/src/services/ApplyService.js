@@ -1,5 +1,6 @@
 const Apply = require("../models/ApplyModel");
 const User = require("../models/UserModel");
+const Job = require("../models/JobModel");
 
 const createApply = (apply) => {
     return new Promise(async (resolve, reject) => {
@@ -28,9 +29,8 @@ const createApply = (apply) => {
     });
 };
 
-const searchAppliesByJobId = async (searchCondition) => {
+const searchAppliesByJobId = async (jobId) => {
   try {
-    let { page = 1, pageSize, jobId } = searchCondition;
 
     if (!jobId) {
       // Reject the promise if jobId is not provided
@@ -38,20 +38,41 @@ const searchAppliesByJobId = async (searchCondition) => {
     }
 
       let applies = await Apply.find();
-       applies = applies.filter((apply) => apply.jobId == jobId["$oid"]);
-
-    const totalApplies = applies.length;
-    const totalPages = Math.ceil(totalApplies / pageSize);
-    applies = applies.slice((page - 1) * pageSize, page * pageSize);
+      applies = applies.filter((apply) => apply.jobId._id == jobId);
 
     return {
       status: "OK",
       message: "SUCCESS",
       applies,
-      totalPages,
-      page,
     };
   } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
+
+const getAppliesByUser = async (userId) => {
+  try { 
+    let jobs = await Job.find({ active: true });
+
+    // Filter jobs based on idRecruit
+    jobs = jobs.filter((job) => job.userId._id == userId);
+    console.log(jobs)
+
+    let applies = await Apply.find();
+    
+    applies = applies.filter((apply) => apply.jobId == jobs._id);
+    console.log(applies)
+
+    return {
+      status: "OK",
+      message: "SUCCESS",
+      applies,
+    };
+
+
+  }
+  catch (e) {
     return Promise.reject(e);
   }
 };
@@ -61,5 +82,6 @@ const searchAppliesByJobId = async (searchCondition) => {
 module.exports = {
   createApply,
   searchAppliesByJobId,
+  getAppliesByUser,
 };
 
