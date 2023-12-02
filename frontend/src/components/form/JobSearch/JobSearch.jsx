@@ -8,18 +8,35 @@ import { useEffect, useState } from "react";
 import { DATA_EXPERIENCE, DATA_WAGE } from "~/const/province";
 import { getProvince } from "~/redux/provinceSlice";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-function JobSearch() {
+import { useLocation , useNavigate  , createSearchParams } from "react-router-dom";
+function JobSearch({data,onSearch}) {
     const cx = classNames.bind(styles);
+
+    //
     const [valueChooseProvince,setValueChooseProvince] = useState('Tất cả tỉnh/thành phố');
     const [valueChooseExperience,setValueChooseExperience] = useState('Tất cả kinh nghiệm');
     const [valueChooseWage,setValueChooseWage] = useState('Tất cả mức lương');
+    const [valueChangeIpKeyWord,setValueChangeIpKeyWord] = useState('');
+    const [valueParamsKeyWord,setValueParamsKeyWord] = useState('');
+    const [isSearchJobs,setIsSearchJobs] = useState(false);
     const [isShowWage,setShowWage] = useState(false);
     const [listProvince,setListProvince] = useState([]);
     const [isShowProvince,setShowProvince] = useState(false);
     const [isShowExperience,setShowExperience] = useState(false);
+
+    //
+    const { search } = useLocation();
+    const queryParams = new URLSearchParams(search);
+    const exId = queryParams.get('ex');
+    const pvId = queryParams.get('pv');
+    const wgId = queryParams.get('wg');
+    const key = queryParams.get('key');
+
+    //
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+
     const handleClickProvince = () => {
         setShowProvince(!isShowProvince);
     };
@@ -32,9 +49,40 @@ function JobSearch() {
         setShowWage(!isShowWage);
     };
 
+    function getIdByName(list,name) {
+        const experience = list.find(item => item.province_name === name);
+        return experience ? experience.province_id : null;
+    }
+
+    function getNameById(list,id) {
+        const experience = list.find(item => item.province_id === id);
+        return experience ? experience.province_name : null;
+    }
+
     const handleCLickSearchJobs = (e) => {
         e.preventDefault();
-        navigate('/latest-jobs');
+        //
+        const experience = valueChooseExperience !== 'Tất cả kinh nghiệm' ? valueChooseExperience :  '';
+        const province = valueChooseProvince !== 'Tất cả tỉnh/thành phố' ? valueChooseProvince :  '';
+        const wage = valueChooseWage !== 'Tất cả mức lương' ? valueChooseWage :  '';
+        //
+        const experienceToId = getIdByName(DATA_EXPERIENCE,experience);
+        const provinceToId = getIdByName(listProvince,province);
+        const wageToId = getIdByName(DATA_WAGE,wage);
+        const params = {
+            key: valueChangeIpKeyWord !== '' ? valueChangeIpKeyWord : '' ,
+          };
+        //
+        const queryParams = [];
+        //
+        if (experienceToId !== null) queryParams.push(`ex=${experienceToId}`);
+        if (provinceToId !== null) queryParams.push(`pv=${provinceToId}`);
+        if (wageToId !== null) queryParams.push(`wg=${wageToId}`);
+        if (valueChangeIpKeyWord !== '') queryParams.push(`${createSearchParams(params)}`);
+        
+        const queryString = queryParams.length > 0 ? `?${queryParams.join('&&')}` : '';
+        setIsSearchJobs(true);
+        navigate(`/latest-jobs${queryString}`);
     };
 
     useEffect(() => {
@@ -50,11 +98,47 @@ function JobSearch() {
         });
     },[dispatch])
 
+    useEffect(() => {
+        const getSafeValue = (id, dataArray, defaultValue) => {
+            const name = getNameById(dataArray, id);
+            return name !== defaultValue ? name : '';
+        };
+    
+        const experienceValue = getSafeValue(exId, DATA_EXPERIENCE, 'Tất cả kinh nghiệm');
+        const provinceValue = getSafeValue(pvId, listProvince, 'Tất cả tỉnh/thành phố');
+        const wageValue = getSafeValue(wgId, DATA_WAGE, 'Tất cả mức lương');
+        const keyWordValue = key !== '' ? key : '';
+        
+        if(exId !== null ) setValueChooseExperience(experienceValue);
+        if(pvId !== null && listProvince && listProvince.length >  0 ) setValueChooseProvince(provinceValue);
+        if(wgId !== null ) setValueChooseWage(wageValue);
+        if(key !== null ) {
+            setValueChangeIpKeyWord(key);
+            setValueParamsKeyWord(key);
+        };
+    
+        if (data) {
+            data({
+                experience: experienceValue,
+                province: provinceValue,
+                wage: wageValue,
+                key: keyWordValue
+            });
+        }
+    },[exId,pvId,wgId,listProvince,key]);
+
+    useEffect(() => {
+        if(valueChangeIpKeyWord === '' && onSearch) onSearch(true);
+    },[valueChangeIpKeyWord]);
+
     return (  
         <form method="POST" className={cx('wrapper__filter','flex items-center justify-between mt-7')}>
             <div className={cx('wrapper__filter-city','flex items-center')}>
+                {/* AREA */}
                 <FilterInput 
                     placeholder="Vị trí tuyển dụng"
+                    onChangeValue={(e) => setValueChangeIpKeyWord(e)}
+                    value= {valueChangeIpKeyWord}
                 />
                 <Filter
                     state={isShowProvince}
@@ -73,6 +157,7 @@ function JobSearch() {
                     </div>
                 </Filter>
             </div>
+            {/*  EXPERIENCE */}
             <Filter
                 state={isShowExperience}
                 items={DATA_EXPERIENCE}
@@ -89,6 +174,7 @@ function JobSearch() {
                     <FontAwesomeIcon className="text-primaryColor" icon={faChevronDown}/>
                 </div>
             </Filter>
+            {/* WAGE */}
             <Filter
                 state={isShowWage}
                 items={DATA_WAGE}

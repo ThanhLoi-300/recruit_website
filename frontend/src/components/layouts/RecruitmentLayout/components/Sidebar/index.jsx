@@ -1,8 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./Sidebar.module.scss"
 import images from "~/assets/images";
-import { faBagShopping, faBookOpen, faCircleUser, faFeather, faGear, faTableColumns } from "@fortawesome/free-solid-svg-icons";
-import { faSpaceAwesome } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useLocation } from "react-router-dom";
 import { Toast } from "~/components/toast";
@@ -27,6 +25,7 @@ function Sidebar() {
             });
         }
     };
+    
     function isCheckCommonPrefix(path1,path2) {
         const commonPrefix = '/app/account';
         const commonPrefix2 = '/app/recruitment-campaigns';

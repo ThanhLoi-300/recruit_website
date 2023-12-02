@@ -280,8 +280,8 @@ const DATA_SIDEBAR = [
         id: 4,
         name: 'Quản lí CV',
         icon: faCircleUser,
-        status: false,
-        path: '/app/dashboard'
+        status: true,
+        path: '/app/manage-cv'
     },
     {
         id: 5,
