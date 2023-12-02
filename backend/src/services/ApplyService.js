@@ -53,16 +53,19 @@ const searchAppliesByJobId = async (jobId) => {
 
 const getAppliesByUser = async (userId) => {
   try { 
-    let jobs = await Job.find({ active: true });
 
+    let jobs = await Job.find({ active: true });
     // Filter jobs based on idRecruit
-    jobs = jobs.filter((job) => job.userId._id == userId);
-    console.log(jobs)
+    jobs = jobs.filter((job) => job.userId.toString() == userId);
 
     let applies = await Apply.find();
-    
-    applies = applies.filter((apply) => apply.jobId == jobs._id);
-    console.log(applies)
+    for (let i = 0; i < applies.length; i++) {
+      for (let j = 0; j < jobs.length; j++) {
+        if (applies[i].jobId.toString() == jobs[j]._id.toString()) {
+          applies.filter((apply) => apply.jobId.toString() == jobs[j]._id.toString());
+        }
+      }
+    }
 
     return {
       status: "OK",
