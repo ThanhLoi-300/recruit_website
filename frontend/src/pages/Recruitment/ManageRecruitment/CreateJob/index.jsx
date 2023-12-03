@@ -51,6 +51,7 @@ function CreateJob() {
         name : 'Tất cả hình thức',
         id: 0
     });
+    const [valueDeadlineJob,setValueDeadlineJob] = useState('');
     const [isShowProvince, setShowProvince] = useState(false);
     const [isShowStepTwo, setShowStepTwo] = useState(true);
     const [isShowStepThree, setShowStepThree] = useState(false);
@@ -131,6 +132,10 @@ function CreateJob() {
         setShowTypeJob(!isShowTypeJob);
     };
 
+    const handleOnChangeDeadlineJob = (e) => {
+        setValueDeadlineJob(e.target.value);
+    }
+
     // HANDLE CHECK VIETNAMESE PHONE NUMBER
     function getNameDegreeToId(number) {
         if(number === '1'){
@@ -146,10 +151,30 @@ function CreateJob() {
         }
     }
 
+    // HANDLE CONVERT DATE TO dd/MM/yyyy
+    function convertDate(params) {
+        var originalDate = new Date(params);
+        var day = originalDate.getDate();
+        var month = originalDate.getMonth() + 1;
+        var year = originalDate.getFullYear();
+
+        return year + '-' + month + '-' + day;
+    }
+
+    // Get the current date and format it as a string
+    function getCurrentDate () {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+        const day = currentDate.getDate().toString().padStart(2, '0');
+        const hours = '00';
+        const minutes = '00';
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    };
+
     // HANDLE CLICK CREATE JOB
     const handleClickCreateJob = async () => {
-        const inputDate = new Date();
-        const formattedDateString = `${inputDate.toISOString().slice(0, 19)}:00.000+00:00`;
+        const formattedDateString = convertDate(valueDeadlineJob);
         if(valueTextJobDetail.name === ''){
             setValueTextJobDetail({...valueTextJobDetail, msg: 'Vui lòng nhập chi tiết tuyển dụng', state: false});
         }
@@ -195,6 +220,8 @@ function CreateJob() {
             }
         }
     };
+
+
 
     return (  
         <div className={cx('wrapper','py-6 px-20')}>
@@ -389,10 +416,10 @@ function CreateJob() {
                                             className="w-full mt-7"
                                             type="datetime-local"
                                             name="quantityRecruitJob"
-                                            value={"2023-11-15T00:00"}
-                                            min="2023-11-15T00:00"
+                                            value={valueDeadlineJob}
+                                            min={getCurrentDate()}
                                             max="2030-11-15T00:00"
-                                            onChange={handleOnChangeQuantityRecruitJob}
+                                            onChange={handleOnChangeDeadlineJob}
                                         />
                                     </div>
                                     <div className="w-2/4 px-2">

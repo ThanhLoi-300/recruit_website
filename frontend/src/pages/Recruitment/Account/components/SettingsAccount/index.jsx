@@ -184,7 +184,7 @@ function SettingsAccount() {
             <h3 className="text-2xl font-semibold">Cập nhập thông tin cá nhân</h3>
             <div className="mt-7 flex items-center justify-between">
                 <div className={cx('form__content-avatar',"flex items-center")}>
-                    <img className="w-24 h-24 rounded-full" src={images.user} alt="settings-user"/>
+                    <img className="w-24 h-24 rounded-full" src={'https://tuyendung.topcv.vn/app/_nuxt/img/noavatar-2.18f0212.svg'} alt="settings-user"/>
                     <input id="ChangeAvatarUser" type="file" name="ChangeAvatarUser" hidden/>
                     <label className="ml-4" htmlFor="ChangeAvatarUser">Đổi avatar</label> 
                 </div>
