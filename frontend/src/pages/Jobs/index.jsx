@@ -10,16 +10,31 @@ import JobSearch from "~/components/form/JobSearch/JobSearch";
 import ApplyJobModal from "~/components/popper/Modal/ApplyJobModal";
 import { useEffect, useState } from "react";
 import { getDetailJobById } from "~/redux/jobSlice";
+import useUser from "~/hooks/useUser";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 function Jobs({}) {
     const cx = classNames.bind(styles);
     const [isOpenApplyJob,setOpenApplyJob] = useState(false);
+    const [open, setOpen] = useState(false);
     const [valueDetailJobs,setValueDetailJobs] = useState([]);
     const { search } = useLocation();
     const queryParams = new URLSearchParams(search);
     const jobId = queryParams.get('id');
+    const {obDetailInfoUser} = useUser();
     const dispatch = useDispatch();
+    
+    const handleClose = () => {
+        setOpen(false);
+    };
     const handleClickApplyJob = () => {
-        setOpenApplyJob(true);
+        if(obDetailInfoUser._id === undefined) {
+            setOpen(true);
+        } else {
+            setOpenApplyJob(true);
+        }
     };
 
     function convertDateTime(params) {
@@ -36,7 +51,6 @@ function Jobs({}) {
         if(jobId !== null){
             dispatch(getDetailJobById({id : jobId})).then((item) => {
                 if(item && item.payload.message === "SUCCESS" && item.payload.status === 'OK' && item.payload) setValueDetailJobs(item.payload.data);
-                //console.log(item.payload);
                 document.title =item.payload.data.title;
             }) 
         }
@@ -231,6 +245,36 @@ function Jobs({}) {
                     </div>
                 </div>
             </div>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    <div className="font-semibold font-primary text-2xl">Bạn chưa đăng nhập ?</div>
+                </DialogTitle>
+                <DialogContent>
+                    <p className="text-xl border border-gray p-8 rounded-lg">Hãy nhấn nút <span className="text-primaryColor font-semibold">Đăng nhập</span> ngay để ứng tuyển vào công việc thôi nào!</p>
+                </DialogContent>
+                <DialogActions>
+                    <button 
+                        type="text" 
+                        onClick={handleClose} 
+                        className="text-xl bg-white py-4 px-6 border border-primaryColor font-semibold rounded-lg text-primaryColor
+                            hover:bg-primaryColor hover:text-white hover:cursor-pointer"
+                    >
+                        Hủy bỏ
+                    </button>
+                    <Link 
+                        to={'/sign-in'}
+                        className="ml-4 text-xl bg-primaryColor py-4 px-6 border border-primaryColor font-semibold rounded-lg text-white
+                            hover:bg-white hover:cursor-pointer hover:text-primaryColor"
+                    >
+                        Đăng nhập
+                    </Link>
+                </DialogActions>
+            </Dialog>    
         </div>
     );
 }

@@ -24,6 +24,25 @@ const createApplyJob = createAsyncThunk('createApplyJob',async(body)=> {
     }
 });
 
+// CREATE APPLY JOB
+const getAppliesByUserId = createAsyncThunk('getAppliesByUserId',async(body)=> {
+    try {
+        const {id} = body;
+        const res = await fetch(URL_API + `api/apply/getAppliesByUser/${id}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
 const applyJobSlice = createSlice({
     name: "applyJob",
     initialState,
@@ -50,5 +69,7 @@ export default applyJobSlice.reducer;
 export {
     // CREATE APPLY JOB
     createApplyJob,
+    // GET APPLIES BY USER ID
+    getAppliesByUserId
 };
 export const {updateJob} = applyJobSlice.actions; 

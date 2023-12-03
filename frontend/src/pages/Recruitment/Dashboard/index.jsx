@@ -94,7 +94,7 @@ function Dashboard() {
                 <div className={cx("w-2/4 bg-white rounded-xl ml-4",'wrapper__infoRecruiter')}>
                     <div className={cx('p-8')}>
                         <div className="flex items-center">
-                            <img className="w-16 h-16 rounded-full" src={images.user} alt="recruiter info avatar"/>
+                            <img className="w-16 h-16 rounded-full" src={'https://tuyendung.topcv.vn/app/_nuxt/img/noavatar-2.18f0212.svg'} alt="recruiter info avatar"/>
                             <div className="ml-5">
                                 <h1 className="text-2xl text-primaryColor font-medium">{obDetailInfoUser && obDetailInfoUser.name ? obDetailInfoUser.name : ''}</h1>
                                 <div className="text-xl mt-3">Mã NTD: {obDetailInfoUser && obDetailInfoUser._id ? obDetailInfoUser._id.slice(0, 6) : ''}</div>

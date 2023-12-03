@@ -140,6 +140,7 @@ const authSlice = createSlice({
         logOutUser: (state,action) => {
             localStorage.removeItem('token');
             state.token = "";
+            state.msg = "Logout success";
         }
     },
     extraReducers : (builder) => {

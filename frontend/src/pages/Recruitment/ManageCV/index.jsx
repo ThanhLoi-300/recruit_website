@@ -1,22 +1,30 @@
 import classNames from "classnames/bind";
 import styles from "./ManageCV.module.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBagShopping, faChevronDown, faSearch, faStar } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled, tableCellClasses } from "@mui/material";
 import ToggleSwitch from "~/components/button/ToggleSwitch/ToggleSwitch";
-import { Filter } from "~/components/popper/Filter";
-import { DATA_EXPERIENCE } from "~/const/province";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getListJobByRecruiter } from "~/redux/jobSlice";
 import useUser from "~/hooks/useUser";
-import getRandomNumber from "~/const/getRandomNumber";
 import HorizontalBarsDna from "~/components/spinners/components/horizontalBarsDna";
+import { getAppliesByUserId } from "~/redux/applyJobSlice";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faChevronDown, faClose, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
 function ManageCV() {
     const cx =classNames.bind(styles);
     const [isLoadingListJob,setIsLoadingListJob] = useState(false);
-    const [listJobByRecruiter,setListJobByRecruiter] = useState([]);
+    const [listAppliesByUser,setListAppliesByUser] = useState([]);
+    const dispatch = useDispatch();
+    const {obDetailInfoUser} = useUser();
+    function convertDateTime(params) {
+        const dateObject = new Date(params);
+
+        const day = String(dateObject.getDate()).padStart(2, '0');
+        const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+        const year = dateObject.getFullYear()
+
+        return `${day}/${month}/${year}`;
+    }
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
           backgroundColor: "#76417e",
@@ -28,11 +36,61 @@ function ManageCV() {
           border: "1px solid #ccc"
         },
     }));
+
+    function convertToUnderscoreFormat(inputString) {
+        const normalizedString = inputString
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase();
+    
+        const underscoredString = normalizedString.replace(/\s+/g, '_');
+    
+        return underscoredString;
+    }
+    useEffect(() => {
+        if(obDetailInfoUser && obDetailInfoUser._id){
+            dispatch(getAppliesByUserId({id:obDetailInfoUser._id})).then((item) => {
+                if(item && item.payload && item.payload.message === 'SUCCESS' && item.payload.status === 'OK'){
+                    setListAppliesByUser(item.payload.applies);
+                    setIsLoadingListJob(true);
+                }
+            })
+        }
+    },[obDetailInfoUser]);
+
+    useEffect(() => {
+        console.log(listAppliesByUser);
+    },[listAppliesByUser]);
     return (  
         <div className={cx('wrapper','')}>
             <div className={cx('wrapper__header')}>
                 <div className="p-6 bg-white border-b border-gray">
                     <h1 className="text-2xl font-medium">Quản lý CV ứng viên</h1>
+                </div>
+                <div className="bg-white px-6 py-2 flex items-center">
+                    <div className="relative text-lg w-96">
+                        <input 
+                            className="border p-2 pr-8 w-full  border-gray rounded-lg placeholder:text-lg placeholder:font-medium" 
+                            placeholder="Tìm kiếm tên, email, số điện thoại" 
+                        />
+                        <FontAwesomeIcon className="absolute right-4 top-0 bottom-0 m-auto" icon={faSearch}/>
+                    </div>
+                    <div className="ml-5 flex items-center text-lg border border-gray p-2 rounded-lg">
+                        <span>Chọn chiến dịch tuyển dụng</span>
+                        <FontAwesomeIcon className="ml-4" icon={faChevronDown}/>
+                    </div>
+                    <div className="ml-5 flex items-center text-lg border border-gray p-2 rounded-lg">
+                        <span>Chọn trạng thái</span>
+                        <FontAwesomeIcon className="ml-4" icon={faChevronDown}/>
+                    </div>
+                    <div className="ml-5 flex items-center text-lg border border-gray p-2 rounded-lg">
+                        <span>Chọn nguồn CV</span>
+                        <FontAwesomeIcon className="ml-4" icon={faChevronDown}/>
+                    </div>
+                    <div className="ml-5 flex items-center text-lg border border-gray p-2 rounded-lg">
+                        <span>Tất cả nhãn</span>
+                        <FontAwesomeIcon className="ml-4" icon={faChevronDown}/>
+                    </div>
                 </div>
             </div>
             <div className="p-24">
@@ -49,35 +107,56 @@ function ManageCV() {
                         <TableBody>
                         {
                             isLoadingListJob ? (
-                                listJobByRecruiter.map((row,index) => (
+                                listAppliesByUser.map((row,index) => (
                                     <TableRow
                                     key={index}
                                     sx={{ '&:last-child td, &:last-child th': { border: "1px solid #ccc"} }}
                                     >
                                         {/* { id, name, optimal, recruitment, filterCV, serviceRunning } */}
-                                        <TableCell component="th" scope="row">
-                                            <div className="flex">
-                                                {<ToggleSwitch checked={true}/>}
-                                                <div className="ml-8 css-1it3gd4-MuiTableRow-nameJobs">
-                                                    <div className="font-semibold mb-4 text-xl">{row.name}</div>
-                                                    <span className="mt-3 px-4 py-2 bg-gray rounded-lg text-lg font-medium">#{row.id}</span>
-                                                    <div className="h-16 mt-8">
-                                                        <div className="css-1it3gd4-MuiTableRow-root-hover-selected">
-                                                            <div className="flex items-center">
-                                                                <span className="font-medium text-xl">Sửa chiến dịch</span>
-                                                                <span className="mx-2 text-gray text-xl">|</span>
-                                                                <span className="font-medium text-xl">Xem báo cáo</span>
-                                                            </div>
-                                                            <span className="mt-4 font-medium text-xl">Xem CV ứng tuyển</span>
-                                                        </div>
+                                        <TableCell align="left">  
+                                            <div className="">
+                                                <h1 className="text-xl font-semibold ">{row.job.title}</h1>
+                                                <div className="mt-4 ">
+                                                    <h2 className="font-medium">Thông tin tuyển dụng:</h2>
+                                                    <ul className="text-xl border border-gray py-2 px-4 mt-4 rounded-lg">
+                                                        <li className="mt-3 font-medium">- Ngày tạo: {convertDateTime(row.job.createdAt)}</li>
+                                                        <li className="mt-3 font-medium">- Ngày hết hạn: {row.job.deadlineApplication}</li>
+                                                        <li className="mt-3 font-medium">- Mức lương: {row.job.salary}</li>
+                                                        <li className="mt-3 font-medium">- Số lương tuyển: {row.job.quantityRecruit}</li>
+                                                        <li className="mt-3 font-medium">- Vị trí tuyển dụng: {row.job.vacancy}</li>
+                                                        <li className="mt-3 font-medium">- Kinh nghiệm: {row.job.experienceYear}</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            <div className="mt-4">
+                                                <div className="text-xl">
+                                                    <div className="mt-3 font-medium flex items-center">
+                                                        Họ và tên: <span className="ml-4">{row.user.name}</span>
+                                                    </div>
+                                                    <div className="mt-3 font-medium flex items-center">
+                                                        Số điện thoại: <span className="ml-4">{row.user.phone}</span>
+                                                    </div>
+                                                    <div className="mt-3 font-medium flex items-center">
+                                                        Email: <span className="ml-4">{row.user.email}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </TableCell>
-                                        <TableCell align="left"><div className="text-blue font-medium text-xl">{row.optimal+"%"}</div></TableCell>
-                                        <TableCell align="left"><span className="mt-3 px-6 py-3 bg-btn-table text-primaryColor rounded-lg font-medium text-xl">{row.recruitment}</span></TableCell>
-                                        <TableCell align="left"><span className="mt-3 px-6 py-3 bg-btn-table text-primaryColor rounded-lg font-medium text-xl">{row.filterCV}</span></TableCell>
-                                        <TableCell align="left"><span className="mt-3 px-6 py-3 bg-btn-table text-primaryColor rounded-lg font-medium text-xl">{row.serviceRunning}</span></TableCell>
+                                        <TableCell align="left">
+                                            <Link to={row.fileCv} className="underline font-semibold" target="_blank">Xem</Link>
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            <div className='flex items-center w-36 p-1  text-primaryColor rounded-lg font-medium'>
+                                                <FontAwesomeIcon className="" icon={faCheck}/>
+                                                <button type="button" className="ml-3">Tiếp nhận</button>
+                                            </div>
+                                            <div className='flex items-center w-36 p-1 mt-4  text-primaryColor rounded-lg font-medium'>
+                                                <FontAwesomeIcon className="" icon={faTrash}/>
+                                                <button type="button" className="ml-3">Từ chối</button>
+                                            </div>
+                                        </TableCell>
                                     </TableRow>
                                 ))
                             ) : <TableRow><TableCell colSpan={5}><HorizontalBarsDna/></TableCell></TableRow>
