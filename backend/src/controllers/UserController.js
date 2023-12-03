@@ -166,6 +166,18 @@ const updateCompany = async (req, res) => {
   }
 };
 
+const notificationByEmail = async (req, res) => {
+  try {
+    const response = await UserService.notificationByEmail(req.body);
+    return res.status(200).json(response);
+  } catch (e) {
+    console.log(e);
+    return res.status(404).json({
+      message: e,
+    });
+  }
+};
+
 module.exports = {
   createUser,
   loginUser,
@@ -174,5 +186,6 @@ module.exports = {
   getDetailUser,
   sendMailEmployer,
   sendOTP,
-  updateCompany
+  updateCompany,
+  notificationByEmail
 };

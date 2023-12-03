@@ -11,5 +11,6 @@ router.post("/getDetailUser",authUserMiddleware, userController.getDetailUser)
 router.post("/sendMailEmployer/:idJob", userController.sendMailEmployer)
 router.post("/updateCompany/:idRecruiter", userController.updateCompany)
 router.post("/sendOTP", userController.sendOTP)
+router.post("/notificationByEmail", userController.notificationByEmail)
 
 module.exports = router;

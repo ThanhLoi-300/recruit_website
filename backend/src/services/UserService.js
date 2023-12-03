@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer')
 const { genneralAccessToken, genneralRefreshToken } = require("./JwtService");
 const otpGenerator = require("otp-generator");
+const Apply = require("../models/ApplyModel");
 
 const generateOTP = () => {
   return otpGenerator.generate(6, {
@@ -279,6 +280,56 @@ const updateCompany = (id, updateRecruiter) => {
   });
 };
 
+const notificationByEmail = (request) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { idUser, idJob, action, idApply } = request
+      
+      const user = await User.findOne({ _id: idUser })
+      const job = await Job.findOne({ _id: idJob })
+      const recruiter = await User.findOne({ _id: job.userId })
+
+      let text = ''
+      if (action == true)
+        text = "Đơn ứng tuyển cho Job: "+ job.title  +" từ công ty "+recruiter.infoCompany.nameCompany+" của bạn đã được chấp nhận.\nHãy liên hệ qua email: "+ recruiter.email+" để được phỏng vấn"
+      else text = "Đơn ứng tuyển cho Job: "+ job.title  +" từ công ty "+recruiter.infoCompany.nameCompany+" của bạn không được chấp nhận"
+
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "quanmanh901@gmail.com",
+          pass: 'slwi czcw rqfp arfa'
+        },
+      });
+
+      const mailOptions = {
+        from: "quanmanh901@gmail.com",
+        to: user.email,
+        subject: "Thông báo từ nhà tuyển dụng",
+        text: text,
+      };
+
+      await Apply.deleteOne({ _id: idApply });
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          resolve({
+            status: "ERR",
+            message: "Lỗi gửi email.",
+          });
+        } else {
+          resolve({
+            status: "OK",
+            message: "Đã gửi thông báo đến ứng viên",
+          });
+        }
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   createUser,
   loginUser,
@@ -286,6 +337,7 @@ module.exports = {
   getDetailUser,
   sendMailEmployer,
   sendOTP,
-  updateCompany
+  updateCompany,
+  notificationByEmail
 };
 

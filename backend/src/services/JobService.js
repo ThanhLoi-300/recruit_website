@@ -1,6 +1,8 @@
 const { promises } = require("nodemailer/lib/xoauth2");
 const Job = require("../models/JobModel");
 const User = require("../models/UserModel");
+const schedule = require('node-schedule');
+const moment = require('moment');
 
 const createJob = (job) => {
   return new Promise(async (resolve, reject) => {
@@ -428,3 +430,26 @@ module.exports = {
   getJobRandom,
   changeStatusJob
 };
+
+
+//realTime
+// const jobStatusUpdateJob = async () => {
+//   try {
+//     const currentDate = new Date().setHours(0, 0, 0, 0);
+
+//     // Lấy danh sách công việc cần kiểm tra và cập nhật
+//     const jobsToUpdate = await Job.find();
+
+//     // Cập nhật trạng thái dựa trên ngày hiện tại
+//     for (const job of jobsToUpdate) {
+//       if (new Date(job.deadlineApplication).setHours(0, 0, 0, 0) < currentDate) {
+//         job.active = false;
+//       } 
+//       await job.save();
+//     }
+//   } catch (error) {
+//     console.error('Lỗi khi cập nhật trạng thái:', error);
+//   }
+// };
+// const intervalId = setInterval(jobStatusUpdateJob, 1000)
+
