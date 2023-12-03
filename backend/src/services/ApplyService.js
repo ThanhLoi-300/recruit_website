@@ -52,31 +52,37 @@ const searchAppliesByJobId = async (jobId) => {
 
 
 const getAppliesByUser = async (userId) => {
-  try { 
+  try {
+    const activeJobs = await Job.find({ active: true, userId });
+    const jobIds = activeJobs.map((job) => job._id);
 
-    let jobs = await Job.find({ active: true });
-    // Filter jobs based on idRecruit
-    jobs = jobs.filter((job) => job.userId.toString() == userId);
+    const applies = await Apply.find({ jobId: { $in: jobIds } });
+    const foundAppliesJobIds = applies.map((apply) => apply.jobId);
+    const foundUserIds = applies.map((apply) => apply.userId);
 
-    let applies = await Apply.find();
-    for (let i = 0; i < applies.length; i++) {
-      for (let j = 0; j < jobs.length; j++) {
-        if (applies[i].jobId.toString() == jobs[j]._id.toString()) {
-          applies.filter((apply) => apply.jobId.toString() == jobs[j]._id.toString());
-        }
-      }
-    }
+    const jobs = await Job.find({ _id: { $in: foundAppliesJobIds } });
+    const users = await User.find({ _id: { $in: foundUserIds } });
+
+    const mergedApplies = applies.map((apply) => {
+      const job = jobs.find((j) => j._id.toString() === apply.jobId.toString());
+      const user = users.find(
+        (u) => u._id.toString() === apply.userId.toString()
+      );
+
+      return {
+        ...apply.toObject(),
+        job,
+        user,
+      };
+    });
 
     return {
       status: "OK",
       message: "SUCCESS",
-      applies,
+      applies: mergedApplies,
     };
-
-
-  }
-  catch (e) {
-    return Promise.reject(e);
+  } catch (error) {
+    throw error;
   }
 };
 
