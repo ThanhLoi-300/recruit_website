@@ -210,7 +210,7 @@ function SettingsCompany() {
             <div className="mt-7 flex items-center justify-between">
                 {/* LOGO */}
                 <div className={cx('form__content-avatar',"flex items-center")}>
-                    <img className="w-24 h-24 rounded-full" src={valueUrlLogoCompany && valueUrlLogoCompany !== '' ? valueUrlLogoCompany  : images.user} alt="settings-company"/>
+                    <img className="w-24 h-24 rounded-full" src={valueUrlLogoCompany && valueUrlLogoCompany !== '' ? valueUrlLogoCompany : ''} alt="settings-company"/>
                     <input 
                         id="ChangeAvatarCompany" 
                         type="file" 

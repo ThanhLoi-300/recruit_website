@@ -18,12 +18,25 @@ import JobSearch from "~/components/form/JobSearch/JobSearch";
 import { Filter } from "~/components/popper/Filter";
 import { useDispatch} from "react-redux";
 import { searchJob } from "~/redux/jobSlice";
+import Slider from "react-slick";
+const settings = {
+    dots: true,
+    infinite: true,
+    className: "center",
+    centerMode: true,
+    centerPadding: "60px",
+    slidesToShow: 1,
+    speed: 500,
+    autoplay: true,
+    autoplaySpeed: 500,
+    cssEase: "linear"
+};
 function Home() {
     const cx=classNames.bind(styles);
     const [isShowFilterALot,setShowFilterALot] = useState(false);
     const [valueChooseFilterALot,setValueChooseFilterALot] = useState('Địa điểm');
     const [valuePagination,setValuePagination] = useState({
-        pageSize: 6,
+        pageSize: 4,
         page:1
     });
     const [valueTotalPage,setValueTotalPage] = useState(0);
@@ -83,11 +96,11 @@ function Home() {
                     </li>   
                 </ul>
                 <div className={cx('w-full pb-10')}>
-                    <Carousel autoplay='true' disableEdgeSwiping='true'>
+                    <Slider {...settings}>
                         <img className={cx('wrapper__bannerImg')} alt="Banner slide" src={images.banner1} />
                         <img className={cx('wrapper__bannerImg')} alt="Banner slide" src={images.banner2} />
                         <img className={cx('wrapper__bannerImg')} alt="Banner slide" src={images.banner4} />
-                    </Carousel>
+                    </Slider>
                 </div>
             </div>
             <div className={cx('wrapper__bestJob','px-32 pb-10')}>
@@ -120,7 +133,7 @@ function Home() {
                         </Filter>
                         <MultipleItems/>
                     </div>
-                    <div className={cx('grid grid-cols-3 gap-4 mt-7')}>
+                    <div className={cx('grid grid-cols-2 gap-4 mt-7','wrapper__bestJob-filter-list')}>
                         {
                             valueListBestJob && valueListBestJob.map((item,index) => {
                                 return <JobsWrapper key={index} data={item}/>

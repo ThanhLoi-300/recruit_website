@@ -90,6 +90,8 @@ const getDetailUser = createAsyncThunk('getDetailUser',async(body)=> {
         throw error;
     }
 });
+
+//
 const updateUserRecruitment = createAsyncThunk('updateUserRecruitment',async(body)=> {
     try {
         const {id , ...others} = body;
@@ -108,6 +110,8 @@ const updateUserRecruitment = createAsyncThunk('updateUserRecruitment',async(bod
         throw error;
     }
 });
+
+//
 const updateCompanyUserRecruitment = createAsyncThunk('updateCompanyUserRecruitment',async(body)=> {
     try {
         const {id , ...others} = body;
@@ -118,6 +122,43 @@ const updateCompanyUserRecruitment = createAsyncThunk('updateCompanyUserRecruitm
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(others),
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
+// EMAIL RESPONSE FROM RECRUITER FOR APPLICANTS
+const notificationByEmail = createAsyncThunk('notificationByEmail',async(body)=> {
+    try {
+        const res = await fetch(URL_API + 'api/user/notificationByEmail', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
+// EMAIL RESPONSE FROM RECRUITER FOR APPLICANTS
+const logoutInDB = createAsyncThunk('logoutInDB',async()=> {
+    try {
+        const res = await fetch(URL_API + 'api/user/logout', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            }
         });
         const data = await res.json();
         return data;
@@ -206,6 +247,10 @@ export {
     // UPDATE USER RECRUITMENT
     updateUserRecruitment,
     // UPDATE COMPANY USER RECRUITMENT
-    updateCompanyUserRecruitment
+    updateCompanyUserRecruitment,
+    // EMAIL RESPONSE FROM RECRUITER FOR APPLICANTS
+    notificationByEmail,
+    // LOGOUT
+    logoutInDB
 };
 export const {updateUser,logOutUser} = authSlice.actions; 

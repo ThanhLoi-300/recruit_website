@@ -151,6 +151,8 @@ const deleteFollowList = (idJob, idUser) => {
 };
 
 const updateJob = (idJob, updateJobs) => {
+  console.log("Id update:"+idJob)
+  console.log("Ob update:"+ updateJobs.title)
   return new Promise(async (resolve, reject) => {
     try {
       const {

@@ -121,6 +121,45 @@ const getJobRandom = createAsyncThunk('getJobRandom',async()=> {
     }
 });
 
+// HANDLE UPDATE STATUS JOBS
+const updateStatusJob = createAsyncThunk('updateStatusJob',async(body)=> {
+    try {
+        const {id} = body;
+        const res = await fetch(URL_API + `api/job/changeStatusJob/${id}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
+// HANDLE UPDATE STATUS JOBS
+const updateJobByDB = createAsyncThunk('updateJobByDB',async(body)=> {
+    try {
+        const {id , ...others} = body;
+        const res = await fetch(URL_API + `api/job/updateJob/${id}`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(others),
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
 const jobSlice = createSlice({
     name: "job",
     initialState,
@@ -182,6 +221,10 @@ export {
     // GET DETAIL JOBS BY ID
     getDetailJobById,
     // GET JOB RANDOM
-    getJobRandom
+    getJobRandom,
+    // HANDLE UPDATE STATUS JOB
+    updateStatusJob,
+    // HANDLE UPDATE JOB
+    updateJobByDB
 };
 export const {updateJob} = jobSlice.actions; 
