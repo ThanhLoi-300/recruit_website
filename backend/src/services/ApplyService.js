@@ -56,25 +56,15 @@ const getAppliesByUser = async (userId) => {
     const activeJobs = await Job.find({ active: true, userId });
     const jobIds = activeJobs.map((job) => job._id);
 
-    const applies = await Apply.find({ jobId: { $in: jobIds } });
-    const foundAppliesJobIds = applies.map((apply) => apply.jobId);
-    const foundUserIds = applies.map((apply) => apply.userId);
+    const applies = await Apply.find({ jobId: { $in: jobIds } })
+      .populate("jobId")
+      .populate("userId");
 
-    const jobs = await Job.find({ _id: { $in: foundAppliesJobIds } });
-    const users = await User.find({ _id: { $in: foundUserIds } });
-
-    const mergedApplies = applies.map((apply) => {
-      const job = jobs.find((j) => j._id.toString() === apply.jobId.toString());
-      const user = users.find(
-        (u) => u._id.toString() === apply.userId.toString()
-      );
-
-      return {
-        ...apply.toObject(),
-        job,
-        user,
-      };
-    });
+    const mergedApplies = applies.map((apply) => ({
+      ...apply.toObject(),
+      job: apply.jobId,
+      user: apply.userId,
+    }));
 
     return {
       status: "OK",
