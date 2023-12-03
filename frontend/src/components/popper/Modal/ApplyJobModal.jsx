@@ -119,8 +119,7 @@ export default function ApplyJobModal({isOpen=false,onClose=undefined,data}) {
         if(valueFullNameUser.name === '') setValueFullNameUser({...valueFullNameUser , state: false});
         if(valuePhoneUser.name === '') setValuePhoneUser({...valuePhoneUser , state: false});
         if(obDetailInfoUser && valueFileUpLoad && data && obDetailInfoUser._id &&  data._id){
-            upLoadFileToFireBase(obDetailInfoUser._id,valueFileUpLoad,'CV_User').then((url) => {
-                console.log(url);
+            upLoadFileToFireBase(obDetailInfoUser._id,valueFileUpLoad.fileName,'CV_User').then((url) => {
                 handleApplyJobInDb(url,obDetailInfoUser._id,data._id).then((item) => {
                     console.log(item);
                     if(item && item.payload && item.payload.message === "SUCCESS" && item.payload.status === "OK") {
@@ -167,7 +166,7 @@ export default function ApplyJobModal({isOpen=false,onClose=undefined,data}) {
             <Box sx={style}>
                 <div className={cx('wrapper')}>
                     <div className={cx('wrapper__header','flex items-center justify-start relative')}>
-                        <h1 className='text-2xl font-semibold text-black'>Ứng tuyển 
+                        <h1 className='text-2xl font-semibold text-black mr-12'>Ứng tuyển 
                             <span className='font-semibold text-primaryColor'>
                                 {data && data.title ? ' ' + data.title : ''}
                             </span>

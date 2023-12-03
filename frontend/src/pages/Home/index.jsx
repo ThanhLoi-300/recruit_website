@@ -16,7 +16,7 @@ import { LIST_BRANDING, LIST_CAREER, LIST_YOURSELF } from "~/const/data";
 import ForwardForm from "~/components/form/foward/foward";
 import JobSearch from "~/components/form/JobSearch/JobSearch";
 import { Filter } from "~/components/popper/Filter";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { searchJob } from "~/redux/jobSlice";
 function Home() {
     const cx=classNames.bind(styles);

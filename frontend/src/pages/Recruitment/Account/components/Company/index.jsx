@@ -11,6 +11,9 @@ import { updateCompanyUserRecruitment } from "~/redux/authSlice";
 import useUser from "~/hooks/useUser";
 import { DATA_CAREER, DATA_SCALE } from "~/const/data";
 import { Toast } from "~/components/toast";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { v4 } from "uuid";
+import { storage } from "~/config/firebase";
 function SettingsCompany() {
     const cx = classNames.bind(styles);
     const [listProvince, setListProvince] = useState([]);
@@ -19,7 +22,8 @@ function SettingsCompany() {
     const [isShowScale, setShowScale] = useState(false);
     const {obDetailInfoUser} = useUser();
     const dispatch = useDispatch();
-
+    const [valueUrlLogoCompany,setValueLogoCompany] = useState('');
+    const [valueFileLogoCompany,setValueFileLogoCompany] = useState({});
     const [valueChooseProvince, setValueChooseProvince] = useState({
         name:'--Chọn khu vực công ty--',
         msg: 'Khu vực công ty',
@@ -50,6 +54,7 @@ function SettingsCompany() {
         state: null,
         msg : 'Địa chỉ công ty'
     });
+
     const propertiesToUpdate = [
         { key: 'nameCompany', state: valueIpNameCompany , method: setValueIpNameCompany },
         { key: 'addressCompany', state: valueIpAddressCompany , method: setValueIpAddressCompany },
@@ -92,6 +97,32 @@ function SettingsCompany() {
         setShowScale(!isShowScale);
     };
 
+    // HANDLE ONCHANGE LOGO COMPANY
+    const handleOnChangeLogoCompany = (e) => {
+        setValueFileLogoCompany(e.target.files[0]);
+    };
+
+    // HANDLE UPLOAD FILE TO FIREBASE
+    const upLoadFileToFireBase = (valueIdUser, imageUpload,typeFile) => {
+        return new Promise((resolve, reject) => {
+            const uuid = v4();
+            const nameImage = imageUpload.name + uuid;
+            const imageRef = ref(storage, `${typeFile}/${valueIdUser}/${nameImage}`);
+            uploadBytes(imageRef, imageUpload)
+                .then((upLoad) => getDownloadURL(upLoad.ref))
+                .then((url) => {
+                    if (url) {
+                        resolve(url);
+                    } else {
+                        reject('error upload');
+                    }
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    };
+
     // HANDLE UPDATE INFO COMPANY
     const handleUpdateInfoCompany = async (event) => {
         event.preventDefault();
@@ -113,37 +144,36 @@ function SettingsCompany() {
         if(valueChooseScale.name === '--Chọn quy mô--'){
             setValueChooseScale({...valueChooseScale, msg:'Vui lòng chọn quy mô công ty', state: false});
         }
-        if(valueIpNameCompany.name !== '' && valueIpLinkCompany.name !== '' && valueIpAddressCompany.name !== '' && setValueChooseProvince.name !== '--Chọn khu vực công ty--'
-            && valueChooseScale.name !== '--Chọn quy mô--' && valueChooseField.name !== '--Chọn khu vực công ty--'){
-            const msg = await dispatch(updateCompanyUserRecruitment({
-                id: obDetailInfoUser._id,
-                nameCompany: valueIpNameCompany.name,
-                websiteLink: valueIpLinkCompany.name,
-                addressCompany: valueIpAddressCompany.name,
-                areaCompany: valueChooseProvince.name,
-                careerType: valueChooseField.name,
-                scale: valueChooseScale.name,
-                logoLink: ''
-            }))
-            if(msg.payload && (msg.payload.message === "SUCCESS" && msg.payload.status === "OK")){
-                Toast({
-                    type: 'success',
-                    content: `Cập nhập thành công`,
-                    position: 'bottom-right',
-                    autoClose: 2000,
-                    limit: 1,
-                    des: 'edit',
-                });
-            } else {
-                Toast({
-                    type: 'error',
-                    content: `Cập nhập không thành công`,
-                    position: 'bottom-right',
-                    autoClose: 2000,
-                    limit: 1,
-                    des: 'edit',
-                });
-            }
+        const url = await upLoadFileToFireBase(obDetailInfoUser._id,valueFileLogoCompany,'images');
+        setValueLogoCompany(url);
+        const msg = await dispatch(updateCompanyUserRecruitment({
+            id: obDetailInfoUser._id,
+            nameCompany: valueIpNameCompany.name,
+            websiteLink: valueIpLinkCompany.name,
+            addressCompany: valueIpAddressCompany.name,
+            areaCompany: valueChooseProvince.name,
+            careerType: valueChooseField.name,
+            scale: valueChooseScale.name,
+            logoLink: url ? url : '' 
+        }))
+        if(msg.payload && (msg.payload.message === "SUCCESS" && msg.payload.status === "OK")){
+            Toast({
+                type: 'success',
+                content: `Cập nhập thành công`,
+                position: 'bottom-right',
+                autoClose: 2000,
+                limit: 1,
+                des: 'edit',
+            });
+        } else {
+            Toast({
+                type: 'error',
+                content: `Cập nhập không thành công`,
+                position: 'bottom-right',
+                autoClose: 2000,
+                limit: 1,
+                des: 'edit',
+            });
         }
     };
 
@@ -170,6 +200,7 @@ function SettingsCompany() {
                     method({ ...state, name: obDetailInfoUser.infoCompany[key]});
                 }
             });
+            if(obDetailInfoUser.infoCompany.logoLink) setValueLogoCompany(obDetailInfoUser.infoCompany.logoLink);
         }
     },[obDetailInfoUser]);
 
@@ -179,8 +210,14 @@ function SettingsCompany() {
             <div className="mt-7 flex items-center justify-between">
                 {/* LOGO */}
                 <div className={cx('form__content-avatar',"flex items-center")}>
-                    <img className="w-24 h-24 rounded-full" src={images.user} alt="settings-company"/>
-                    <input id="ChangeAvatarCompany" type="file" name="ChangeAvatarCompany" hidden/>
+                    <img className="w-24 h-24 rounded-full" src={valueUrlLogoCompany && valueUrlLogoCompany !== '' ? valueUrlLogoCompany  : images.user} alt="settings-company"/>
+                    <input 
+                        id="ChangeAvatarCompany" 
+                        type="file" 
+                        name="ChangeAvatarCompany" 
+                        hidden
+                        onChange={handleOnChangeLogoCompany}
+                    />
                     <label className="ml-4" htmlFor="ChangeAvatarCompany">Đổi logo</label> 
                 </div>
             </div> 

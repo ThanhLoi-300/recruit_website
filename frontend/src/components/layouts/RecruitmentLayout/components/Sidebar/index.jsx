@@ -41,7 +41,7 @@ function Sidebar() {
     return (  
         <div className={cx('sidebar')}>
             <div className={cx('sidebar-header','flex items-center pl-6 pb-6 mt-6')}>
-                <img className="w-14 h-14 rounded-full" src={images.user} alt="sidebar-user"/>
+                <img className="w-14 h-14 rounded-full" src={'https://tuyendung.topcv.vn/app/_nuxt/img/noavatar-2.18f0212.svg'} alt="sidebar-user"/>
                 <div className="ml-5">
                     <h1 className="text-xl font-semibold">{obDetailInfoUser && obDetailInfoUser.name ? obDetailInfoUser.name : 'User'}</h1>
                     <span className="text-lg font-medium">Nhà tuyển dụng</span>

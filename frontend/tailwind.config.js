@@ -21,6 +21,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
+        primary : ['Montserrat','sans-serif']
       },
       extend: {
         boxShadow: {
