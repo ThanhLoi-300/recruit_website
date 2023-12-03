@@ -70,6 +70,10 @@ function Home() {
         });
     },[valuePagination]);
 
+    useEffect(() => {
+        document.title = "SGU Tuyển Dụng";
+    },[])
+
     return (  
         <div className={cx('wrapper','')}>
             <div className={cx('wrapper__banner','text-center px-32')}>
