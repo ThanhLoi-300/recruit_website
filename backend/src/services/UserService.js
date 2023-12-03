@@ -283,10 +283,11 @@ const updateCompany = (id, updateRecruiter) => {
 const notificationByEmail = (request) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { idUser, idJob, action, idApply } = request
+      const { action, idApply } = request
       
-      const user = await User.findOne({ _id: idUser })
-      const job = await Job.findOne({ _id: idJob })
+      const apply = await Apply.findOne({ _id: idApply })
+      const user = await User.findOne({ _id: apply.userId })
+      const job = await Job.findOne({ _id: apply.jobId })
       const recruiter = await User.findOne({ _id: job.userId })
 
       let text = ''
