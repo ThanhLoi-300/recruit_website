@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 import styles from "./ManageRecruitment.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBagShopping, faChevronDown, faSearch, faStar } from "@fortawesome/free-solid-svg-icons";
+import { faBagShopping, faChevronDown, faClose, faSearch} from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled, tableCellClasses } from "@mui/material";
 import ToggleSwitch from "~/components/button/ToggleSwitch/ToggleSwitch";
@@ -9,23 +9,41 @@ import { Filter } from "~/components/popper/Filter";
 import { DATA_EXPERIENCE } from "~/const/province";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getListJobByRecruiter } from "~/redux/jobSlice";
+import { getListJobByRecruiter, updateJobByDB } from "~/redux/jobSlice";
 import useUser from "~/hooks/useUser";
 import getRandomNumber from "~/const/getRandomNumber";
 import HorizontalBarsDna from "~/components/spinners/components/horizontalBarsDna";
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 700,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    borderRadius: '5px'
+  };
 function ManageRecruitment() {
     const cx = classNames.bind(styles);
     const [isLoadingListJob,setIsLoadingListJob] = useState(false);
     const [isShowFilterJobs,setShowFilterJobs] = useState(false);
     const [valueFilterJobs,setValueFilterJobs] = useState('Tất cả chiến dịch');
     const [listJobByRecruiter,setListJobByRecruiter] = useState([]);
+    const [isOpenUpdateJob,setOpenUpdateJob] = useState(false);
+    const [valueRowSelectedJob,setValueRowSelectedJob] = useState({});
+    const [valueIpUpdateTitleJob,setValueUpdateTileJob] = useState('');
     const dispatch = useDispatch();
     const {obDetailInfoUser} = useUser();
     const state = useSelector(state => state.job);
-    function createData(id, name, optimal, recruitment, filterCV, serviceRunning) {
-        return { id, name, optimal, recruitment, filterCV, serviceRunning };
+
+    // INIT CREATE DATA IN LIST
+    function createData(id, name, optimal, recruitment, filterCV, serviceRunning, active , jobId) {
+        return { id, name, optimal, recruitment, filterCV, serviceRunning , active , jobId};
     }
 
+    // INIT STYLES TABLE CELL
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
           backgroundColor: "#76417e",
@@ -38,8 +56,37 @@ function ManageRecruitment() {
         },
     }));
     
+    //  HANDLE CLICK SHOW FILTER JOB
     const handelClickShowFilterJob = () =>{
         setShowFilterJobs(!isShowFilterJobs);
+    };
+
+    // HANDLE CLOSE MODAL UPDATE JOB
+    const handleCloseUpdateJob =() => {
+        setOpenUpdateJob(false);
+    };
+
+    // HANDLE CLICK OPEN MODAL UPDATE JOBS
+    const handleClickOpenUpdateJob =(props) => {
+        const { jobId , name }  = props.row;
+        console.log(props);
+        if(jobId !== undefined && name !== undefined){
+            setValueRowSelectedJob({...setValueRowSelectedJob, jobId : jobId, name: name});
+            setOpenUpdateJob(true);
+            setValueUpdateTileJob(name);
+        }
+    };
+
+    // HANDLE UPDATE JOB
+    const handleUpdateJob =() => {
+        if(valueIpUpdateTitleJob !== '' && valueRowSelectedJob.jobId){
+            dispatch(updateJobByDB({
+                id: valueRowSelectedJob.jobId,
+                title: valueIpUpdateTitleJob
+            })).then((item) => {
+                console.log(item);
+            })
+        }
     };
 
     useEffect(() => {
@@ -53,12 +100,15 @@ function ManageRecruitment() {
             })).then((item) => {
                 if(item.payload && item.payload.jobs){
                     const newJobs = [];
-                    item.payload.jobs.map((item) => newJobs.push(createData(item._id.slice(0, 6),item.title,getRandomNumber(), 'Đăng tin', 'Tìm CV', 'Thêm')))
+                    //console.log(item.payload.jobs);
+                    item.payload.jobs.map((item) => newJobs.push(createData(item._id.slice(0, 6),item.title,getRandomNumber(), 'Đăng tin', 'Tìm CV', 'Thêm',item.active,item._id)))
                     setListJobByRecruiter(newJobs)
                 }
             })
         }
     },[obDetailInfoUser]);
+
+    
     useEffect(() => {
         if(state.isLoading){
             setIsLoadingListJob(state.isLoading);
@@ -133,17 +183,22 @@ function ManageRecruitment() {
                                     key={index}
                                     sx={{ '&:last-child td, &:last-child th': { border: "1px solid #ccc"} }}
                                     >   
-                                        {/* { id, name, optimal, recruitment, filterCV, serviceRunning } */}
+                                        {/* { id, name, optimal, recruitment, filterCV, serviceRunning , active } */}
                                         <TableCell component="th" scope="row">
                                             <div className="flex">
-                                                {<ToggleSwitch checked={true}/>}
+                                                {<ToggleSwitch jobId={row.jobId} checked={row.active}/>}
                                                 <div className="ml-8 css-1it3gd4-MuiTableRow-nameJobs">
                                                     <div className="font-semibold mb-4 text-xl">{row.name}</div>
                                                     <span className="mt-3 px-4 py-2 bg-gray rounded-lg text-lg font-medium">#{row.id}</span>
                                                     <div className="h-16 mt-8">
                                                         <div className="css-1it3gd4-MuiTableRow-root-hover-selected">
                                                             <div className="flex items-center">
-                                                                <span className="font-medium text-xl">Sửa chiến dịch</span>
+                                                                <span 
+                                                                    className="font-medium text-xl hover:cursor-pointer hover:text-primaryColor hover:underline"
+                                                                    onClick={() => handleClickOpenUpdateJob({row})}
+                                                                >
+                                                                    Sửa chiến dịch
+                                                                </span>
                                                                 <span className="mx-2 text-gray text-xl">|</span>
                                                                 <span className="font-medium text-xl">Xem báo cáo</span>
                                                             </div>
@@ -165,6 +220,57 @@ function ManageRecruitment() {
                     </Table>
                 </TableContainer>
             </div>
+            {/* UPDATE JOB */}
+            <Modal
+                open={isOpenUpdateJob}
+                onClose={handleCloseUpdateJob}
+                disablePortal
+                disableEnforceFocus
+                disableAutoFocus
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <div>
+                        <div className="flex items-center justify-between px-8 pb-1 border-b border-gray">
+                            <h1 className="text-2xl font-semibold py-6">
+                                Sửa chiến dịch: <span>{valueRowSelectedJob.name}</span>
+                            </h1>
+                            <FontAwesomeIcon  
+                                className="text-3xl font-semibold text-gray hover:text-black hover:cursor-pointer" 
+                                icon={faClose}
+                                onClick={handleCloseUpdateJob}
+                            />
+                        </div>
+                        <div className="mt-7 text-xl px-8">
+                            <h3 className="font-medium">Tên chiến dịch tuyển dụng</h3>
+                            <input 
+                                placeholder="Nhập tên chiến dịch tuyển dụng" 
+                                type="text" 
+                                className="w-full mt-4 border border-gray py-3 px-2 rounded-lg outline-primaryColor" 
+                                value={valueIpUpdateTitleJob}
+                                onChange={(e) => setValueUpdateTileJob(e.target.value)}
+                            />
+                        </div>
+                        <div className="my-7 text-xl px-8 flex items-center justify-end">
+                            <button 
+                                type="text" 
+                                className="mr-6 py-4 font-semibold text-white bg-gray rounded-lg w-36"
+                                onClick={handleCloseUpdateJob}
+                            >
+                                Hủy bỏ
+                            </button>
+                            <button 
+                                type="text"
+                                className="py-4 font-semibold text-white bg-primaryColor rounded-lg w-36"
+                                onClick={handleUpdateJob}
+                            >
+                                Lưu
+                            </button>
+                        </div>
+                    </div>
+                </Box>
+            </Modal>
         </div>
     );
 }

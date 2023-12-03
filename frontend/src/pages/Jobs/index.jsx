@@ -245,6 +245,7 @@ function Jobs({}) {
                     </div>
                 </div>
             </div>
+            
             <Dialog
                 open={open}
                 onClose={handleClose}
