@@ -160,5 +160,5 @@ module.exports = {
     searchJobByIdRecruiter,
     getJobByUser,
     getJobRandom,
-    changeStatusJob
+    changeStatusJob,
 }

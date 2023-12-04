@@ -173,7 +173,7 @@ const updateJob = (idJob, updateJobs) => {
         experienceYear,
         deadlineApplication,
       } = updateJobs;
-      const jobs = await Job.findOne({
+      let jobs = await Job.findOne({
         _id: idJob,
       });
       jobs = await Job.findOneAndUpdate(
@@ -430,7 +430,7 @@ module.exports = {
   searchJobByIdRecruiter,
   getJobByUser,
   getJobRandom,
-  changeStatusJob
+  changeStatusJob,
 };
 
 
