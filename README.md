@@ -54,19 +54,19 @@ LatestJobs Page                   |                   DetailJobs Page
 
 ApplyJob Page                   |                   Settings
 :---------------------------------:        |      :------------------------------:
-<img src="./frontend/src/assets/ScreenCapture/ApplyJob.png.png" height="200">  | <img src="./frontend/src/assets/ScreenCapture/Settings.png.png" height="200">
+<img src="./frontend/src/assets/ScreenCapture/ApplyJob.png" height="200">  | <img src="./frontend/src/assets/ScreenCapture/Settings.png" height="200">
 
 Profile Page                   |                   Dashboard Page
 :---------------------------------:        |      :------------------------------:
-<img src="./frontend/src/assets/ScreenCapture/Profile.png.png" height="200">  | <img src="./frontend/src/assets/ScreenCapture/Dashboard.png" height="200">
+<img src="./frontend/src/assets/ScreenCapture/Profile.png" height="200">  | <img src="./frontend/src/assets/ScreenCapture/Dashboard.png" height="200">
 
 RecruitmentCampaigns Page                   |                   NewJob Page
 :---------------------------------:        |      :------------------------------:
-<img src="./frontend/src/assets/ScreenCapture/RecruitmentCampaigns.png.png" height="200">  | <img src="./frontend/src/assets/ScreenCapture/NewJob.png" height="200">
+<img src="./frontend/src/assets/ScreenCapture/RecruitmentCampaigns.png" height="200">  | <img src="./frontend/src/assets/ScreenCapture/NewJob.png" height="200">
 
 RecruitmentCampaigns Page                   |                   ManageCv Page
 :---------------------------------:        |      :------------------------------:
-<img src="./frontend/src/assets/ScreenCapture/RecruitmentCampaigns.png.png" height="200">  | <img src="./frontend/src/assets/ScreenCapture/ManageCv.png" height="200">
+<img src="./frontend/src/assets/ScreenCapture/RecruitmentCampaigns.png" height="200">  | <img src="./frontend/src/assets/ScreenCapture/ManageCv.png" height="200">
 
 ### Make sure to star the repository if you find it helpful!
 ### The interface website is designed according to TopCv!
