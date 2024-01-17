@@ -16,6 +16,7 @@ function ManageCV() {
     const cx =classNames.bind(styles);
     const [isLoadingListJob,setIsLoadingListJob] = useState(false);
     const [listAppliesByUser,setListAppliesByUser] = useState([]);
+    const [valueMessageStatusJob,setValueMessageStatusJob] = useState('');
     const dispatch = useDispatch();
     const {obDetailInfoUser} = useUser();
 
@@ -48,6 +49,7 @@ function ManageCV() {
         if(msg && msg.payload){
             const {message , status} =  msg.payload;
             if(message === "Đã gửi thông báo đến ứng viên" && status === "OK"){
+                setValueMessageStatusJob(message);
                 Toast({
                     type: 'success',
                     content: message,
@@ -78,6 +80,19 @@ function ManageCV() {
             })
         }
     },[obDetailInfoUser]);
+
+    useEffect(() => {
+        if(valueMessageStatusJob === "Đã gửi thông báo đến ứng viên"){
+            if(obDetailInfoUser && obDetailInfoUser._id){
+                dispatch(getAppliesByUserId({id:obDetailInfoUser._id})).then((item) => {
+                    if(item && item.payload && item.payload.message === 'SUCCESS' && item.payload.status === 'OK'){
+                        setListAppliesByUser(item.payload.applies);
+                        setIsLoadingListJob(true);
+                    }
+                })
+            }
+        }
+    },[valueMessageStatusJob])
 
     return (  
         <div className={cx('wrapper','')}>

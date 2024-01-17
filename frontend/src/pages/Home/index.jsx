@@ -26,9 +26,9 @@ const settings = {
     centerMode: true,
     centerPadding: "60px",
     slidesToShow: 1,
-    speed: 500,
+    speed: 2000,
     autoplay: true,
-    autoplaySpeed: 500,
+    autoplaySpeed: 2000,
     cssEase: "linear"
 };
 function Home() {

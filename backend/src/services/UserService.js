@@ -161,8 +161,8 @@ const sendMailEmployer = async (idJob, info) => {
       let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: "quanmanh901@gmail.com",
-          pass: 'slwi czcw rqfp arfa'
+          user: "asuoplinh@gmail.com",
+          pass: 'janq ijyb nbjj lpcp'
         }
       });
 
@@ -176,7 +176,7 @@ const sendMailEmployer = async (idJob, info) => {
 
       // Recipient information, subject and email content
       let mailOptions = {
-        from: "quanmanh901@gmail.com",
+        from: "asuoplinh@gmail.com",
         to: mail.email,
         subject: topic,
         text: content
@@ -220,13 +220,13 @@ const sendOTP = async (newUser) => {
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: "quanmanh901@gmail.com",
-          pass: 'slwi czcw rqfp arfa'
+          user: "asuoplinh@gmail.com",
+          pass: 'janq ijyb nbjj lpcp'
         },
       });
 
       const mailOptions = {
-        from: "quanmanh901@gmail.com",
+        from: "asuoplinh@gmail.com",
         to: email,
         subject: "OTP",
         text: `Mã OTP của bạn là: ${otp}`,
@@ -298,13 +298,13 @@ const notificationByEmail = (request) => {
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: "quanmanh901@gmail.com",
-          pass: 'slwi czcw rqfp arfa'
+          user: "asuoplinh@gmail.com",
+          pass: 'janq ijyb nbjj lpcp'
         },
       });
 
       const mailOptions = {
-        from: "quanmanh901@gmail.com",
+        from: "asuoplinh@gmail.com",
         to: user.email,
         subject: "Thông báo từ nhà tuyển dụng",
         text: text,

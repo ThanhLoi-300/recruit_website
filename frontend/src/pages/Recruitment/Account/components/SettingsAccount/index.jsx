@@ -178,6 +178,10 @@ function SettingsAccount() {
             }
         }
     },[obDetailInfoUser]);
+
+    useEffect(() => {
+        document.title = "Thông tin người dùng"
+    },[]);
     
     return (  
         <form className={cx('form','p-8')}>

@@ -34,6 +34,7 @@ function ManageRecruitment() {
     const [isOpenUpdateJob,setOpenUpdateJob] = useState(false);
     const [valueRowSelectedJob,setValueRowSelectedJob] = useState({});
     const [valueIpUpdateTitleJob,setValueUpdateTileJob] = useState('');
+    const [valueMessageUpdate,setValueUpdateMessage] = useState('');
     const dispatch = useDispatch();
     const {obDetailInfoUser} = useUser();
     const state = useSelector(state => state.job);
@@ -84,7 +85,13 @@ function ManageRecruitment() {
                 id: valueRowSelectedJob.jobId,
                 title: valueIpUpdateTitleJob
             })).then((item) => {
-                console.log(item);
+                if(item && item.payload){
+                    const {message ,status} = item.payload;
+                    if(message === "SUCCESS" && status === "OK") {
+                        setValueUpdateMessage(message);
+                        setOpenUpdateJob(false)
+                    }   
+                }
             })
         }
     };
@@ -95,18 +102,17 @@ function ManageRecruitment() {
                 idRecruit: {
                  $oid: obDetailInfoUser._id
                 },
-                pageSize: 3,
+                pageSize: 100,
                 page: 1
             })).then((item) => {
                 if(item.payload && item.payload.jobs){
                     const newJobs = [];
-                    //console.log(item.payload.jobs);
                     item.payload.jobs.map((item) => newJobs.push(createData(item._id.slice(0, 6),item.title,getRandomNumber(), 'Đăng tin', 'Tìm CV', 'Thêm',item.active,item._id)))
                     setListJobByRecruiter(newJobs)
                 }
             })
         }
-    },[obDetailInfoUser]);
+    },[obDetailInfoUser,valueMessageUpdate]);
 
     
     useEffect(() => {
