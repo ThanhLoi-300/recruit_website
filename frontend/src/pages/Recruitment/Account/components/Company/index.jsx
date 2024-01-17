@@ -154,7 +154,7 @@ function SettingsCompany() {
             areaCompany: valueChooseProvince.name,
             careerType: valueChooseField.name,
             scale: valueChooseScale.name,
-            logoLink: url ? url : '' 
+            logoLink: url ? url : valueUrlLogoCompany 
         }))
         if(msg.payload && (msg.payload.message === "SUCCESS" && msg.payload.status === "OK")){
             Toast({
@@ -190,6 +190,10 @@ function SettingsCompany() {
             setListProvince(newArr);
         });
     }, [dispatch]);
+
+    useEffect(() => {
+        document.title = "Thông tin công ty"
+    },[]);
 
     // GET DATA FROM DB 
     useEffect(() => {

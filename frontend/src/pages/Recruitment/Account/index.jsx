@@ -3,6 +3,7 @@ import styles from "./Account.module.scss"
 import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding, faUser } from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react";
 function Account({children}) {
     const cx = classNames.bind(styles);
     const location = useLocation();
@@ -29,6 +30,10 @@ function Account({children}) {
             icon: faBuilding
         }
     ]
+
+    useEffect(() => {
+        document.title = "Cài đặt tài khoản"
+    },[]);
     return (
         <div className={cx('wrapper','')}>
             <div className={cx('wrapper__header','')}>

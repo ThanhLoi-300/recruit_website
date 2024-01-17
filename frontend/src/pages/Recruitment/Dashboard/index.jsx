@@ -7,6 +7,7 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css'; 
 import useUser from "~/hooks/useUser";
 import images from "~/assets/images";
+import { useEffect } from "react";
 function Dashboard() {
     const cx = classNames.bind(styles);
     const {obDetailInfoUser} = useUser();
@@ -62,6 +63,10 @@ function Dashboard() {
             className:"wrapper__infoRecruiter-diamond"
         },
     ]
+
+    useEffect(() => {
+        document.title = "Bảng tin tuyển dụng"
+    },[]);
 
     return (  
         <div className={cx('wrapper','px-24 mt-8')}>

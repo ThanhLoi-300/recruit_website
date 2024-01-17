@@ -50,6 +50,7 @@ function Jobs({}) {
     useEffect(() => {
         if(jobId !== null){
             dispatch(getDetailJobById({id : jobId})).then((item) => {
+                console.log(item.payload.data);
                 if(item && item.payload.message === "SUCCESS" && item.payload.status === 'OK' && item.payload) setValueDetailJobs(item.payload.data);
                 document.title =item.payload.data.title;
             }) 
@@ -188,7 +189,7 @@ function Jobs({}) {
                             <FontAwesomeIcon className={cx('wrapper__right-header-icon')} icon={faMedal}/>
                             <div className="font-medium ml-4">
                                 <span>Cấp bậc</span><br></br>
-                                <span className="font-semibold mt-3">{valueDetailJobs && valueDetailJobs.level ? valueDetailJobs.level : 'Không có'}</span>
+                                <span className="font-semibold mt-3">{valueDetailJobs && valueDetailJobs.vacancy ? valueDetailJobs.vacancy : 'Không có'}</span>
                             </div>
                         </div>
                         <div className="flex items-center text-xl mt-7">
@@ -196,7 +197,7 @@ function Jobs({}) {
                             <div className="font-medium ml-4">
                                 <span>Kinh nghiệm</span><br></br>
                                 <span className="font-semibold mt-3">
-                                    {valueDetailJobs && valueDetailJobs.experienceYear ? valueDetailJobs.experienceYear + " năm kinh nghiêm" : 'Không yêu cầu kinh nghiệm'}
+                                    {valueDetailJobs && valueDetailJobs.experienceYear ? valueDetailJobs.experienceYear: 'Không yêu cầu kinh nghiệm'}
                                 </span>
                             </div>
                         </div>
